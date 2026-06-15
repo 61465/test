@@ -2,11 +2,17 @@
   "name": "agentic-2026-experience",
   "version": "1.0.0",
   "description": "Google Cloud Run deployment for Agentic Engineering Experience",
+  "homepage": "https://61465.github.io/test",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "predeploy": "npm install",
+    "deploy": "gh-pages -d ."
   },
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
