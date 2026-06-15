@@ -1,0 +1,12 @@
+{
+  "name": "agentic-2026-experience",
+  "version": "1.0.0",
+  "description": "Google Cloud Run deployment for Agentic Engineering Experience",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

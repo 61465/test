@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: The New SDLC & Vibe Coding Interactive Experience</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .code-font { font-family: 'JetBrains Mono', sans-serif; }
+        .perspective-1500 { perspective: 1500px; }
+        .preserve-3d { transform-style: preserve-3d; }
+        .glass-card { background: rgba(10, 15, 30, 0.7); border: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(16px); }
+        .glow-indigo-strong { box-shadow: 0 0 40px rgba(99, 102, 241, 0.25); }
+        .glow-emerald-strong { box-shadow: 0 0 40px rgba(16, 185, 129, 0.2); }
+        .glow-rose-strong { box-shadow: 0 0 40px rgba(244, 63, 94, 0.2); }
+        
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Inside Solid Model Cube representing 10% */
+        .cube { position: relative; width: 100px; height: 100px; transform-style: preserve-3d; transition: transform 0.5s ease-out; }
+        .cube-face { position: absolute; width: 100px; height: 100px; border: 2px solid rgba(99, 102, 241, 0.8); background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #a5b4fc; font-weight: bold; }
+        .face-front  { transform: rotateY(  0deg) translateZ(50px); }
+        .face-back   { transform: rotateY(180deg) translateZ(50px); }
+        .face-right  { transform: rotateY( 90deg) translateZ(50px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(50px); }
+        .face-top    { transform: rotateX( 90deg) translateZ(50px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+        /* External Wireframe Harness */
+        .harness-box { position: relative; width: 200px; height: 200px; transform-style: preserve-3d; transition: transform 0.1s ease-out; }
+        .harness-face { position: absolute; width: 200px; height: 200px; border: 1px dashed rgba(167, 139, 250, 0.4); background: rgba(167, 139, 250, 0.03); pointer-events: none; }
+        .h-front  { transform: rotateY(  0deg) translateZ(100px); }
+        .h-back   { transform: rotateY(180deg) translateZ(100px); }
+        .h-right  { transform: rotateY( 90deg) translateZ(100px); }
+        .h-left   { transform: rotateY(-90deg) translateZ(100px); }
+        .h-top    { transform: rotateX( 90deg) translateZ(100px); }
+        .h-bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        .scanline::before {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+
+        /* Floating Bot Smooth Bounce */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .agent-bot-float { animation: float 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-[#020617] text-slate-100 min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white grid-bg">
+
+    <header class="border-b border-indigo-950/80 sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-2.5 rounded-xl text-white font-extrabold shadow-lg shadow-indigo-500/20 text-sm font-mono">
+                    AGENTIC.2026
+                </div>
+                <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-200 via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                    Interactive Agentic Workspace
+                </span>
+            </div>
+            <div class="text-xs code-font bg-indigo-950/50 text-indigo-300 px-4 py-2 rounded-lg border border-indigo-900/50">
+                SYSTEM_STATUS: ACTIVE // GOOGLE_WHITEBOARD_2026
+            </div>
+        </div>
+    </header>
+
+    <!-- Enhanced Interactive Floating Agent Bot -->
+    <div class="fixed bottom-6 right-6 z-50 max-w-sm w-96 transition-all duration-500 transform translate-y-0" id="floating-agent-bot">
+        <div class="glass-card rounded-2xl p-5 border border-indigo-500/40 shadow-2xl space-y-4 glow-indigo-strong">
+            <div class="flex items-start space-x-4">
+                <div class="relative">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-xl agent-bot-float shadow-md">
+                        🤖
+                    </div>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#020617] animate-pulse"></span>
+                </div>
+                <div class="flex-1 space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold font-mono text-indigo-400 tracking-wider">GUIDE_AGENT v1.5</span>
+                        <span class="text-[9px] code-font bg-slate-900 text-slate-500 px-1.5 py-0.5 rounded" id="bot-status">IDLE_AWAITING</span>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed font-light transition-opacity duration-150" id="bot-speech">
+                        Hello! I am your interactive companion agent. Scroll to explore, choose an action below, or ask me anything about the Day 1 curriculum!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Action Chips -->
+            <div class="flex flex-wrap gap-1.5 pt-1 border-t border-indigo-950/50">
+                <button onclick="botTriggerAction('harness')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
+                    📦 Inspect Harness
+                </button>
+                <button onclick="botTriggerAction('loop')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
+                    ⚙️ Run Loop Arena
+                </button>
+                <button onclick="botTriggerAction('stripe')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
+                    🚨 Audit Stripe Security
+                </button>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="flex items-center space-x-2 bg-slate-950 rounded-xl border border-slate-800 p-1">
+                <input type="text" id="bot-chat-input" onkeydown="handleInputKey(event)" placeholder="Ask the agent a question..." class="flex-1 bg-transparent text-xs text-slate-100 placeholder-slate-500 px-2.5 py-1.5 focus:outline-none focus:ring-0">
+                <button onclick="submitChatQuery()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-32">
+
+        <section id="section-hero" class="text-center max-w-4xl mx-auto space-y-6 pt-6 scroll-mt-28">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
+                Unit 1: The New SDLC Ecosystem
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 leading-tight">
+                Simulating the Shift from <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Syntax to Intent</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
+                Welcome to 2026. The friction between human intent and machine execution is collapsing. Explore the interactive visual harnesses below to witness agent autonomy in real-time.
+            </p>
+        </section>
+
+        <section id="section-harness" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300">
+                        <span>VISUALIZATION 01</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Harness Engineering Architecture</h2>
+                    <div class="text-slate-300 text-sm leading-relaxed space-y-4">
+                        <p>The model is merely the raw engine. It becomes an agent once the <strong>Harness provides context policies, execution environments, and enforceable constraints</strong>.</p>
+                        <p>Equation: <code class="text-indigo-400 code-font font-bold">Agent = Model (~10%) + Harness (~90%)</code></p>
+                    </div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-semibold text-slate-400 block">Configure Harness Constraints:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="toggleHarnessTool('sandbox', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ Sandbox OS</button>
+                            <button onclick="toggleHarnessTool('mcp', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ MCP Protocols</button>
+                            <button onclick="toggleHarnessTool('evals', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ Eval Judges</button>
+                        </div>
+                        <p class="text-[11px] text-indigo-400 font-mono mt-1" id="harness-status-text">Harness status: Strict 360-degree model containment active.</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col items-center justify-center min-h-[380px] bg-slate-950/50 rounded-2xl border border-indigo-950/60 p-6 relative perspective-1500" id="threeDScene">
+                    <div class="absolute top-4 right-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Outer Harness (~90%)</div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Inner Model (~10%)</div>
+                    <div class="absolute top-4 left-4 text-[11px] text-slate-500 animate-pulse">💡 Hover mouse here to rotate 3D canvas</div>
+
+                    <div id="harnessScene" class="preserve-3d harness-box flex items-center justify-center" style="transform: rotateY(25deg) rotateX(-20deg);">
+                        <div class="harness-face h-front" id="hface-front"></div>
+                        <div class="harness-face h-back" id="hface-back"></div>
+                        <div class="harness-face h-right" id="hface-right"></div>
+                        <div class="harness-face h-left" id="hface-left"></div>
+                        <div class="harness-face h-top" id="hface-top"></div>
+                        <div class="harness-face h-bottom" id="hface-bottom"></div>
+
+                        <div class="cube" id="innerCube">
+                            <div class="cube-face face-front">MODEL</div>
+                            <div class="cube-face face-back">AI</div>
+                            <div class="cube-face face-right">10%</div>
+                            <div class="cube-face face-left">LLM</div>
+                            <div class="cube-face face-top">ENGINE</div>
+                            <div class="cube-face face-bottom">CORE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-loop" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
+            <div class="space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
+                            <span>VISUALIZATION 02</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white">The Self-Correcting Agent Loop</h2>
+                        <p class="text-slate-400 text-sm">Unlike traditional chatbots, autonomous agents run their own loop: Perceive, Plan, Act, Observe, Iterate.</p>
+                    </div>
+                    <div class="flex items-center gap-2 w-full md:w-auto">
+                        <button onclick="startAutoSim()" id="btn-autoplay" class="px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer">▶ Run Auto Cycle</button>
+                        <button onclick="resetSim()" class="px-4 py-2 rounded-xl text-xs bg-slate-900 text-slate-300 font-semibold transition-all border border-slate-800">Reset</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center code-font text-xs font-bold pt-4">
+                    <button id="step-perceive" onclick="selectStep('perceive')" class="sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all">1. PERCEIVE</button>
+                    <button id="step-plan" onclick="selectStep('plan')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">2. PLAN</button>
+                    <button id="step-act" onclick="selectStep('act')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">3. ACT</button>
+                    <button id="step-observe" onclick="selectStep('observe')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">4. OBSERVE</button>
+                    <button id="step-iterate" onclick="selectStep('iterate')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all col-span-2 sm:col-span-1">5. ITERATE</button>
+                </div>
+
+                <div class="bg-black/90 rounded-2xl border border-slate-800 p-6 relative overflow-hidden scanline">
+                    <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-4 text-slate-500 text-xs font-mono">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/70"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
+                            <span class="pl-2 text-slate-400 font-bold">TERMINAL: cloud-agent-executor</span>
+                        </div>
+                        <div class="text-[10px] text-slate-600" id="terminal-latency">LATENCY: 42ms // MODEL: GEMINI-PRO</div>
+                    </div>
+                    <div class="min-h-[160px] code-font text-slate-300 text-sm space-y-3 leading-relaxed" id="terminal-logs">
+                        <div class="text-indigo-400 font-bold">&gt; [STAGE: PERCEIVE_GOAL]</div>
+                        <p>The agent ingests human intent specification: <span class="text-indigo-300 italic">"Build an interactive web story dashboard and deploy."</span> It analyzes constraints, targets goals, and boots the safe sandbox workspace environment.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-stripe" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-rose-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-md text-xs font-mono text-rose-300">
+                        <span>REAL WORLD GATEWAY</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Stripe Payment API Integrity Demo</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">Telling a CTO your team is "vibe coding" a production payment system will raise alarm bells. Telling them you practice disciplined "agentic engineering" changes everything.</p>
+                    <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-900 space-y-2">
+                        <div class="flex items-center gap-2 text-rose-400 text-xs font-bold"><span>🚨 The Vibe Coding Financial Risk:</span></div>
+                        <p class="text-xs text-slate-400 leading-normal">Unverified code accepts Stripe webhook events without validation signatures. Malicious actors can easily forge payloads and trigger fake free items.</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex bg-slate-950 rounded-xl p-1 border border-slate-900 font-mono text-xs">
+                        <button onclick="switchCodeTab('vibe')" id="tab-vibe" class="w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer">❌ Insecure Vibe Coding Code</button>
+                        <button onclick="switchCodeTab('agentic')" id="tab-agentic" class="w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer">🛡️ Production Agentic Harness Code</button>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600">
+                        <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600">LANGUAGE: JAVASCRIPT</div>
+                        <pre class="code-font text-xs text-slate-300 leading-relaxed" id="code-content">
+app.post('/webhook', (req, res) => {
+    const event = req.body;
+    // ⚠️ CRITICAL VULNERABILITY: Raw event payload validation skipped entirely!
+    if (event.type === 'checkout.session.completed') {
+        fulfillOrder(event.data.object);
+    }
+    res.json({received: true});
+});</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-modality" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-md text-xs font-mono text-purple-300">
+                        <span>MODALITY SWITCHER</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Conductor or Orchestrator Workspaces</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">The developer's role transforms from line-by-line code authoring to system manager and high-leverage delegator.</p>
+                    <div class="flex flex-col gap-3">
+                        <button onclick="toggleModality('conductor')" id="m-btn-conductor" class="w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between">
+                            <span>🎻 The Conductor Modality</span>
+                            <span class="text-xs code-font bg-indigo-900/60 px-2 py-0.5 rounded">IDE Sync</span>
+                        </button>
+                        <button onclick="toggleModality('orchestrator')" id="m-btn-orchestrator" class="w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between">
+                            <span>🛸 The Orchestrator Modality</span>
+                            <span class="text-xs code-font bg-slate-900 px-2 py-0.5 rounded">Async Loop</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-slate-950/80 rounded-2xl border border-slate-900 p-8 min-h-[300px] flex flex-col justify-between" id="modality-details-view">
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-bold text-white">Hands-on, Real-time Direction (IDE Synchronous)</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.</p>
+                        <div class="p-4 bg-slate-900/40 rounded-xl border border-slate-800/80">
+                            <h4 class="text-xs font-bold text-slate-400 font-mono mb-2">SUPPORTED ENVIRONMENTS:</h4>
+                            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                                <li>Cursor and Windsurf smart AI editors.</li>
+                                <li>Gemini Code Assist extensions for IDEs.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">IDE ENVIRONMENT STATUS: SYNC_READY</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-indigo-950/80 py-8 bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
+        <p>Abd Alrahaman gz</p>
+    </footer>
+
+    <script>
+        // --- 1. Dynamic Agent Bot Scroll Listener (مستشعر حركة السكرول لتحديث كلام البوت) ---
+        const speechMap = {
+            'section-hero': "Hello! We are starting the Unit 1 summary. Here we explore how modern code development shifts completely from rigid grammar syntax to human intent expression!",
+            'section-harness': "Look at the 3D grid! This visualizes context engineering. The outer wireframe box represents the Harness (~90% of the agent system). It contains tools, sandboxes, and safe boundaries!",
+            'section-loop': "Now we observe the autonomous loop simulation! Click the steps or autoplay to see how agents self-diagnose inside terminal pipelines until your constraints are successfully met.",
+            'section-stripe': "Crucial lesson: High-stakes financial architectures require disciplined engineering. Notice how Agentic Engineering injects signature tokens to safely avoid security breaches!",
+            'section-modality': "Final milestone: You can act as a Conductor directing code blocks live, or as an Orchestrator delegating multi-agent pipelines synchronously while you focus on high-level system designs!"
+        };
+
+        window.addEventListener('scroll', () => {
+            const sections = ['section-hero', 'section-harness', 'section-loop', 'section-stripe', 'section-modality'];
+            let currentSection = 'section-hero';
+
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    // Check if section is currently dominating the screen viewport area
+                    if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.4) {
+                        currentSection = id;
+                    }
+                }
+            });
+
+            // Dynamically inject text and slide effects based on scroll analysis
+            const speechBubble = document.getElementById('bot-speech');
+            const botStatus = document.getElementById('bot-status');
+            if (speechBubble && speechBubble.getAttribute('data-current') !== currentSection) {
+                speechBubble.setAttribute('data-current', currentSection);
+                botStatus.innerText = "ANALYZING_" + currentSection.replace('section-', '').toUpperCase();
+                
+                speechBubble.style.opacity = '0';
+                setTimeout(() => {
+                    speechBubble.innerHTML = speechMap[currentSection];
+                    speechBubble.style.opacity = '1';
+                }, 150);
+            }
+        });
+
+        // --- Interactive Bot Action Handlers ---
+        function botTriggerAction(actionKey) {
+            const botSpeech = document.getElementById('bot-speech');
+            const botStatus = document.getElementById('bot-status');
+
+            if (actionKey === 'harness') {
+                botStatus.innerText = "ACTION_HARNESS";
+                botSpeech.innerHTML = "Navigating to Harness Module... Let's investigate. Look at the rotating 3D box representing the Harness (~90%) and LLM (~10%)!";
+                const target = document.getElementById('section-harness');
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                // Flash the 3D grid
+                const sceneEl = document.getElementById('threeDScene');
+                sceneEl.classList.add('ring-2', 'ring-indigo-500');
+                setTimeout(() => sceneEl.classList.remove('ring-2', 'ring-indigo-500'), 1500);
+
+            } else if (actionKey === 'loop') {
+                botStatus.innerText = "ACTION_LOOP";
+                botSpeech.innerHTML = "Scrolling to Self-Correction Arena... Triggering auto-simulation trajectory logs now!";
+                const target = document.getElementById('section-loop');
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                resetSim();
+                setTimeout(() => { startAutoSim(); }, 800);
+
+            } else if (actionKey === 'stripe') {
+                botStatus.innerText = "ACTION_STRIPE";
+                botSpeech.innerHTML = "Auditing code in Stripe API gateway... Look! I've loaded the insecure 'Vibe Coding' example. Note the lack of signature validation.";
+                const target = document.getElementById('section-stripe');
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                switchCodeTab('vibe');
+            }
+        }
+
+        // --- Chat Query Handler ---
+        const qaPairs = {
+            "hello": "Hello! I am ready to guide you. Ask me about the 'harness', 'vibe coding', 'agentic engineering', or 'orchestrator'!",
+            "harness": "The Harness (~90%) is the isolated system that surrounds the AI model. It provides sandboxes, verification tests (Evals), and security guardrails to keep execution safe and aligned.",
+            "vibe coding": "Vibe Coding is casual prompting where code is quickly thrown together without tests or structural bounds. It feels fast (Low CapEx) but incurs massive bug-fixing costs (High OpEx) later.",
+            "agentic engineering": "Agentic Engineering is a disciplined approach where agents operate within structured harnesses, running automated loops (Perceive-Plan-Act-Observe-Iterate) and executing tests before deployment.",
+            "orchestrator": "The Orchestrator modality is when the developer delegates complex, multi-file software engineering tasks to autonomous background agents (like Jules) and reviews the final Pull Requests.",
+            "conductor": "The Conductor modality is real-time, synchronous pair-programming. You watch the AI write code inside your editor (like autocomplete) and guide it line-by-line.",
+            "stripe": "Our Stripe gateway demo highlights webhook vulnerabilities. Without signature verification (vibe coding approach), hackers can spoof webhook payloads and bypass payment locks.",
+            "loop": "The self-correcting agent loop lets the agent continuously perceive, plan, act, observe errors, and edit its own code inside the sandbox until the task passes all evaluation tests.",
+            "help": "You can ask me questions like: 'What is the harness?', 'Explain vibe coding', 'Why did the webhook fail?', or click any of the action buttons above."
+        };
+
+        function handleInputKey(e) {
+            if (e.key === 'Enter') {
+                submitChatQuery();
+            }
+        }
+
+        function submitChatQuery() {
+            const inputEl = document.getElementById('bot-chat-input');
+            const botSpeech = document.getElementById('bot-speech');
+            const botStatus = document.getElementById('bot-status');
+            const query = inputEl.value.trim().toLowerCase();
+            
+            if (!query) return;
+
+            // Clear input
+            inputEl.value = "";
+            botStatus.innerText = "THINKING_AGENT";
+            botSpeech.innerHTML = "Inspecting workspace and reasoning...";
+
+            setTimeout(() => {
+                let answer = "I analyzed your query but couldn't find a direct match in the Day 1 curriculum. Try asking about the 'harness', 'vibe coding', 'stripe API', or 'loop'!";
+                
+                // Simple keyword search matching
+                for (let keyword in qaPairs) {
+                    if (query.includes(keyword)) {
+                        answer = qaPairs[keyword];
+                        break;
+                    }
+                }
+                
+                botStatus.innerText = "REASONING_DONE";
+                botSpeech.innerHTML = answer;
+            }, 800);
+        }
+
+        // --- 2. 3D Interaction Logic ---
+        const scene = document.getElementById('threeDScene');
+        const harness = document.getElementById('harnessScene');
+        const innerCube = document.getElementById('innerCube');
+
+        if(scene && harness) {
+            scene.addEventListener('mousemove', (e) => {
+                const rect = scene.getBoundingClientRect();
+                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                const xAxis = (rect.width / 2 - x) / 8; const yAxis = (rect.height / 2 - y) / 8;
+                harness.style.transform = `rotateY(${-xAxis + 25}deg) rotateX(${yAxis - 20}deg)`;
+                if (innerCube) innerCube.style.transform = `rotateY(${-xAxis * 1.5}deg) rotateX(${yAxis * 1.5}deg)`;
+            });
+            scene.addEventListener('mouseleave', () => {
+                harness.style.transform = 'rotateY(25deg) rotateX(-20deg)';
+                if (innerCube) innerCube.style.transform = 'none';
+            });
+        }
+
+        // --- Harness Configuration States ---
+        const activeTools = { sandbox: true, mcp: true, evals: true };
+        function toggleHarnessTool(toolKey, btn) {
+            activeTools[toolKey] = !activeTools[toolKey];
+            btn.className = activeTools[toolKey] ? "px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all" : "px-3 py-1.5 rounded-lg text-xs bg-slate-900 text-slate-500 font-medium border border-slate-800 transition-all";
+            btn.innerText = (activeTools[toolKey] ? "✓ " : "✕ ") + (toolKey==='sandbox'?"Sandbox OS":toolKey==='mcp'?"MCP Protocols":"Eval Judges");
+            
+            const activeCount = Object.values(activeTools).filter(Boolean).length;
+            const statusText = document.getElementById('harness-status-text');
+            const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+            
+            faces.forEach(f => {
+                const el = document.getElementById(`hface-${f}`);
+                if(el) el.style.borderColor = activeCount===3?"rgba(167,139,250,0.4)":activeCount===2?"rgba(167,139,250,0.2)":"rgba(244,63,94,0.2)";
+            });
+
+            if(statusText) {
+                statusText.innerText = activeCount===3?"Harness status: Strict 360-degree model containment active.":activeCount>0?"Harness status: Structural decay identified. Risks increasing.":"🚨 DANGER: ALL BOUNDARIES REMOVED. MODEL RUNNING UNPROTECTED.";
+                statusText.className = activeCount===3?"text-[11px] text-indigo-400 font-mono mt-1":activeCount>0?"text-[11px] text-amber-400 font-mono mt-1":"text-[11px] text-rose-500 font-mono mt-1 font-bold animate-pulse";
+            }
+        }
+
+        // --- 3. Live Terminal Simulator Logic ---
+        const stepsData = {
+            perceive: {
+                latency: "LATENCY: 15ms // MODEL: GEMINI-PRO",
+                logs: [`<span class="text-indigo-400 font-bold">&gt; [INIT] launching background monitor...</span>`, `The agent receives raw instruction parameters. It extracts user intent specifications, targets core criteria, and provisions an isolated workspace.`]
+            },
+            plan: {
+                latency: "LATENCY: 52ms // PLANNING_AGENT",
+                logs: [`<span class="text-amber-400 font-bold">&gt; [PLANNING] generating blueprints...</span>`, `&gt; Step 1: Ingest active file systems context.<br>&gt; Step 2: Inject dynamic tool protocols via MCP routing.<br>&gt; Step 3: Configure harness assertions step framework.`]
+            },
+            act: {
+                latency: "LATENCY: 120ms // BASH_EXECUTOR",
+                logs: [`<span class="text-purple-400 font-bold">&gt; [ACT] launching compilation tool pipelines...</span>`, `&gt; calling write_to_file("index.html") [success]<br>&gt; calling append_to_file("server/stripe.js") [success]<br>&gt; server ecosystem deployed local pipeline inside container runtime environment.`]
+            },
+            observe: {
+                latency: "LATENCY: 85ms // EVAL_RUNNER",
+                logs: [`<span class="text-rose-500 font-bold">&gt; [OBSERVE] running automated evaluation gates...</span>`, `<span class="text-rose-400">&gt; executing schema checks: npm run test:webhook</span><br><span class="text-rose-600 font-bold">&gt; FAIL: Webhook validation signature rule broken! Server accepted unauthorized spoof event payload.</span>`]
+            },
+            iterate: {
+                latency: "LATENCY: 34ms // REASONING_ENGINE",
+                logs: [`<span class="text-emerald-400 font-bold">&gt; [ITERATE] executing intelligent trajectory correction...</span>`, `&gt; parsing error stack trace... patching node endpoint middleware with secure constructEvent headers verification block.<br><span class="text-emerald-500 font-bold">&gt; PASS: Verification tests completed. Zero vulnerabilities detected. Build package verified secure!</span>`]
+            }
+        };
+
+        let activeStep = 'perceive';
+        let autoSimInterval = null;
+
+        function selectStep(stepKey) {
+            activeStep = stepKey;
+            document.querySelectorAll('.sim-step-btn').forEach(b => b.className = "sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all");
+            document.getElementById(`step-${stepKey}`).className = "sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all shadow-md";
+            
+            const logs = document.getElementById('terminal-logs');
+            const latency = document.getElementById('terminal-latency');
+            latency.innerText = stepsData[stepKey].latency;
+            logs.innerHTML = stepsData[stepKey].logs.join('<br>');
+        }
+
+        function startAutoSim() {
+            const btn = document.getElementById('btn-autoplay');
+            if (autoSimInterval) {
+                clearInterval(autoSimInterval); autoSimInterval = null;
+                btn.innerText = "▶ Run Auto Cycle"; btn.className = "px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+                return;
+            }
+            btn.innerText = "⏸ Pause Cycle"; btn.className = "px-5 py-2 rounded-xl text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+            const order = ['perceive', 'plan', 'act', 'observe', 'iterate'];
+            autoSimInterval = setInterval(() => {
+                let idx = (order.indexOf(activeStep) + 1) % order.length;
+                selectStep(order[idx]);
+            }, 2500);
+        }
+
+        function resetSim() {
+            if(autoSimInterval) { clearInterval(autoSimInterval); autoSimInterval = null; document.getElementById('btn-autoplay').innerText = "▶ Run Auto Cycle"; }
+            selectStep('perceive');
+        }
+
+        // --- 4. Code View Switcher ---
+        function switchCodeTab(key) {
+            const isVibe = key === 'vibe';
+            document.getElementById('tab-vibe').className = isVibe ? "w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer" : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+            document.getElementById('tab-agentic').className = !isVibe ? "w-1/2 text-center py-2.5 rounded-lg bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all cursor-pointer" : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+            
+            const area = document.getElementById('code-content');
+            if(isVibe) {
+                area.textContent = `app.post('/webhook', (req, res) => {\n    const event = req.body;\n    // ⚠️ CRITICAL VULNERABILITY: Raw event payload validation skipped entirely!\n    if (event.type === 'checkout.session.completed') {\n        fulfillOrder(event.data.object);\n    }\n    res.json({received: true});\n});`;
+                area.parentElement.className = "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600";
+            } else {
+                area.textContent = `const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);\nconst endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;\n\napp.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {\n    const sig = req.headers['stripe-signature'];\n    let event;\n    try {\n        // ✓ The Harness enforces deterministic signature evaluation to avoid forging payloads\n        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);\n    } catch (err) {\n        return res.status(400).send(\`Webhook Error: \${err.message}\`);\n    }\n    if (event.type === 'checkout.session.completed') {\n        fulfillOrder(event.data.object);\n    }\n    res.json({received: true});\n});`;
+                area.parentElement.className = "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-emerald-600";
+            }
+        }
+
+        // --- 5. Modality Switcher Logic ---
+        const mods = {
+            conductor: {
+                title: "Hands-on, Real-time Direction (IDE Synchronous)",
+                tag: "ACTIVE FLOW",
+                desc: "You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.",
+                bullets: ["Cursor and Windsurf smart AI editors.", "Gemini Code Assist extensions for IDEs."],
+                footer: "IDE ENVIRONMENT STATUS: SYNC_READY"
+            },
+            orchestrator: {
+                title: "Async Multi-Agent Delegation (Async Trajectory)",
+                tag: "BACKGROUND FACTORY",
+                desc: "You act as a supervisor configuring goal paths and evaluation bounds. Background tasks run autonomously across multiple repositories inside sandbox servers, producing whole pull requests ready for human audit.",
+                bullets: ["Google Jules framework autonomous runs.", "Claude Code and GitHub Copilot Agent Mode background factories."],
+                footer: "BACKGROUND AGENT STATUS: RUNNING_IN_ISOLATION"
+            }
+        };
+
+        function toggleModality(key) {
+            const isCond = key === 'conductor';
+            document.getElementById('m-btn-conductor').className = isCond ? "w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between" : "w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between";
+            document.getElementById('m-btn-orchestrator').className = !isCond ? "w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between" : "w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between";
+            
+            const target = mods[key];
+            const list = target.bullets.map(b => `<li>${b}</li>`).join('');
+            document.getElementById('modality-details-view').innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-2xl font-bold text-white">${target.title}</h3>
+                        <span class="text-xs font-mono bg-indigo-900/50 text-indigo-300 px-2.5 py-1 rounded border border-indigo-900/50">${target.tag}</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">${target.desc}</p>
+                    <div class="p-4 bg-slate-900/40 rounded-xl border border-slate-800/80">
+                        <h4 class="text-xs font-bold text-slate-400 font-mono mb-2">SUPPORTED ENVIRONMENTS:</h4>
+                        <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">${list}</ul>
+                    </div>
+                </div>
+                <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">${target.footer}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
