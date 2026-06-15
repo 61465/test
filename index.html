@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 1: The New SDLC & Vibe Coding Interactive Experience</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>بيئة هندسة الوكلاء التفاعلية | The New SDLC & Agentic Engineering</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .code-font { font-family: 'JetBrains Mono', sans-serif; }
+        body { 
+            font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; 
+        }
+        .code-font { 
+            font-family: 'JetBrains Mono', monospace; 
+        }
         .perspective-1500 { perspective: 1500px; }
         .preserve-3d { transform-style: preserve-3d; }
-        .glass-card { background: rgba(10, 15, 30, 0.7); border: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(16px); }
-        .glow-indigo-strong { box-shadow: 0 0 40px rgba(99, 102, 241, 0.25); }
-        .glow-emerald-strong { box-shadow: 0 0 40px rgba(16, 185, 129, 0.2); }
-        .glow-rose-strong { box-shadow: 0 0 40px rgba(244, 63, 94, 0.2); }
+        .glass-card { 
+            background: rgba(10, 15, 30, 0.7); 
+            border: 1px solid rgba(99, 102, 241, 0.2); 
+            backdrop-filter: blur(16px); 
+        }
+        .glow-indigo-strong { box-shadow: 0 0 45px rgba(99, 102, 241, 0.25); }
+        .glow-emerald-strong { box-shadow: 0 0 45px rgba(16, 185, 129, 0.2); }
+        .glow-rose-strong { box-shadow: 0 0 45px rgba(244, 63, 94, 0.2); }
         
         .grid-bg {
             background-size: 40px 40px;
@@ -23,9 +33,28 @@
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
 
-        /* Inside Solid Model Cube representing 10% */
-        .cube { position: relative; width: 100px; height: 100px; transform-style: preserve-3d; transition: transform 0.5s ease-out; }
-        .cube-face { position: absolute; width: 100px; height: 100px; border: 2px solid rgba(99, 102, 241, 0.8); background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #a5b4fc; font-weight: bold; }
+        /* 3D Cube & Harness */
+        .cube { 
+            position: relative; 
+            width: 100px; 
+            height: 100px; 
+            transform-style: preserve-3d; 
+            transition: transform 0.1s linear; 
+        }
+        .cube-face { 
+            position: absolute; 
+            width: 100px; 
+            height: 100px; 
+            border: 2px solid rgba(99, 102, 241, 0.8); 
+            background: rgba(99, 102, 241, 0.15); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 12px; 
+            color: #a5b4fc; 
+            font-weight: bold; 
+            backface-visibility: visible;
+        }
         .face-front  { transform: rotateY(  0deg) translateZ(50px); }
         .face-back   { transform: rotateY(180deg) translateZ(50px); }
         .face-right  { transform: rotateY( 90deg) translateZ(50px); }
@@ -34,8 +63,23 @@
         .face-bottom { transform: rotateX(-90deg) translateZ(50px); }
 
         /* External Wireframe Harness */
-        .harness-box { position: relative; width: 200px; height: 200px; transform-style: preserve-3d; transition: transform 0.1s ease-out; }
-        .harness-face { position: absolute; width: 200px; height: 200px; border: 1px dashed rgba(167, 139, 250, 0.4); background: rgba(167, 139, 250, 0.03); pointer-events: none; }
+        .harness-box { 
+            position: relative; 
+            width: 200px; 
+            height: 200px; 
+            transform-style: preserve-3d; 
+            transition: transform 0.1s ease-out; 
+        }
+        .harness-face { 
+            position: absolute; 
+            width: 200px; 
+            height: 200px; 
+            border: 1px dashed rgba(167, 139, 250, 0.4); 
+            background: rgba(167, 139, 250, 0.03); 
+            pointer-events: none; 
+            backface-visibility: visible;
+            transition: border-width 0.3s, border-color 0.3s, background-color 0.3s;
+        }
         .h-front  { transform: rotateY(  0deg) translateZ(100px); }
         .h-back   { transform: rotateY(180deg) translateZ(100px); }
         .h-right  { transform: rotateY( 90deg) translateZ(100px); }
@@ -44,42 +88,79 @@
         .h-bottom { transform: rotateX(-90deg) translateZ(100px); }
 
         .scanline::before {
-            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+            content: " "; 
+            display: block; 
+            position: absolute; 
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; 
+            background-size: 100% 2px, 3px 100%; 
+            pointer-events: none;
         }
 
-        /* Floating Bot Smooth Bounce */
+        /* Floating Bot Animation */
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(3deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
         .agent-bot-float { animation: float 4s ease-in-out infinite; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+        
+        /* Language Toggle Animation transition */
+        [data-i18n] {
+            transition: opacity 0.15s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-[#020617] text-slate-100 min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white grid-bg">
 
+    <!-- Header Navigation -->
     <header class="border-b border-indigo-950/80 sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-lg">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-2.5 rounded-xl text-white font-extrabold shadow-lg shadow-indigo-500/20 text-sm font-mono">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-2.5 rounded-xl text-white font-extrabold shadow-lg shadow-indigo-500/20 text-sm font-mono tracking-wider">
                     AGENTIC.2026
                 </div>
-                <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-200 via-slate-100 to-slate-400 bg-clip-text text-transparent">
-                    Interactive Agentic Workspace
+                <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-200 via-slate-100 to-slate-400 bg-clip-text text-transparent" data-i18n="nav_title">
+                    بيئة العمل التفاعلية للوكلاء الذكية
                 </span>
             </div>
-            <div class="text-xs code-font bg-indigo-950/50 text-indigo-300 px-4 py-2 rounded-lg border border-indigo-900/50">
-                SYSTEM_STATUS: ACTIVE // GOOGLE_WHITEBOARD_2026
+            
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <div class="text-xs code-font bg-indigo-950/50 text-indigo-300 px-4 py-2 rounded-lg border border-indigo-900/50 hidden md:inline-block" id="system-status-pill" data-i18n="system_status">
+                    SYSTEM_STATUS: ACTIVE // GOOGLE_WHITEBOARD_2026
+                </div>
+                
+                <!-- Language Toggle Button -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/20 text-xs font-semibold cursor-pointer transition-all hover:scale-105">
+                    <i class="fas fa-globe"></i>
+                    <span id="lang-btn-text">English</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Enhanced Interactive Floating Agent Bot -->
+    <!-- Floating Assistant Bot -->
     <div class="fixed bottom-6 right-6 z-50 max-w-sm w-96 transition-all duration-500 transform translate-y-0" id="floating-agent-bot">
         <div class="glass-card rounded-2xl p-5 border border-indigo-500/40 shadow-2xl space-y-4 glow-indigo-strong">
-            <div class="flex items-start space-x-4">
+            <div class="flex items-start space-x-4 space-x-reverse">
                 <div class="relative">
                     <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-xl agent-bot-float shadow-md">
                         🤖
@@ -88,89 +169,145 @@
                 </div>
                 <div class="flex-1 space-y-1">
                     <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold font-mono text-indigo-400 tracking-wider">GUIDE_AGENT v1.5</span>
-                        <span class="text-[9px] code-font bg-slate-900 text-slate-500 px-1.5 py-0.5 rounded" id="bot-status">IDLE_AWAITING</span>
+                        <span class="text-xs font-bold font-mono text-indigo-400 tracking-wider">GUIDE_AGENT v2.0</span>
+                        <span class="text-[9px] code-font bg-slate-900 text-slate-500 px-1.5 py-0.5 rounded" id="bot-status" data-i18n="bot_status_idle">AWAITING_INPUT</span>
                     </div>
-                    <p class="text-xs text-slate-200 leading-relaxed font-light transition-opacity duration-150" id="bot-speech">
-                        Hello! I am your interactive companion agent. Scroll to explore, choose an action below, or ask me anything about the Day 1 curriculum!
+                    <p class="text-xs text-slate-200 leading-relaxed font-light transition-opacity duration-150" id="bot-speech" data-i18n="bot_speech_welcome">
+                        مرحباً بك! أنا الوكيل المساعد التفاعلي. تصفح الأقسام لاستكشاف التغييرات، أو اسألني أي سؤال حول منهجية هندسة الوكلاء الذكية.
                     </p>
                 </div>
             </div>
 
-            <!-- Quick Action Chips -->
+            <!-- Bot Chain of Thought (CoT) Visual Tree -->
+            <div id="bot-thinking-area" class="hidden bg-slate-950/80 p-3 rounded-lg border border-slate-900 text-[11px] font-mono text-slate-400 space-y-1">
+                <div class="text-[10px] text-indigo-400 uppercase tracking-wider font-bold mb-1 border-b border-indigo-950 pb-1" data-i18n="thinking_process">مسار تفكير الوكيل:</div>
+                <div id="cot-node-1" class="flex items-center gap-1.5"><i class="fas fa-spinner animate-spin text-indigo-500"></i> <span data-i18n="cot_1">تحليل المعطيات والنوايا...</span></div>
+                <div id="cot-node-2" class="flex items-center gap-1.5 opacity-40"><i class="far fa-circle text-slate-600"></i> <span data-i18n="cot_2">فحص السياق الأمني والقواعد...</span></div>
+                <div id="cot-node-3" class="flex items-center gap-1.5 opacity-40"><i class="far fa-circle text-slate-600"></i> <span data-i18n="cot_3">صياغة الاستجابة التعليمية الملائمة...</span></div>
+            </div>
+
+            <!-- Quick Actions -->
             <div class="flex flex-wrap gap-1.5 pt-1 border-t border-indigo-950/50">
                 <button onclick="botTriggerAction('harness')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
-                    📦 Inspect Harness
+                    📦 <span data-i18n="btn_inspect_harness">فحص بيئة التشغيل</span>
                 </button>
                 <button onclick="botTriggerAction('loop')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
-                    ⚙️ Run Loop Arena
+                    ⚙️ <span data-i18n="btn_run_loop">تشغيل حلقة الوكيل</span>
                 </button>
-                <button onclick="botTriggerAction('stripe')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
-                    🚨 Audit Stripe Security
+                <button onclick="botTriggerAction('playground')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
+                    🚨 <span data-i18n="btn_sandbox_audit">مختبر الكود الأمني</span>
+                </button>
+                <button onclick="botTriggerAction('orchestration')" class="text-[10px] bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-900/40 px-2 py-1 rounded-md transition-all cursor-pointer">
+                    🛸 <span data-i18n="btn_visual_orch">مخطط الوكلاء الفرعيين</span>
                 </button>
             </div>
 
-            <!-- Chat Input Area -->
-            <div class="flex items-center space-x-2 bg-slate-950 rounded-xl border border-slate-800 p-1">
-                <input type="text" id="bot-chat-input" onkeydown="handleInputKey(event)" placeholder="Ask the agent a question..." class="flex-1 bg-transparent text-xs text-slate-100 placeholder-slate-500 px-2.5 py-1.5 focus:outline-none focus:ring-0">
-                <button onclick="submitChatQuery()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer">
-                    Send
+            <!-- Chat input -->
+            <div class="flex items-center space-x-2 space-x-reverse bg-slate-950 rounded-xl border border-slate-800 p-1">
+                <input type="text" id="bot-chat-input" onkeydown="handleInputKey(event)" placeholder="اسأل الوكيل عن هندسة الوكلاء..." data-i18n-placeholder="chat_placeholder" class="flex-1 bg-transparent text-xs text-slate-100 placeholder-slate-500 px-2.5 py-1.5 focus:outline-none focus:ring-0">
+                <button onclick="submitChatQuery()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer" data-i18n="send_btn">
+                    إرسال
                 </button>
             </div>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-6 py-12 space-y-32">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-28">
 
+        <!-- Hero Section -->
         <section id="section-hero" class="text-center max-w-4xl mx-auto space-y-6 pt-6 scroll-mt-28">
             <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300">
                 <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
-                Unit 1: The New SDLC Ecosystem
+                <span data-i18n="hero_badge">المرحلة الأولى: منظومة تطوير البرمجيات الجديدة (SDLC)</span>
             </span>
             <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 leading-tight">
-                Simulating the Shift from <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Syntax to Intent</span>
+                <span data-i18n="hero_title_1">محاكاة الانتقال من</span> 
+                <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent" data-i18n="hero_title_gradient">كتابة الأكواد إلى صياغة الأهداف</span>
             </h1>
-            <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
-                Welcome to 2026. The friction between human intent and machine execution is collapsing. Explore the interactive visual harnesses below to witness agent autonomy in real-time.
+            <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed" data-i18n="hero_desc">
+                أهلاً بك في عام 2026. الفجوة بين نية المبرمج وتنفيذ الآلة تتلاشى تماماً. استكشف لوحات التحكم التفاعلية أدناه لمشاهدة استقلالية الوكلاء الأذكياء في الوقت الفعلي.
             </p>
         </section>
 
+        <!-- Visualization 1: 3D Harness & Parameters Controls -->
         <section id="section-harness" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300">
-                        <span>VISUALIZATION 01</span>
+                        <span data-i18n="vis1_badge">محاكاة تفاعلية ثلاثية الأبعاد 01</span>
                     </div>
-                    <h2 class="text-3xl font-bold text-white tracking-tight">Harness Engineering Architecture</h2>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" data-i18n="vis1_title">بنية هندسة بيئة التشغيل (Harness)</h2>
                     <div class="text-slate-300 text-sm leading-relaxed space-y-4">
-                        <p>The model is merely the raw engine. It becomes an agent once the <strong>Harness provides context policies, execution environments, and enforceable constraints</strong>.</p>
-                        <p>Equation: <code class="text-indigo-400 code-font font-bold">Agent = Model (~10%) + Harness (~90%)</code></p>
+                        <p data-i18n="vis1_desc">النموذج اللغوي هو مجرد محرك خام. ولكي يصبح وكيلاً ذكياً، يحتاج إلى بيئة تشغيل (Harness) توفر سياق العمل، وصلاحيات التنفيذ، والقيود الصارمة.</p>
+                        <p class="bg-slate-900/60 p-2 rounded-lg inline-block border border-indigo-950 font-mono">
+                            <span data-i18n="vis1_formula">المعادلة:</span> <code class="text-indigo-400 font-bold">Agent = Model (~10%) + Harness (~90%)</code>
+                        </p>
                     </div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3">
-                        <span class="text-xs font-semibold text-slate-400 block">Configure Harness Constraints:</span>
+
+                    <!-- Harness Configuration Controls -->
+                    <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <span class="text-xs font-semibold text-slate-400 block border-b border-slate-900 pb-2" data-i18n="harness_constraints">تخصيص قيود بيئة التشغيل (Harness Constraints):</span>
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="toggleHarnessTool('sandbox', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ Sandbox OS</button>
-                            <button onclick="toggleHarnessTool('mcp', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ MCP Protocols</button>
-                            <button onclick="toggleHarnessTool('evals', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all">✓ Eval Judges</button>
+                            <button onclick="toggleHarnessTool('sandbox', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all cursor-pointer">✓ Sandbox OS</button>
+                            <button onclick="toggleHarnessTool('mcp', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all cursor-pointer">✓ MCP Protocols</button>
+                            <button onclick="toggleHarnessTool('evals', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all cursor-pointer">✓ Eval Judges</button>
                         </div>
-                        <p class="text-[11px] text-indigo-400 font-mono mt-1" id="harness-status-text">Harness status: Strict 360-degree model containment active.</p>
+                        
+                        <!-- 3D Slider Controls -->
+                        <div class="pt-2 space-y-3">
+                            <span class="text-xs font-semibold text-slate-400 block" data-i18n="harness_parameters">محددات النموذج (Model Parameters):</span>
+                            
+                            <!-- Temperature slider -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                                    <span data-i18n="slider_temp">درجة الحرارة (AI Temperature)</span>
+                                    <span id="temp-val">0.7</span>
+                                </div>
+                                <input type="range" min="0.1" max="1.5" step="0.1" value="0.7" id="slider-temp" oninput="updateHarness3D()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                            </div>
+
+                            <!-- Guardrails Slider -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                                    <span data-i18n="slider_guardrails">صرامة الحماية (Guardrails Strictness)</span>
+                                    <span id="guard-val">80%</span>
+                                </div>
+                                <input type="range" min="0" max="100" step="5" value="80" id="slider-guard" oninput="updateHarness3D()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                            </div>
+
+                            <!-- Context Slider -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                                    <span data-i18n="slider_context">نافذة السياق (Context Window)</span>
+                                    <span id="context-val">128k</span>
+                                </div>
+                                <input type="range" min="4" max="2000" step="50" value="128" id="slider-context" oninput="updateHarness3D()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                            </div>
+                        </div>
+
+                        <p class="text-[11px] text-indigo-400 font-mono mt-2 transition-all duration-300" id="harness-status-text" data-i18n="harness_status_strict">
+                            حالة البيئة: نظام الاحتواء الشامل للنموذج بنطاق 360 درجة فعال وآمن.
+                        </p>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 flex flex-col items-center justify-center min-h-[380px] bg-slate-950/50 rounded-2xl border border-indigo-950/60 p-6 relative perspective-1500" id="threeDScene">
-                    <div class="absolute top-4 right-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Outer Harness (~90%)</div>
-                    <div class="absolute bottom-4 left-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Inner Model (~10%)</div>
-                    <div class="absolute top-4 left-4 text-[11px] text-slate-500 animate-pulse">💡 Hover mouse here to rotate 3D canvas</div>
+                <!-- 3D Scene Viewport -->
+                <div class="lg:col-span-7 flex flex-col items-center justify-center min-h-[420px] bg-slate-950/50 rounded-2xl border border-indigo-950/60 p-6 relative perspective-1500" id="threeDScene">
+                    <div class="absolute top-4 right-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300" data-i18n="outer_harness_label">القفص الخارجي (Harness) ~90%</div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/90 text-xs px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300" data-i18n="inner_model_label">النموذج الداخلي (LLM) ~10%</div>
+                    <div class="absolute top-4 left-4 text-[11px] text-slate-500 animate-pulse hidden md:block" data-i18n="hover_3d_tip">💡 مرر الماوس هنا لتدوير المشهد ثلاثي الأبعاد</div>
 
+                    <!-- 3D Structure -->
                     <div id="harnessScene" class="preserve-3d harness-box flex items-center justify-center" style="transform: rotateY(25deg) rotateX(-20deg);">
-                        <div class="harness-face h-front" id="hface-front"></div>
-                        <div class="harness-face h-back" id="hface-back"></div>
-                        <div class="harness-face h-right" id="hface-right"></div>
-                        <div class="harness-face h-left" id="hface-left"></div>
-                        <div class="harness-face h-top" id="hface-top"></div>
-                        <div class="harness-face h-bottom" id="hface-bottom"></div>
+                        <div class="harness-face h-front" id="hface-front" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
+                        <div class="harness-face h-back" id="hface-back" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
+                        <div class="harness-face h-right" id="hface-right" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
+                        <div class="harness-face h-left" id="hface-left" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
+                        <div class="harness-face h-top" id="hface-top" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
+                        <div class="harness-face h-bottom" id="hface-bottom" style="border-width: 1px; border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 0 10px rgba(167, 139, 250, 0.1);"></div>
 
-                        <div class="cube" id="innerCube">
+                        <div class="cube" id="innerCube" style="transform: scale(1);">
                             <div class="cube-face face-front">MODEL</div>
                             <div class="cube-face face-back">AI</div>
                             <div class="cube-face face-right">10%</div>
@@ -183,209 +320,1519 @@
             </div>
         </section>
 
+        <!-- Visualization 2: Self-Correcting Agent Loop Simulator -->
         <section id="section-loop" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
             <div class="space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div class="space-y-1">
                         <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
-                            <span>VISUALIZATION 02</span>
+                            <span data-i18n="vis2_badge">محاكاة تفاعلية 02</span>
                         </div>
-                        <h2 class="text-3xl font-bold text-white">The Self-Correcting Agent Loop</h2>
-                        <p class="text-slate-400 text-sm">Unlike traditional chatbots, autonomous agents run their own loop: Perceive, Plan, Act, Observe, Iterate.</p>
+                        <h2 class="text-3xl font-bold text-white" data-i18n="vis2_title">حلقة الوكيل ذاتية التصحيح (Self-Correcting Loop)</h2>
+                        <p class="text-slate-400 text-sm" data-i18n="vis2_desc">على عكس برمجيات المحادثة التقليدية، يمتلك الوكيل الذكي دورة تشغيل مغلقة ومستقلة: الإدراك، التخطيط، التنفيذ، المراقبة، التكرار.</p>
                     </div>
                     <div class="flex items-center gap-2 w-full md:w-auto">
-                        <button onclick="startAutoSim()" id="btn-autoplay" class="px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer">▶ Run Auto Cycle</button>
-                        <button onclick="resetSim()" class="px-4 py-2 rounded-xl text-xs bg-slate-900 text-slate-300 font-semibold transition-all border border-slate-800">Reset</button>
+                        <button onclick="startAutoSim()" id="btn-autoplay" class="px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer">
+                            <span id="autoplay-icon">▶</span> <span id="autoplay-text" data-i18n="autoplay_run">تشغيل الدورة التلقائية</span>
+                        </button>
+                        <button onclick="resetSim()" class="px-4 py-2 rounded-xl text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold transition-all border border-slate-800 cursor-pointer" data-i18n="reset_btn">إعادة ضبط</button>
                     </div>
                 </div>
 
+                <!-- Steps Navigation Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center code-font text-xs font-bold pt-4">
-                    <button id="step-perceive" onclick="selectStep('perceive')" class="sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all">1. PERCEIVE</button>
-                    <button id="step-plan" onclick="selectStep('plan')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">2. PLAN</button>
-                    <button id="step-act" onclick="selectStep('act')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">3. ACT</button>
-                    <button id="step-observe" onclick="selectStep('observe')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all">4. OBSERVE</button>
-                    <button id="step-iterate" onclick="selectStep('iterate')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all col-span-2 sm:col-span-1">5. ITERATE</button>
+                    <button id="step-perceive" onclick="selectStep('perceive')" class="sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all cursor-pointer">1. PERCEIVE</button>
+                    <button id="step-plan" onclick="selectStep('plan')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all cursor-pointer">2. PLAN</button>
+                    <button id="step-act" onclick="selectStep('act')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all cursor-pointer">3. ACT</button>
+                    <button id="step-observe" onclick="selectStep('observe')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all cursor-pointer">4. OBSERVE</button>
+                    <button id="step-iterate" onclick="selectStep('iterate')" class="sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all col-span-2 sm:col-span-1 cursor-pointer">5. ITERATE</button>
                 </div>
 
-                <div class="bg-black/90 rounded-2xl border border-slate-800 p-6 relative overflow-hidden scanline">
+                <!-- Active Step Terminal Console Output -->
+                <div class="bg-black/95 rounded-2xl border border-slate-800 p-6 relative overflow-hidden scanline">
                     <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-4 text-slate-500 text-xs font-mono">
-                        <div class="flex items-center space-x-1.5">
+                        <div class="flex items-center space-x-1.5 space-x-reverse">
                             <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
                             <span class="w-3 h-3 rounded-full bg-amber-500/70"></span>
                             <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
-                            <span class="pl-2 text-slate-400 font-bold">TERMINAL: cloud-agent-executor</span>
+                            <span class="pl-2 text-slate-400 font-bold" data-i18n="terminal_header">الطرفية: cloud-agent-executor</span>
                         </div>
-                        <div class="text-[10px] text-slate-600" id="terminal-latency">LATENCY: 42ms // MODEL: GEMINI-PRO</div>
+                        <div class="text-[10px] text-slate-600 font-semibold" id="terminal-latency">LATENCY: 15ms // MODEL: GEMINI-3.5</div>
                     </div>
                     <div class="min-h-[160px] code-font text-slate-300 text-sm space-y-3 leading-relaxed" id="terminal-logs">
                         <div class="text-indigo-400 font-bold">&gt; [STAGE: PERCEIVE_GOAL]</div>
-                        <p>The agent ingests human intent specification: <span class="text-indigo-300 italic">"Build an interactive web story dashboard and deploy."</span> It analyzes constraints, targets goals, and boots the safe sandbox workspace environment.</p>
+                        <p>يستقبل الوكيل النوايا الإنسانية الخام ويحللها: <span class="text-indigo-300 italic">"قم ببناء لوحة تحكم قوية للمبيعات وتأمينها ثم تفعيلها."</span> حيث يحدد القيود المطلوبة ويفتح بيئة العمل المعزولة.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="section-stripe" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-rose-strong scroll-mt-28">
+        <!-- Visualization 3: Interactive Sandbox & Security Test Runner -->
+        <section id="section-playground" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-rose-strong scroll-mt-28">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-md text-xs font-mono text-rose-300">
-                        <span>REAL WORLD GATEWAY</span>
+                        <span data-i18n="vis3_badge">مختبر أكواد تفاعلي 03</span>
                     </div>
-                    <h2 class="text-3xl font-bold text-white">Stripe Payment API Integrity Demo</h2>
-                    <p class="text-slate-300 text-sm leading-relaxed">Telling a CTO your team is "vibe coding" a production payment system will raise alarm bells. Telling them you practice disciplined "agentic engineering" changes everything.</p>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" data-i18n="vis3_title">مختبر الكود الأمني ومحاكي الاختبارات</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" data-i18n="vis3_desc">
+                        فكرة أن المطورين "يبنون البرمجيات بالاعتماد على الفايب والحدس فقط" من دون قيود تشكل تهديداً كبيراً. في هندسة الوكلاء الذكية، نضع قيود اختبارية صارمة يعاد تشغيلها وتصحيح الكود بناءً عليها.
+                    </p>
+
+                    <!-- Scenario Switcher -->
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-900 space-y-3">
+                        <span class="text-xs font-semibold text-slate-400 block" data-i18n="select_scenario">اختر سيناريو الاختبار:</span>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="switchScenario('stripe')" id="scen-btn-stripe" class="scen-btn text-left text-xs bg-indigo-600 text-white px-3.5 py-2.5 rounded-lg font-semibold flex items-center justify-between border border-indigo-400/20 transition-all cursor-pointer">
+                                <span>1. Stripe Webhook (Payment Integrity)</span>
+                                <i class="fas fa-credit-card"></i>
+                            </button>
+                            <button onclick="switchScenario('sql')" id="scen-btn-sql" class="scen-btn text-left text-xs bg-slate-950 hover:bg-slate-900 text-slate-400 px-3.5 py-2.5 rounded-lg font-semibold flex items-center justify-between border border-slate-800 transition-all cursor-pointer">
+                                <span>2. SQL Query injection (Data Protection)</span>
+                                <i class="fas fa-database"></i>
+                            </button>
+                            <button onclick="switchScenario('ratelimit')" id="scen-btn-ratelimit" class="scen-btn text-left text-xs bg-slate-950 hover:bg-slate-900 text-slate-400 px-3.5 py-2.5 rounded-lg font-semibold flex items-center justify-between border border-slate-800 transition-all cursor-pointer">
+                                <span>3. API Rate Limiting (DDoS Prevention)</span>
+                                <i class="fas fa-shield-halved"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vulnerability alert banner -->
                     <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-900 space-y-2">
-                        <div class="flex items-center gap-2 text-rose-400 text-xs font-bold"><span>🚨 The Vibe Coding Financial Risk:</span></div>
-                        <p class="text-xs text-slate-400 leading-normal">Unverified code accepts Stripe webhook events without validation signatures. Malicious actors can easily forge payloads and trigger fake free items.</p>
+                        <div class="flex items-center gap-2 text-rose-400 text-xs font-bold">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <span data-i18n="vulnerability_title">مخاطر البرمجة الحدسية (Vibe Coding Risk):</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-normal" id="vuln-description" data-i18n="stripe_vuln_desc">
+                            استلام الفعاليات المالية مباشرة من الـ Webhook بدون مقارنة توقيع التوثيق. يتيح للمهاجمين تزوير البيانات والحصول على اشتراكات مجانية بالكامل.
+                        </p>
                     </div>
                 </div>
 
+                <!-- Sandbox Live Code & Terminal Console -->
                 <div class="lg:col-span-7 space-y-4">
+                    <!-- Code view header & switcher -->
                     <div class="flex bg-slate-950 rounded-xl p-1 border border-slate-900 font-mono text-xs">
-                        <button onclick="switchCodeTab('vibe')" id="tab-vibe" class="w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer">❌ Insecure Vibe Coding Code</button>
-                        <button onclick="switchCodeTab('agentic')" id="tab-agentic" class="w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer">🛡️ Production Agentic Harness Code</button>
+                        <button onclick="toggleCodeView('vibe')" id="code-view-vibe" class="w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer">
+                            ❌ <span data-i18n="vibe_code_btn">كود الفايب غير الآمن</span>
+                        </button>
+                        <button onclick="toggleCodeView('agentic')" id="code-view-agentic" class="w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer">
+                            🛡️ <span data-i18n="agentic_code_btn">كود الوكيل المؤمن بالكامل</span>
+                        </button>
                     </div>
 
-                    <div class="bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600">
-                        <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600">LANGUAGE: JAVASCRIPT</div>
-                        <pre class="code-font text-xs text-slate-300 leading-relaxed" id="code-content">
-app.post('/webhook', (req, res) => {
-    const event = req.body;
-    // ⚠️ CRITICAL VULNERABILITY: Raw event payload validation skipped entirely!
-    if (event.type === 'checkout.session.completed') {
-        fulfillOrder(event.data.object);
-    }
-    res.json({received: true});
-});</pre>
+                    <!-- Interactive Code Editor Display -->
+                    <div class="bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600 transition-all duration-300" id="code-container-outer">
+                        <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600 uppercase" id="editor-lang-tag">LANGUAGE: JAVASCRIPT</div>
+                        <pre class="code-font text-xs text-slate-300 leading-relaxed min-h-[120px]" id="editor-code-content">Loading code...</pre>
+                        
+                        <!-- Overlay indicator when coding/fixing -->
+                        <div id="code-typing-overlay" class="hidden absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center space-y-3">
+                            <i class="fas fa-robot animate-bounce text-3xl text-indigo-500"></i>
+                            <div class="text-xs font-mono text-indigo-300" id="typing-status-text">Agent analyzing and repairing vulnerability...</div>
+                            <div class="w-48 bg-slate-900 h-1 rounded-full overflow-hidden">
+                                <div class="bg-indigo-500 h-1 animate-[shimmer_1.5s_infinite] w-full" style="background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simulation actions -->
+                    <div class="flex items-center justify-between gap-4">
+                        <button onclick="runSandboxTests()" class="flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer" id="run-tests-btn">
+                            <i class="fas fa-play"></i>
+                            <span data-i18n="run_test_btn">تشغيل اختبارات الأمان</span>
+                        </button>
+                        
+                        <button onclick="triggerAgentFix()" id="agent-fix-btn" class="hidden flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl items-center justify-center gap-2 shadow-lg transition-all cursor-pointer animate-pulse">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                            <span data-i18n="magic_fix_btn">🪄 دع الوكيل يصلح الكود تلقائياً</span>
+                        </button>
+                    </div>
+
+                    <!-- Sandbox test results logs -->
+                    <div class="bg-black rounded-xl border border-slate-900 p-4 font-mono text-[11px] text-slate-400 space-y-1.5" id="sandbox-console">
+                        <div class="text-slate-600 border-b border-slate-950 pb-1 flex justify-between">
+                            <span data-i18n="test_output_header">CONSOLE OUTPUT: security_runner.sh</span>
+                            <span id="test-success-counter" class="text-rose-500 font-bold">0 / 3 PASSED</span>
+                        </div>
+                        <div id="console-logs-list">
+                            <span class="text-slate-500" data-i18n="console_init_msg">اضغط على زر "تشغيل اختبارات الأمان" لبدء محاكاة الفحص داخل حاوية المطور...</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Visualization 4: Conductor or Orchestrator Modalities -->
         <section id="section-modality" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-md text-xs font-mono text-purple-300">
-                        <span>MODALITY SWITCHER</span>
+                        <span data-i18n="vis4_badge">بيئة المزامنة والجدولة 04</span>
                     </div>
-                    <h2 class="text-3xl font-bold text-white">Conductor or Orchestrator Workspaces</h2>
-                    <p class="text-slate-300 text-sm leading-relaxed">The developer's role transforms from line-by-line code authoring to system manager and high-leverage delegator.</p>
+                    <h2 class="text-3xl font-bold text-white" data-i18n="vis4_title">وضعية المايسترو (Conductor) أو المنسق (Orchestrator)</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" data-i18n="vis4_desc">يتحول دور المطور البشري تدريجياً من الكتابة الحرفية للتعليمات البرمجية، إلى توجيه وبناء الأنظمة ومراجعة النواتج عالية الجودة.</p>
+                    
                     <div class="flex flex-col gap-3">
-                        <button onclick="toggleModality('conductor')" id="m-btn-conductor" class="w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between">
-                            <span>🎻 The Conductor Modality</span>
-                            <span class="text-xs code-font bg-indigo-900/60 px-2 py-0.5 rounded">IDE Sync</span>
+                        <button onclick="toggleModality('conductor')" id="m-btn-conductor" class="w-full text-right bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between cursor-pointer">
+                            <span data-i18n="mod_cond_title">🎻 وضعية المايسترو (Conductor)</span>
+                            <span class="text-[10px] code-font bg-indigo-900/60 px-2 py-0.5 rounded text-indigo-300 font-bold uppercase">IDE Sync</span>
                         </button>
-                        <button onclick="toggleModality('orchestrator')" id="m-btn-orchestrator" class="w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between">
-                            <span>🛸 The Orchestrator Modality</span>
-                            <span class="text-xs code-font bg-slate-900 px-2 py-0.5 rounded">Async Loop</span>
+                        <button onclick="toggleModality('orchestrator')" id="m-btn-orchestrator" class="w-full text-right bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between cursor-pointer">
+                            <span data-i18n="mod_orch_title">🛸 وضعية المنسق (Orchestrator)</span>
+                            <span class="text-[10px] code-font bg-slate-900 px-2 py-0.5 rounded text-slate-500 font-bold uppercase">Async Loop</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 bg-slate-950/80 rounded-2xl border border-slate-900 p-8 min-h-[300px] flex flex-col justify-between" id="modality-details-view">
+                <!-- Modality View Display Area -->
+                <div class="lg:col-span-7 bg-slate-950/80 rounded-2xl border border-slate-900 p-6 min-h-[350px] flex flex-col justify-between" id="modality-details-view">
+                    <!-- Dynamic details will load here -->
                     <div class="space-y-4">
-                        <h3 class="text-2xl font-bold text-white">Hands-on, Real-time Direction (IDE Synchronous)</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.</p>
-                        <div class="p-4 bg-slate-900/40 rounded-xl border border-slate-800/80">
-                            <h4 class="text-xs font-bold text-slate-400 font-mono mb-2">SUPPORTED ENVIRONMENTS:</h4>
-                            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                                <li>Cursor and Windsurf smart AI editors.</li>
-                                <li>Gemini Code Assist extensions for IDEs.</li>
-                            </ul>
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-2xl font-bold text-white" data-i18n="cond_head">توجيه مباشر وتفاعل لحظي (IDE Synchronous)</h3>
+                            <span class="text-xs font-mono bg-indigo-900/50 text-indigo-300 px-2.5 py-1 rounded border border-indigo-900/50 uppercase">ACTIVE FLOW</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="cond_desc">أنت تعمل جنباً إلى جنب مع مساعد ذكي مدمج داخل محرر الأكواد الخاص بك. تقوم بكتابة التوجيهات ويقوم هو بكتابة الأكواد وتكملتها أمام عينيك بشكل متزامن وبإشرافك المباشر.</p>
+                        
+                        <!-- Simulated Conductor Live Typing Editor -->
+                        <div class="p-4 bg-[#05070f] rounded-xl border border-slate-800/80 font-mono text-xs">
+                            <div class="flex justify-between border-b border-slate-900 pb-2 mb-2 text-slate-500">
+                                <span>src/components/Header.jsx</span>
+                                <span class="text-indigo-400 font-bold animate-pulse" data-i18n="ide_typing">AI is typing...</span>
+                            </div>
+                            <pre class="text-emerald-400" id="conductor-code-simulator">const Header = () => {
+  return (
+    &lt;header className="bg-slate-900 px-6 py-4 flex justify-between"&gt;
+      &lt;div className="logo"&gt;Brand&lt;/div&gt;
+      _</pre>
                         </div>
                     </div>
-                    <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">IDE ENVIRONMENT STATUS: SYNC_READY</div>
+                    <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4" data-i18n="cond_footer">IDE ENVIRONMENT STATUS: SYNC_READY</div>
                 </div>
             </div>
         </section>
+
+        <!-- Visualization 5: Model Context Protocol (MCP) Hub -->
+        <section id="section-mcp" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-indigo-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300">
+                        <span data-i18n="vis5_badge">بيئة ربط الأدوات 05</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" data-i18n="vis5_title">مركز بروتوكول سياق النموذج (MCP Hub)</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" data-i18n="vis5_desc">
+                        يسمح بروتوكول MCP للوكلاء بالاتصال المباشر بمصادر البيانات والأدوات الخارجية (مثل التوثيق وقواعد البيانات ومحركات البحث) بشكل موحد ودون الحاجة لكتابة كود ربط خاص لكل خدمة.
+                    </p>
+
+                    <!-- MCP Server Selector -->
+                    <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <span class="text-xs font-semibold text-slate-400 block border-b border-slate-900 pb-2" data-i18n="mcp_servers_title">التحكم في سيرفرات MCP:</span>
+                        <div class="space-y-3">
+                            <!-- Google Dev Docs Server -->
+                            <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="relative flex">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-slate-500" id="pulse-mcp-gdocs"></span>
+                                        <span class="absolute inline-flex h-full w-full rounded-full bg-slate-500 opacity-75 animate-ping" id="ping-mcp-gdocs" style="display:none"></span>
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-200">Google Developer Knowledge</span>
+                                </div>
+                                <button onclick="toggleMcpServer('gdocs')" id="btn-mcp-gdocs" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-semibold transition-all cursor-pointer" data-i18n="mcp_connect">توصيل</button>
+                            </div>
+
+                            <!-- Database Engine Server -->
+                            <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="relative flex">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-slate-500" id="pulse-mcp-db"></span>
+                                        <span class="absolute inline-flex h-full w-full rounded-full bg-slate-500 opacity-75 animate-ping" id="ping-mcp-db" style="display:none"></span>
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-200">Production SQL Engine</span>
+                                </div>
+                                <button onclick="toggleMcpServer('db')" id="btn-mcp-db" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-semibold transition-all cursor-pointer" data-i18n="mcp_connect">توصيل</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive JSON-RPC Console & Exposed Tools -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-slate-950 rounded-2xl border border-slate-900 p-5 space-y-3">
+                        <div class="flex justify-between items-center text-xs font-mono border-b border-slate-900 pb-2">
+                            <span class="text-slate-400 font-bold uppercase" data-i18n="mcp_exposed_tools">الأدوات المكشوفة (Exposed Tools):</span>
+                            <span class="text-[10px] text-slate-600 font-mono" id="mcp-latency-display">LATENCY: --</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2" id="mcp-tools-list">
+                            <div class="text-xs text-slate-500 italic py-2" data-i18n="mcp_no_tools">قم بتوصيل أحد خوادم MCP لاستكشاف واستدعاء الأدوات المتاحة...</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/95 rounded-2xl border border-slate-800 p-6 relative overflow-hidden scanline">
+                        <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-4 text-slate-500 text-xs font-mono">
+                            <div class="flex items-center space-x-1.5 space-x-reverse">
+                                <span class="w-3 h-3 rounded-full bg-blue-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
+                                <span class="pl-2 text-slate-400 font-bold" data-i18n="mcp_console_title">تبادل بروتوكول MCP (JSON-RPC 2.0 Exchange)</span>
+                            </div>
+                        </div>
+                        <div class="min-h-[140px] code-font text-slate-300 text-xs space-y-2 leading-relaxed h-32 overflow-y-auto" id="mcp-console-logs">
+                            <div class="text-slate-600 italic">// في انتظار التوصيل وإجراء الاستدعاءات...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization 6: A2A & A2UI Generative Flow -->
+        <section id="section-a2a" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-emerald-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
+                        <span data-i18n="vis6_badge">العمل التشاركي والتوليدي 06</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" data-i18n="vis6_title">تنسيق A2A والواجهة التوليدية (A2UI)</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" data-i18n="vis6_desc">
+                        يتعاون الوكلاء الفرعيون بشكل مستقل لحل المهام. وعند وصولهم لنتيجة، يقومون بتوليد واجهة مستخدم تفاعلية آلياً (Generative UI) لتمكين المستخدم البشري من التفاعل مع النتائج مباشرة.
+                    </p>
+
+                    <!-- Interactive Generator Request Box -->
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-900 space-y-3">
+                        <span class="text-xs font-semibold text-slate-400 block" data-i18n="a2ui_select_widget">اختر الأداة المطلوب توليدها آلياً:</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="startA2UIGeneration('weather')" id="btn-a2ui-weather" class="a2ui-btn py-2.5 px-3 bg-slate-900 text-slate-300 border border-slate-800 rounded-lg text-xs font-bold transition-all cursor-pointer hover:bg-slate-850 hover:text-white">
+                                🌤️ Weather App
+                            </button>
+                            <button onclick="startA2UIGeneration('system')" id="btn-a2ui-system" class="a2ui-btn py-2.5 px-3 bg-slate-900 text-slate-300 border border-slate-800 rounded-lg text-xs font-bold transition-all cursor-pointer hover:bg-slate-850 hover:text-white">
+                                📊 Server Stats
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-slate-500 italic mt-1" data-i18n="a2ui_tip">الضغط على أحد الخيارات يطلق مفاوضات الوكلاء الفرعيين لتصميم وتطوير وفحص الواجهة.</p>
+                    </div>
+                </div>
+
+                <!-- Simulation Visual Graph Node & Generative Viewport -->
+                <div class="lg:col-span-7 space-y-4">
+                    <!-- Negotiation Nodes Graph -->
+                    <div class="bg-slate-950 rounded-2xl border border-slate-900 p-5 relative overflow-hidden flex flex-col justify-between min-h-[180px]">
+                        <div class="text-xs font-mono text-slate-500 border-b border-slate-900 pb-2 mb-3 uppercase flex justify-between">
+                            <span data-i18n="a2a_graph_title">شجرة اتصالات الوكلاء (Agent-to-Agent Graph):</span>
+                            <span id="a2a-status-text" class="text-slate-400 font-bold font-mono">IDLE</span>
+                        </div>
+                        
+                        <!-- Visual Graph Tree -->
+                        <div class="flex justify-around items-center py-4 relative min-h-[80px]">
+                            <!-- SVG lines to draw links -->
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                                <line x1="20%" y1="50%" x2="50%" y2="20%" stroke="rgba(99, 102, 241, 0.15)" stroke-width="2" id="line-planner-fe" />
+                                <line x1="80%" y1="50%" x2="50%" y2="20%" stroke="rgba(99, 102, 241, 0.15)" stroke-width="2" id="line-planner-qa" />
+                                <line x1="20%" y1="50%" x2="80%" y2="50%" stroke="rgba(99, 102, 241, 0.15)" stroke-width="2" id="line-fe-qa" />
+                            </svg>
+                            
+                            <!-- FE Agent -->
+                            <div class="flex flex-col items-center z-10 p-2.5 rounded-xl bg-slate-900 border border-slate-800 transition-all w-20 text-center" id="node-a2a-fe">
+                                <div class="text-lg">🎨</div>
+                                <div class="text-[9px] font-bold mt-1 text-slate-400">FE Agent</div>
+                            </div>
+
+                            <!-- Orchestrator / Planner -->
+                            <div class="flex flex-col items-center z-10 p-3 rounded-xl bg-indigo-950/40 border border-indigo-900/30 transition-all w-24 text-center" id="node-a2a-planner">
+                                <div class="text-xl">🧠</div>
+                                <div class="text-[9px] font-bold mt-1 text-indigo-400">Planner</div>
+                            </div>
+
+                            <!-- QA Agent -->
+                            <div class="flex flex-col items-center z-10 p-2.5 rounded-xl bg-slate-900 border border-slate-800 transition-all w-20 text-center" id="node-a2a-qa">
+                                <div class="text-lg">🛡️</div>
+                                <div class="text-[9px] font-bold mt-1 text-slate-400">QA Agent</div>
+                            </div>
+                        </div>
+
+                        <!-- Live Message Stream -->
+                        <div class="mt-3 p-3 bg-black rounded-lg border border-slate-900 text-[11px] font-mono text-slate-400" id="a2a-message-stream">
+                            <span class="text-slate-600 italic">// في انتظار إطلاق عملية توليد الواجهة...</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Rendered Widget (A2UI) Container -->
+                    <div class="bg-slate-950/85 rounded-2xl border border-slate-900 p-6 flex flex-col justify-center items-center min-h-[240px] transition-all relative overflow-hidden" id="a2ui-viewport">
+                        <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600 uppercase font-bold tracking-wider" data-i18n="a2ui_rendered_label">GENERATIVE UI VIEWPORT (A2UI)</div>
+                        <div class="flex flex-col items-center text-slate-500 space-y-2 mt-4" id="a2ui-placeholder">
+                            <i class="fas fa-magic text-3xl text-indigo-500/20 animate-pulse"></i>
+                            <span class="text-xs italic text-center px-4" data-i18n="a2ui_wait_msg">بمجرد اكتمال فحص ومصادقة الوكلاء، ستظهر الواجهة التوليدية التفاعلية هنا...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization 7: AP2 & UCP Machine Commerce -->
+        <section id="section-ledger" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden glow-rose-strong scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-md text-xs font-mono text-rose-300">
+                        <span data-i18n="vis7_badge">المعاملات المالية الآلية 07</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" data-i18n="vis7_title">بروتوكول دفع الوكلاء (AP2) ومحفظة الآلة</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" data-i18n="vis7_desc">
+                        لكي تقوم الآلات باستدعاء خدمات مدفوعة (مثل نماذج LLM قوية أو أدوات مدفوعة)، فإنها تستخدم بروتوكول AP2 للتجارة المشفرة بين الآلات. انظر كيف يمكن لهجمات التكرار استنزاف رصيدك إذا كانت المدفوعات غير آمنة!
+                    </p>
+
+                    <!-- Wallet & Modes Controls -->
+                    <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <!-- Wallet Balance Counter -->
+                        <div class="flex justify-between items-center p-3.5 bg-slate-900 rounded-xl border border-indigo-950 shadow-md">
+                            <div>
+                                <span class="text-[10px] uppercase font-mono text-indigo-400 block" data-i18n="wallet_title">رصيد محفظة الوكيل:</span>
+                                <span class="text-2xl font-bold font-mono text-emerald-400" id="wallet-balance">$100.00000</span>
+                            </div>
+                            <i class="fas fa-wallet text-2xl text-slate-500 animate-pulse"></i>
+                        </div>
+
+                        <!-- Toggle Secure/Insecure Payment Mode -->
+                        <div class="space-y-3">
+                            <span class="text-xs font-semibold text-slate-400 block" data-i18n="payment_mode_title">وضعية حماية الدفع:</span>
+                            <div class="flex bg-slate-950 rounded-xl p-1 border border-slate-900 text-xs font-mono">
+                                <button onclick="togglePaymentSecurity(false)" id="btn-pay-insecure" class="w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer">
+                                    ❌ Insecure Vibe
+                                </button>
+                                <button onclick="togglePaymentSecurity(true)" id="btn-pay-secure" class="w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer">
+                                    🛡️ Secure AP2
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Run / Attack Buttons -->
+                        <div class="flex gap-2">
+                            <button onclick="triggerPaymentTx()" id="btn-run-tx" class="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer">
+                                <i class="fas fa-paper-plane"></i>
+                                <span data-i18n="tx_pay_btn">إجراء معاملة دفع</span>
+                            </button>
+                            <button onclick="triggerInfiniteDrain()" id="btn-drain-tx" class="py-3 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer">
+                                <i class="fas fa-radiation"></i>
+                                <span data-i18n="tx_drain_btn">محاكاة استنزاف المحفظة</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Ledger Logs -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-black/95 rounded-2xl border border-slate-800 p-6 relative overflow-hidden scanline">
+                        <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-4 text-slate-500 text-xs font-mono">
+                            <div class="flex items-center space-x-1.5 space-x-reverse">
+                                <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
+                                <span class="pl-2 text-slate-400 font-bold" data-i18n="ledger_console_title">دفتر الحسابات الموزع: AP2/UCP Tx Ledger</span>
+                            </div>
+                            <span class="text-[9px] text-slate-600 font-mono" id="escrow-status">ESCROW: DEACTIVATED</span>
+                        </div>
+                        <div class="min-h-[220px] max-h-[280px] overflow-y-auto code-font text-[11px] text-slate-300 space-y-1.5 leading-relaxed" id="ledger-logs-list">
+                            <div class="text-slate-600 italic">// في انتظار إجراء المعاملات...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- Footer -->
     <footer class="border-t border-indigo-950/80 py-8 bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
-        <p>Abd Alrahaman gz</p>
+        <p>Abd Alrahaman gz - Interactive Showcase // 2026</p>
     </footer>
 
+    <!-- Translation Dictionary & JavaScript Logic -->
     <script>
-        // --- 1. Dynamic Agent Bot Scroll Listener (مستشعر حركة السكرول لتحديث كلام البوت) ---
+        // Translation Object
+        const i18n = {
+            ar: {
+                nav_title: "بيئة العمل التفاعلية للوكلاء الذكية",
+                system_status: "حالة النظام: نشط // لوحة العمل 2026",
+                bot_status_idle: "في انتظار مدخلاتك",
+                bot_status_thinking: "تحليل وتفكير...",
+                bot_status_done: "تم التفكير",
+                bot_speech_welcome: "مرحباً بك! أنا الوكيل المساعد التفاعلي. تصفح الأقسام لاستكشاف التغييرات، أو اسألني أي سؤال حول منهجية هندسة الوكلاء الذكية.",
+                bot_speech_scroll_hero: "أهلاً بك! لقد بدأت قراءة الملخص. هنا نستعرض كيف تتحول البرمجة من مجرد قواعد نحوية لكتابة الكود إلى تحقيق أهداف المطورين الحقيقية.",
+                bot_speech_scroll_harness: "انظر للمجسم ثلاثي الأبعاد! هذا يمثل هيكلة هندسة السياق. القفص الخارجي يمثل بيئة التشغيل أو الـ Harness (~90%) والتي تحتوي على كل ضوابط الأمان.",
+                bot_speech_scroll_loop: "هذه حلقة تصحيح الأخطاء الذاتية للوكيل! اضغط على الخطوات أو زر التشغيل التلقائي لمشاهدة كيف يقوم الوكيل بفحص مخرجات كودك وتصليحه بمفرده.",
+                bot_speech_scroll_playground: "سيناريوهات هامة: لتأمين الأنظمة البرمجية نحتاج إلى قيود صارمة للغاية. انظر لمختبر الكود كيف يكشف الثغرات ويقوم الوكيل المساعد بحلها تلقائياً.",
+                bot_speech_scroll_modality: "الخطوة الأخيرة: يمكنك العمل بصفتك قائد أوركسترا (Orchestrator) وتوجيه وكلاء فرعيين لتنفيذ المشروع في الخلفية أو بصفتك موجه لحظي (Conductor).",
+                thinking_process: "مسار تفكير الوكيل:",
+                cot_1: "تحليل المعطيات والنوايا لطلب المستخدم...",
+                cot_2: "فحص السياق الأمني والقواعد الإرشادية...",
+                cot_3: "صياغة الاستجابة التعليمية الملائمة وعرضها...",
+                btn_inspect_harness: "فحص بيئة التشغيل",
+                btn_run_loop: "تشغيل حلقة الوكيل",
+                btn_sandbox_audit: "مختبر الكود الأمني",
+                btn_visual_orch: "مخطط الوكلاء الفرعيين",
+                chat_placeholder: "اسأل الوكيل عن هندسة الوكلاء...",
+                send_btn: "إرسال",
+                hero_badge: "المرحلة الأولى: منظومة تطوير البرمجيات الجديدة (SDLC)",
+                hero_title_1: "محاكاة الانتقال من",
+                hero_title_gradient: "كتابة الأكواد إلى صياغة الأهداف",
+                hero_desc: "أهلاً بك في عام 2026. الفجوة بين نية المبرمج وتنفيذ الآلة تتلاشى تماماً. استكشف لوحات التحكم التفاعلية أدناه لمشاهدة استقلالية الوكلاء الأذكياء في الوقت الفعلي.",
+                vis1_badge: "محاكاة تفاعلية ثلاثية الأبعاد 01",
+                vis1_title: "بنية هندسة بيئة التشغيل (Harness)",
+                vis1_desc: "النموذج اللغوي هو مجرد محرك خام. ولكي يصبح وكيلاً ذكياً، يحتاج إلى بيئة تشغيل (Harness) توفر سياق العمل، وصلاحيات التنفيذ، والقيود الصارمة.",
+                vis1_formula: "المعادلة:",
+                harness_constraints: "تخصيص قيود بيئة التشغيل (Harness Constraints):",
+                harness_parameters: "محددات النموذج (Model Parameters):",
+                slider_temp: "درجة الحرارة (AI Temperature)",
+                slider_guardrails: "صرامة الحماية (Guardrails Strictness)",
+                slider_context: "نافذة السياق (Context Window)",
+                harness_status_strict: "حالة البيئة: نظام الاحتواء الشامل للنموذج بنطاق 360 درجة فعال وآمن.",
+                harness_status_decay: "حالة البيئة: تم رصد خلل في قيود الاحتواء. المخاطر الأمنية ترتفع تدريجياً.",
+                harness_status_danger: "🚨 خطر: تم إلغاء كافة حواجز الحماية! النموذج يعمل دون أي مراقبة أو تأمين.",
+                outer_harness_label: "القفص الخارجي (Harness) ~90%",
+                inner_model_label: "النموذج الداخلي (LLM) ~10%",
+                hover_3d_tip: "💡 مرر الماوس هنا لتدوير المشهد ثلاثي الأبعاد",
+                vis2_badge: "محاكاة تفاعلية 02",
+                vis2_title: "حلقة الوكيل ذاتية التصحيح (Self-Correcting Loop)",
+                vis2_desc: "على عكس برمجيات المحادثة التقليدية، يمتلك الوكيل الذكي دورة تشغيل مغلقة ومستقلة: الإدراك، التخطيط، التنفيذ، المراقبة، التكرار.",
+                autoplay_run: "تشغيل الدورة التلقائية",
+                autoplay_pause: "إيقاف الدورة مؤقتاً",
+                reset_btn: "إعادة ضبط",
+                terminal_header: "الطرفية: cloud-agent-executor",
+                vis3_badge: "مختبر أكواد تفاعلي 03",
+                vis3_title: "مختبر الكود الأمني ومحاكي الاختبارات",
+                vis3_desc: "فكرة أن المطورين يبنون البرمجيات بالاعتماد على الفايب والحدس فقط من دون قيود تشكل تهديداً كبيراً. في هندسة الوكلاء الذكية، نضع قيود اختبارية صارمة يعاد تشغيلها وتصحيح الكود بناءً عليها.",
+                select_scenario: "اختر سيناريو الاختبار:",
+                vulnerability_title: "مخاطر البرمجة الحدسية (Vibe Coding Risk):",
+                stripe_vuln_desc: "استلام الفعاليات المالية مباشرة من الـ Webhook بدون مقارنة توقيع التوثيق. يتيح للمهاجمين تزوير البيانات والحصول على اشتراكات مجانية بالكامل.",
+                sql_vuln_desc: "استقبال معرف المستخدم مباشرة وتضمينه بعبارات الاستعلام دون تنظيف للرموز. يسهل استغلاله لحقن أوامر قاعدة البيانات وسرقة كل السجلات الحساسة.",
+                rate_vuln_desc: "سماح للمستخدم بالوصول إلى نقطة الاتصال دون أي نظام للحد من الطلبات الكثيفة. يسهل إيقاف الخادم بالكامل بهجمات حجب الخدمة (DDoS).",
+                vibe_code_btn: "كود الفايب غير الآمن",
+                agentic_code_btn: "كود الوكيل المؤمن بالكامل",
+                run_test_btn: "تشغيل اختبارات الأمان",
+                magic_fix_btn: "🪄 دع الوكيل يصلح الكود تلقائياً",
+                test_output_header: "مخرجات الطرفية: security_runner.sh",
+                console_init_msg: "اضغط على زر \"تشغيل اختبارات الأمان\" لبدء محاكاة الفحص داخل حاوية المطور...",
+                vis4_badge: "بيئة المزامنة والجدولة 04",
+                vis4_title: "وضعية المايسترو (Conductor) أو المنسق (Orchestrator)",
+                vis4_desc: "يتحول دور المطور البشري تدريجياً من الكتابة الحرفية للتعليمات البرمجية، إلى توجيه وبناء الأنظمة ومراجعة النواتج عالية الجودة.",
+                mod_cond_title: "🎻 وضعية المايسترو (Conductor)",
+                mod_orch_title: "🛸 وضعية المنسق (Orchestrator)",
+                cond_head: "توجيه مباشر وتفاعل لحظي (IDE Synchronous)",
+                cond_desc: "أنت تعمل جنباً إلى جنب مع مساعد ذكي مدمج داخل محرر الأكواد الخاص بك. تقوم بكتابة التوجيهات ويقوم هو بكتابة الأكواد وتكملتها أمام عينيك بشكل متزامن وبإشرافك المباشر.",
+                ide_typing: "الذكاء الاصطناعي يكتب الآن...",
+                cond_footer: "حالة بيئة التطوير: جاهز للمزامنة اللحظية",
+                orch_head: "التفويض الذاتي لوكلاء متعددين (Async Trajectory)",
+                orch_desc: "أنت تعمل كمدير يشرف على المشروع. تقوم بكتابة الهدف العام ويقوم وكلاء فرعيون متعددون بالعمل معاً في الخلفية لحل المشكلات البرمجية، وبناء الواجهة، وتجهيز الاختبارات تلقائياً.",
+                orch_footer: "حالة الوكيل المنسق: يعمل بكامل استقلاليته في الخلفية",
+                agent_logs_title: "سجل أعمال الوكلاء الفرعيين النشطين (Subagents Logs):",
+                vis5_badge: "بيئة ربط الأدوات 05",
+                vis5_title: "مركز بروتوكول سياق النموذج (MCP Hub)",
+                vis5_desc: "يسمح بروتوكول MCP للوكلاء بالاتصال المباشر بمصادر البيانات والأدوات الخارجية (مثل التوثيق وقواعد البيانات ومحركات البحث) بشكل موحد ودون الحاجة لكتابة كود ربط خاص لكل خدمة.",
+                mcp_servers_title: "التحكم في سيرفرات MCP:",
+                mcp_connect: "توصيل",
+                mcp_disconnect: "قطع الاتصال",
+                mcp_exposed_tools: "الأدوات المكشوفة (Exposed Tools):",
+                mcp_no_tools: "قم بتوصيل أحد خوادم MCP لاستكشاف واستدعاء الأدوات المتاحة...",
+                mcp_console_title: "تبادل بروتوكول MCP (JSON-RPC 2.0 Exchange)",
+                vis6_badge: "العمل التشاركي والتوليدي 06",
+                vis6_title: "تنسيق A2A والواجهة التوليدية (A2UI)",
+                vis6_desc: "يتعاون الوكلاء الفرعيون بشكل تشاركي لحل المهام. وعند وصولهم لنتيجة، يقومون بتوليد واجهة مستخدم تفاعلية آلياً (Generative UI) لتمكين المستخدم البشري من التفاعل مع النتائج مباشرة.",
+                a2ui_select_widget: "اختر الأداة المطلوب توليدها آلياً:",
+                a2ui_tip: "الضغط على أحد الخيارات يطلق مفاوضات الوكلاء الفرعيين لتصميم وتطوير وفحص الواجهة.",
+                a2a_graph_title: "شجرة اتصالات الوكلاء (Agent-to-Agent Graph):",
+                a2ui_rendered_label: "GENERATIVE UI VIEWPORT (A2UI)",
+                a2ui_wait_msg: "بمجرد اكتمال فحص ومصادقة الوكلاء، ستظهر الواجهة التوليدية التفاعلية هنا...",
+                vis7_badge: "المعاملات المالية الآلية 07",
+                vis7_title: "بروتوكول دفع الوكلاء (AP2) ومحفظة الآلة",
+                vis7_desc: "لكي تقوم الآلات باستدعاء خدمات مدفوعة (مثل نماذج LLM قوية أو أدوات مدفوعة)، فإنها تستخدم بروتوكول AP2 للتجارة المشفرة بين الآلات. انظر كيف يمكن لهجمات التكرار استنزاف رصيدك إذا كانت المدفوعات غير آمنة!",
+                wallet_title: "رصيد محفظة الوكيل:",
+                payment_mode_title: "وضعية حماية الدفع:",
+                tx_pay_btn: "إجراء معاملة دفع",
+                tx_drain_btn: "محاكاة استنزاف المحفظة",
+                ledger_console_title: "دفتر الحسابات الموزع: AP2/UCP Tx Ledger",
+                bot_speech_scroll_mcp: "هذا هو مركز بروتوكول MCP! هنا يمكنك محاكاة ربط الوكيل البرمجي بمصادر خارجية للبيانات، واستعراض أدوات JSON-RPC بشكل حي.",
+                bot_speech_scroll_a2a: "استكشف وضعية A2A والـ Generative UI. ستشاهد مفاوضات الوكلاء الفرعيين لتوليد واجهة مستخدم حية وتفاعلية بالكامل تلقائياً (A2UI).",
+                bot_speech_scroll_ledger: "هنا محاكاة AP2 و UCP للمدفوعات بين الآلات. قارن بين خطر سحب المحفظة كاملاً في الدفع غير الآمن، وبين حماية الضمان والتشفير (AP2)."
+            },
+            en: {
+                nav_title: "Interactive Agentic Workspace",
+                system_status: "SYSTEM_STATUS: ACTIVE // GOOGLE_WHITEBOARD_2026",
+                bot_status_idle: "AWAITING_INPUT",
+                bot_status_thinking: "REASONING_AND_THINKING",
+                bot_status_done: "REASONING_DONE",
+                bot_speech_welcome: "Hello! I am your interactive companion agent. Scroll to explore, choose an action below, or ask me anything about the Agentic Engineering curriculum!",
+                bot_speech_scroll_hero: "Hello! We are starting the Unit 1 summary. Here we explore how modern code development shifts completely from rigid grammar syntax to human intent expression!",
+                bot_speech_scroll_harness: "Look at the 3D grid! This visualizes context engineering. The outer wireframe box represents the Harness (~90% of the agent system). It contains tools, sandboxes, and safe boundaries!",
+                bot_speech_scroll_loop: "Now we observe the autonomous loop simulation! Click the steps or autoplay to see how agents self-diagnose inside terminal pipelines until your constraints are successfully met.",
+                bot_speech_scroll_playground: "Crucial lesson: High-stakes architectures require disciplined engineering. Witness the sandbox runner analyzing code security and fixing flaws dynamically.",
+                bot_speech_scroll_modality: "Final milestone: You can act as a Conductor directing code blocks live, or as an Orchestrator delegating multi-agent pipelines asynchronously while you focus on high-level designs!",
+                thinking_process: "Agent Thinking Process:",
+                cot_1: "Analyzing input parameters and user query intent...",
+                cot_2: "Scanning context constraints and system guidelines...",
+                cot_3: "Formulating optimal educational feedback...",
+                btn_inspect_harness: "Inspect Harness",
+                btn_run_loop: "Run Agent Loop",
+                btn_sandbox_audit: "Sandbox Code Audit",
+                btn_visual_orch: "Subagents Flow",
+                chat_placeholder: "Ask the agent a question...",
+                send_btn: "Send",
+                hero_badge: "Unit 1: The New SDLC Ecosystem",
+                hero_title_1: "Simulating the Shift from",
+                hero_title_gradient: "Syntax to Intent",
+                hero_desc: "Welcome to 2026. The friction between human intent and machine execution is collapsing. Explore the interactive visual harnesses below to witness agent autonomy in real-time.",
+                vis1_badge: "VISUALIZATION 01",
+                vis1_title: "Harness Engineering Architecture",
+                vis1_desc: "The model is merely the raw engine. It becomes an agent once the Harness provides context policies, execution environments, and enforceable constraints.",
+                vis1_formula: "Formula:",
+                harness_constraints: "Configure Harness Constraints:",
+                harness_parameters: "Model Parameters:",
+                slider_temp: "AI Temperature",
+                slider_guardrails: "Guardrails Strictness",
+                slider_context: "Context Window",
+                harness_status_strict: "Harness status: Strict 360-degree model containment active.",
+                harness_status_decay: "Harness status: Structural containment decay identified. Risks increasing.",
+                harness_status_danger: "🚨 DANGER: ALL BOUNDARIES REMOVED. MODEL RUNNING UNPROTECTED.",
+                outer_harness_label: "Outer Harness (~90%)",
+                inner_model_label: "Inner Model (~10%)",
+                hover_3d_tip: "💡 Hover mouse here to rotate 3D canvas",
+                vis2_badge: "VISUALIZATION 02",
+                vis2_title: "The Self-Correcting Agent Loop",
+                vis2_desc: "Unlike traditional chatbots, autonomous agents run their own loop: Perceive, Plan, Act, Observe, Iterate.",
+                autoplay_run: "Run Auto Cycle",
+                autoplay_pause: "Pause Auto Cycle",
+                reset_btn: "Reset",
+                terminal_header: "TERMINAL: cloud-agent-executor",
+                vis3_badge: "INTERACTIVE PLAYGROUND 03",
+                vis3_title: "Interactive Sandbox & Test Runner",
+                vis3_desc: "Telling stakeholders you build on raw vibe-coding raises alarms. Disciplined engineering integrates test harnesses that evaluate parameters before any deployment.",
+                select_scenario: "Select Test Scenario:",
+                vulnerability_title: "Vibe Coding Financial Risk:",
+                stripe_vuln_desc: "Unverified code accepts Stripe webhook events without validation signatures. Malicious actors can easily forge payloads and trigger fake free subscriptions.",
+                sql_vuln_desc: "Receiving user input directly and embedding it into the query string without sanitization. An attacker can inject query commands and dump critical DB databases.",
+                rate_vuln_desc: "Endpoint does not throttle clients or requests. A malicious script can trigger thousands of heavy jobs simultaneously, crashing the node container.",
+                vibe_code_btn: "Insecure Vibe Code",
+                agentic_code_btn: "Secure Agentic Code",
+                run_test_btn: "Run Security Tests",
+                magic_fix_btn: "🪄 Let Agent Auto-Fix Code",
+                test_output_header: "CONSOLE OUTPUT: security_runner.sh",
+                console_init_msg: "Click \"Run Security Tests\" to start simulation testing in the developer container...",
+                vis4_badge: "SCHEDULING & PARALLEL WORKSPACE 04",
+                vis4_title: "Conductor or Orchestrator Workspaces",
+                vis4_desc: "The developer's role transforms from line-by-line code authoring to system manager and high-leverage delegator.",
+                mod_cond_title: "🎻 Conductor Modality",
+                mod_orch_title: "🛸 Orchestrator Modality",
+                cond_head: "Hands-on, Real-time Direction (IDE Synchronous)",
+                cond_desc: "You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.",
+                ide_typing: "AI is typing...",
+                cond_footer: "IDE ENVIRONMENT STATUS: SYNC_READY",
+                orch_head: "Async Multi-Agent Delegation (Async Trajectory)",
+                orch_desc: "You act as a supervisor configuring goal paths and evaluation bounds. Background tasks run autonomously across multiple repositories inside sandbox servers, producing whole pull requests ready for audit.",
+                orch_footer: "BACKGROUND AGENT STATUS: RUNNING_IN_ISOLATION",
+                agent_logs_title: "Active Subagents Working Logs:",
+                vis5_badge: "TOOL INTEGRATION 05",
+                vis5_title: "Model Context Protocol (MCP) Hub",
+                vis5_desc: "The Model Context Protocol (MCP) allows agents to connect directly to external datasources and tools (e.g. documents, databases, web APIs) in a standardized manner, avoiding custom integration codes.",
+                mcp_servers_title: "Manage MCP Servers:",
+                mcp_connect: "Connect",
+                mcp_disconnect: "Disconnect",
+                mcp_exposed_tools: "Exposed Tools:",
+                mcp_no_tools: "Connect an MCP server to explore and invoke exposed tools...",
+                mcp_console_title: "Model Context Protocol Exchange (JSON-RPC 2.0)",
+                vis6_badge: "COLLABORATION & GENERATION 06",
+                vis6_title: "A2A Orchestration & Generative UI (A2UI)",
+                vis6_desc: "Specialized subagents collaborate independently to resolve tasks. Upon agreement, they dynamically generate a functioning user interface (Generative UI) for direct human interaction.",
+                a2ui_select_widget: "Select tool to dynamically generate:",
+                a2ui_tip: "Clicking a choice triggers background subagent negotiations to design, build, and audit the UI widget.",
+                a2a_graph_title: "Agent-to-Agent Communication Graph:",
+                a2ui_rendered_label: "GENERATIVE UI VIEWPORT (A2UI)",
+                a2ui_wait_msg: "Once subagent validation and checks complete, the generated interactive UI widget will render here...",
+                vis7_badge: "M2M AUTOMATED COMMERCE 07",
+                vis7_title: "Agent Payments Protocol (AP2) & Machine Wallet",
+                vis7_desc: "For machines to call premium services (such as API inferences or tools), they use the AP2 protocol. Witness how replication loop attacks can drain a balance if payments are unsecured!",
+                wallet_title: "Agent Wallet Balance:",
+                payment_mode_title: "Payment Security Mode:",
+                tx_pay_btn: "Perform Payment Tx",
+                tx_drain_btn: "Simulate Wallet Drain",
+                ledger_console_title: "Distributed Ledger: AP2/UCP Tx Ledger",
+                bot_speech_scroll_mcp: "This is the MCP Hub! Here you can simulate connecting an agent to external data libraries and view JSON-RPC calls in real-time.",
+                bot_speech_scroll_a2a: "Explore A2A & Generative UI. Watch subagents negotiate and compile an interactive, responsive UI widget on the fly (A2UI).",
+                bot_speech_scroll_ledger: "Here is the AP2 & UCP machine payment simulation. Compare raw vulnerable credit leakage vs strict cryptographic ledger verification."
+            }
+        };
+
+        // Current UI state
+        let currentLang = 'ar';
+        const activeTools = { sandbox: true, mcp: true, evals: true };
+
+        // Language Switcher Logic
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            
+            // Set HTML lang and dir attributes
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Toggle body class and fonts order
+            if (currentLang === 'en') {
+                document.body.style.fontFamily = "'Plus Jakarta Sans', 'Cairo', sans-serif";
+                document.getElementById('lang-btn-text').innerText = 'العربية';
+            } else {
+                document.body.style.fontFamily = "'Cairo', 'Plus Jakarta Sans', sans-serif";
+                document.getElementById('lang-btn-text').innerText = 'English';
+            }
+
+            // Translate all elements with [data-i18n]
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.style.opacity = 0;
+                    setTimeout(() => {
+                        el.innerHTML = i18n[currentLang][key];
+                        el.style.opacity = 1;
+                    }, 100);
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[currentLang][key]) {
+                    el.placeholder = i18n[currentLang][key];
+                }
+            });
+
+            // Re-render variable text parts
+            updateHarness3D();
+            updateSandboxContent();
+            updateModalityContents();
+        }
+
+        // --- 1. 3D Interaction & Sliders Logic ---
+        const scene = document.getElementById('threeDScene');
+        const harness = document.getElementById('harnessScene');
+        const innerCube = document.getElementById('innerCube');
+
+        if(scene && harness) {
+            scene.addEventListener('mousemove', (e) => {
+                const rect = scene.getBoundingClientRect();
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top;
+                const xAxis = (rect.width / 2 - x) / 8; 
+                const yAxis = (rect.height / 2 - y) / 8;
+                harness.style.transform = `rotateY(${-xAxis + 25}deg) rotateX(${yAxis - 20}deg)`;
+                if (innerCube) {
+                    innerCube.style.transform = `rotateY(${-xAxis * 1.5}deg) rotateX(${yAxis * 1.5}deg)`;
+                }
+            });
+            scene.addEventListener('mouseleave', () => {
+                harness.style.transform = 'rotateY(25deg) rotateX(-20deg)';
+                if (innerCube) {
+                    innerCube.style.transform = 'none';
+                }
+            });
+        }
+
+        function toggleHarnessTool(toolKey, btn) {
+            activeTools[toolKey] = !activeTools[toolKey];
+            
+            if (activeTools[toolKey]) {
+                btn.className = "px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all cursor-pointer";
+                btn.innerText = "✓ " + (toolKey==='sandbox'?"Sandbox OS":toolKey==='mcp'?"MCP Protocols":"Eval Judges");
+            } else {
+                btn.className = "px-3 py-1.5 rounded-lg text-xs bg-slate-900 text-slate-500 font-medium border border-slate-800 transition-all cursor-pointer";
+                btn.innerText = "✕ " + (toolKey==='sandbox'?"Sandbox OS":toolKey==='mcp'?"MCP Protocols":"Eval Judges");
+            }
+            
+            updateHarness3D();
+        }
+
+        function updateHarness3D() {
+            const temp = parseFloat(document.getElementById('slider-temp').value);
+            const guard = parseInt(document.getElementById('slider-guard').value);
+            const context = parseInt(document.getElementById('slider-context').value);
+
+            document.getElementById('temp-val').innerText = temp.toFixed(1);
+            document.getElementById('guard-val').innerText = guard + '%';
+            document.getElementById('context-val').innerText = context >= 1000 ? (context/1000).toFixed(1) + 'M' : context + 'k';
+
+            // 1. Temperature affects cube spin animation speed/bounce
+            const spinDuration = 6 / temp;
+            innerCube.style.animation = `float ${spinDuration}s ease-in-out infinite`;
+
+            // 2. Context Window scale size of inner cube
+            const scale = 0.5 + (context / 2000) * 0.7; // maps Context limit size to 0.5 - 1.2
+            innerCube.style.transform = `scale(${scale})`;
+
+            // 3. Guardrails Strictness affects thickness and color glow of outer harness
+            const opacity = 0.1 + (guard / 100) * 0.7; // background transparency
+            const borderOpacity = 0.2 + (guard / 100) * 0.8;
+            const borderDashedStyle = guard > 70 ? 'dashed' : guard > 30 ? 'dashed' : 'solid';
+            
+            let strokeColor = `rgba(167, 139, 250, ${borderOpacity})`; // default indigo
+            let bgHarness = `rgba(167, 139, 250, ${opacity * 0.1})`;
+            
+            const activeCount = Object.values(activeTools).filter(Boolean).length;
+            const statusText = document.getElementById('harness-status-text');
+
+            if (guard === 0 || activeCount === 0) {
+                strokeColor = `rgba(244, 63, 94, ${borderOpacity})`; // critical rose red
+                bgHarness = `rgba(244, 63, 94, 0.05)`;
+                statusText.innerHTML = i18n[currentLang].harness_status_danger;
+                statusText.className = "text-[11px] text-rose-500 font-mono mt-2 font-bold animate-pulse";
+            } else if (guard < 50 || activeCount < 3) {
+                strokeColor = `rgba(245, 158, 11, ${borderOpacity})`; // warning orange
+                bgHarness = `rgba(245, 158, 11, 0.03)`;
+                statusText.innerHTML = i18n[currentLang].harness_status_decay;
+                statusText.className = "text-[11px] text-amber-400 font-mono mt-2";
+            } else {
+                statusText.innerHTML = i18n[currentLang].harness_status_strict;
+                statusText.className = "text-[11px] text-indigo-400 font-mono mt-2";
+            }
+
+            const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+            faces.forEach(f => {
+                const el = document.getElementById(`hface-${f}`);
+                if (el) {
+                    el.style.borderColor = strokeColor;
+                    el.style.backgroundColor = bgHarness;
+                    el.style.borderStyle = borderDashedStyle;
+                    el.style.borderWidth = `${1 + (guard / 100) * 2}px`;
+                }
+            });
+        }
+
+        // --- 2. Live Agent Loop Simulator ---
+        const stepsData = {
+            perceive: {
+                latency: "LATENCY: 12ms // MODEL: GEMINI-3.5",
+                logs: {
+                    ar: [`<span class="text-indigo-400 font-bold">&gt; [بدء التشغيل] إطلاق حاقن مراقبة الحاوية...</span>`, `يقوم الوكيل بتحليل المدخل البشري: <span class="text-indigo-300 italic">"أتمتة الكود وحل المشكلة الحالية"</span>. يقوم بتنزيل ملفات المشروع داخل Sandbox معزول تماماً ومحمي.`],
+                    en: [`<span class="text-indigo-400 font-bold">&gt; [INIT] launching background container monitor...</span>`, `The agent ingests human intent specification: <span class="text-indigo-300 italic">"Automate and secure the active codebase."</span> It configures parameters and spins up the safe sandbox execution workspace.`]
+                }
+            },
+            plan: {
+                latency: "LATENCY: 48ms // PLANNING_AGENT",
+                logs: {
+                    ar: [`<span class="text-amber-400 font-bold">&gt; [تخطيط] صياغة خطوات المسار ومراجعة المخرجات...</span>`, `&gt; الخطوة 1: فحص قاعدة الأكواد ومنافذ الدخل السريعة.<br>&gt; الخطوة 2: صياغة حزم الاختبار للمصادقة.<br>&gt; الخطوة 3: تحديد الملفات المحتوية على الخلل والتصميم المقترح للحل.`],
+                    en: [`<span class="text-amber-400 font-bold">&gt; [PLANNING] generating execution trajectories...</span>`, `&gt; Step 1: Ingest active codebase structure and open dependencies.<br>&gt; Step 2: Formulate dynamic test assertions suite for webhook signature checking.<br>&gt; Step 3: Outline secure fix architecture utilizing env-secrets.`]
+                }
+            },
+            act: {
+                latency: "LATENCY: 98ms // BASH_EXECUTOR",
+                logs: {
+                    ar: [`<span class="text-purple-400 font-bold">&gt; [تنفيذ] استدعاء أدوات تعديل الأكواد الآلية...</span>`, `&gt; استدعاء أداة write_to_file لـ "server.js" [ناجح]<br>&gt; تطبيق كود التحقق من تواقيع الاتصالات الواردة.<br>&gt; تشغيل بيئة الخادم وتمرير ملف الإعداد المحمي.`],
+                    en: [`<span class="text-purple-400 font-bold">&gt; [ACT] launching automated refactoring tools...</span>`, `&gt; calling write_to_file("server.js") [success]<br>&gt; injecting signature token header matching logic inside route middleware.<br>&gt; rebuilding node modules inside docker container workspace.`]
+                }
+            },
+            observe: {
+                latency: "LATENCY: 62ms // EVAL_RUNNER",
+                logs: {
+                    ar: [`<span class="text-rose-500 font-bold">&gt; [مراقبة] إطلاق حزم اختبارات الأمان والتحقق التلقائي...</span>`, `<span class="text-rose-400">&gt; تشغيل الاختبار: npm run test:security</span><br><span class="text-rose-600 font-bold">&gt; فشل: خرق أمني فادح! يقبل الخادم معطيات الـ webhook بدون التوقيع الصحيح.</span>`],
+                    en: [`<span class="text-rose-500 font-bold">&gt; [OBSERVE] executing test suites and assertions...</span>`, `<span class="text-rose-400">&gt; running: npm run test:security</span><br><span class="text-rose-600 font-bold">&gt; FAIL: Security assertion broken! Endpoint accepts spoofed payload without cryptographic signature.</span>`]
+                }
+            },
+            iterate: {
+                latency: "LATENCY: 31ms // REASONING_ENGINE",
+                logs: {
+                    ar: [`<span class="text-emerald-400 font-bold">&gt; [تكرار وتصحيح] إطلاق معالجة تتبع الأخطاء البرمجية...</span>`, `&gt; تحليل الخطأ البرمجي وسياقه... تعديل معالجات stripe والتحقق من التوقيع بالاعتماد على constructEvent.<br><span class="text-emerald-500 font-bold">&gt; نجاح: جميع الاختبارات مرت بنجاح 3/3. تم غلق الثغرة وتأمين النظام.</span>`],
+                    en: [`<span class="text-emerald-400 font-bold">&gt; [ITERATE] diagnosing stack trace & re-planning...</span>`, `&gt; parsing test failure trace... rewriting Express route with secure signature decryption middleware.<br><span class="text-emerald-500 font-bold">&gt; SUCCESS: Security test cases verified 3/3. Webhook secured. Trajectory completed.</span>`]
+                }
+            }
+        };
+
+        let activeStep = 'perceive';
+        let autoSimInterval = null;
+
+        function selectStep(stepKey) {
+            activeStep = stepKey;
+            document.querySelectorAll('.sim-step-btn').forEach(b => {
+                b.className = "sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all cursor-pointer";
+            });
+            document.getElementById(`step-${stepKey}`).className = "sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all shadow-md cursor-pointer";
+            
+            const logs = document.getElementById('terminal-logs');
+            const latency = document.getElementById('terminal-latency');
+            latency.innerText = stepsData[stepKey].latency;
+            logs.innerHTML = stepsData[stepKey].logs[currentLang].join('<br>');
+        }
+
+        function startAutoSim() {
+            const btn = document.getElementById('btn-autoplay');
+            const icon = document.getElementById('autoplay-icon');
+            const txt = document.getElementById('autoplay-text');
+
+            if (autoSimInterval) {
+                clearInterval(autoSimInterval);
+                autoSimInterval = null;
+                icon.innerText = "▶";
+                txt.setAttribute('data-i18n', 'autoplay_run');
+                txt.innerText = i18n[currentLang].autoplay_run;
+                btn.className = "px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+                return;
+            }
+
+            icon.innerText = "⏸";
+            txt.setAttribute('data-i18n', 'autoplay_pause');
+            txt.innerText = i18n[currentLang].autoplay_pause;
+            btn.className = "px-5 py-2 rounded-xl text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+            
+            const order = ['perceive', 'plan', 'act', 'observe', 'iterate'];
+            autoSimInterval = setInterval(() => {
+                let idx = (order.indexOf(activeStep) + 1) % order.length;
+                selectStep(order[idx]);
+            }, 2500);
+        }
+
+        function resetSim() {
+            if (autoSimInterval) {
+                clearInterval(autoSimInterval);
+                autoSimInterval = null;
+                const btn = document.getElementById('btn-autoplay');
+                const icon = document.getElementById('autoplay-icon');
+                const txt = document.getElementById('autoplay-text');
+                icon.innerText = "▶";
+                txt.setAttribute('data-i18n', 'autoplay_run');
+                txt.innerText = i18n[currentLang].autoplay_run;
+                btn.className = "px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+            }
+            selectStep('perceive');
+        }
+
+
+        // --- 3. Interactive Code Sandbox & Test Runner Simulator ---
+        let currentScenario = 'stripe';
+        let currentViewMode = 'vibe'; // 'vibe' or 'agentic'
+        let sandboxState = 'idle'; // 'idle', 'testing_failed', 'fixing', 'fixed_idle', 'testing_passed'
+
+        const scenarios = {
+            stripe: {
+                lang: "javascript",
+                vibeCode: `app.post('/webhook', (req, res) => {
+    const event = req.body;
+    
+    // ⚠️ CRITICAL FINANCIAL RISK: Verification skipped entirely!
+    if (event.type === 'checkout.session.completed') {
+        fulfillOrder(event.data.object);
+    }
+    
+    res.json({received: true});
+});`,
+                agenticCode: `const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        // ✓ Secure: The harness verifies the webhook signature token
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err) {
+        return res.status(400).send(\`Webhook Error: \${err.message}\`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+        fulfillOrder(event.data.object);
+    }
+
+    res.json({received: true});
+});`,
+                tests: [
+                    { name: "Verifying HTTP Method support (POST)", status: "pending" },
+                    { name: "Checking Stripe cryptosignature header validity", status: "pending" },
+                    { name: "Simulating spoofed checkout event rejection", status: "pending" }
+                ],
+                vulnDescKey: "stripe_vuln_desc"
+            },
+            sql: {
+                lang: "javascript",
+                vibeCode: `app.get('/api/users', (req, res) => {
+    const userId = req.query.id;
+    
+    // ⚠️ SQL INJECTION: Direct string concatenation!
+    const query = "SELECT * FROM users WHERE id = " + userId;
+    
+    db.query(query, (err, results) => {
+        res.json(results);
+    });
+});`,
+                agenticCode: `app.get('/api/users', (req, res) => {
+    const userId = req.query.id;
+
+    // ✓ Secure: Using parameterized queries to safely escape input parameters
+    const query = "SELECT * FROM users WHERE id = ?";
+    
+    db.query(query, [userId], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database failure' });
+        res.json(results);
+    });
+});`,
+                tests: [
+                    { name: "Valid ID database retrieval tests", status: "pending" },
+                    { name: "SQL payload sanitization check (ID: 1 OR 1=1)", status: "pending" },
+                    { name: "User database dumping restriction controls", status: "pending" }
+                ],
+                vulnDescKey: "sql_vuln_desc"
+            },
+            ratelimit: {
+                lang: "javascript",
+                vibeCode: `app.post('/api/heavy-job', (req, res) => {
+    // ⚠️ DENIAL OF SERVICE (DDoS): Missing request throttling bounds!
+    runComplexCalculation();
+    res.json({status: "processing"});
+});`,
+                agenticCode: `const rateLimit = require('express-rate-limit');
+
+// ✓ Secure: Restrict rapid automated calls to protect containers
+const jobLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit each IP to 5 requests per window
+    message: "Too many calculation requests. Please wait."
+});
+
+app.post('/api/heavy-job', jobLimiter, (req, res) => {
+    runComplexCalculation();
+    res.json({status: "processing"});
+});`,
+                tests: [
+                    { name: "Check standard response rate execution", status: "pending" },
+                    { name: "Verify rate limiter middleware integration", status: "pending" },
+                    { name: "Simulate spamming test (50 requests in 2 seconds)", status: "pending" }
+                ],
+                vulnDescKey: "rate_vuln_desc"
+            }
+        };
+
+        function switchScenario(scenKey) {
+            currentScenario = scenKey;
+            sandboxState = 'idle';
+
+            document.querySelectorAll('.scen-btn').forEach(btn => {
+                btn.className = "scen-btn text-left text-xs bg-slate-950 hover:bg-slate-900 text-slate-400 px-3.5 py-2.5 rounded-lg font-semibold flex items-center justify-between border border-slate-800 transition-all cursor-pointer";
+            });
+            document.getElementById(`scen-btn-${scenKey}`).className = "scen-btn text-left text-xs bg-indigo-600 text-white px-3.5 py-2.5 rounded-lg font-semibold flex items-center justify-between border border-indigo-400/20 transition-all cursor-pointer";
+
+            // Update vulnerability descriptions
+            const descKey = scenarios[scenKey].vulnDescKey;
+            const descBanner = document.getElementById('vuln-description');
+            descBanner.setAttribute('data-i18n', descKey);
+            descBanner.innerHTML = i18n[currentLang][descKey];
+
+            // Default code views
+            toggleCodeView('vibe');
+            resetSandboxConsole();
+        }
+
+        function toggleCodeView(viewMode) {
+            currentViewMode = viewMode;
+            
+            const isVibe = viewMode === 'vibe';
+            const outerContainer = document.getElementById('code-container-outer');
+            
+            document.getElementById('code-view-vibe').className = isVibe 
+                ? "w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer" 
+                : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+            
+            document.getElementById('code-view-agentic').className = !isVibe 
+                ? "w-1/2 text-center py-2.5 rounded-lg bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all cursor-pointer" 
+                : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+            
+            outerContainer.className = isVibe 
+                ? "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600 transition-all duration-300"
+                : "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-emerald-600 transition-all duration-300";
+
+            updateSandboxContent();
+        }
+
+        function updateSandboxContent() {
+            const data = scenarios[currentScenario];
+            document.getElementById('editor-lang-tag').innerText = "LANGUAGE: " + data.lang.toUpperCase();
+            document.getElementById('editor-code-content').textContent = currentViewMode === 'vibe' ? data.vibeCode : data.agenticCode;
+
+            const agentFixBtn = document.getElementById('agent-fix-btn');
+            const runTestsBtn = document.getElementById('run-tests-btn');
+            
+            if (sandboxState === 'testing_failed' && currentViewMode === 'vibe') {
+                agentFixBtn.style.display = 'flex';
+                runTestsBtn.className = "flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold border border-slate-800 text-sm rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer";
+            } else {
+                agentFixBtn.style.display = 'none';
+                runTestsBtn.className = "flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer";
+            }
+        }
+
+        function resetSandboxConsole() {
+            const consoleLogs = document.getElementById('console-logs-list');
+            const successCounter = document.getElementById('test-success-counter');
+            
+            successCounter.innerText = "0 / 3 PASSED";
+            successCounter.className = "text-rose-500 font-bold";
+            consoleLogs.innerHTML = `<span class="text-slate-500">${i18n[currentLang].console_init_msg}</span>`;
+        }
+
+        function runSandboxTests() {
+            const consoleLogs = document.getElementById('console-logs-list');
+            const successCounter = document.getElementById('test-success-counter');
+            const data = scenarios[currentScenario];
+
+            consoleLogs.innerHTML = `<span class="text-indigo-400 font-bold">&gt; [RUN] starting execution test suite...</span><br>`;
+            
+            let currentPassed = 0;
+            let totalSteps = data.tests.length;
+
+            let stepIdx = 0;
+            function runNextTest() {
+                if (stepIdx < totalSteps) {
+                    const test = data.tests[stepIdx];
+                    let testStatus = "";
+                    let isPassed = false;
+
+                    // If viewing secure agentic code, tests pass. Otherwise they fail on assertion
+                    if (currentViewMode === 'agentic') {
+                        testStatus = `<span class="text-emerald-500 font-bold">PASS ✅</span>`;
+                        isPassed = true;
+                        currentPassed++;
+                    } else {
+                        // Vibe code logic: third test or security checks fail
+                        if (stepIdx === 2) {
+                            testStatus = `<span class="text-rose-600 font-bold">FAIL ❌</span>`;
+                            isPassed = false;
+                        } else {
+                            testStatus = `<span class="text-emerald-500 font-bold">PASS ✅</span>`;
+                            isPassed = true;
+                            currentPassed++;
+                        }
+                    }
+
+                    consoleLogs.innerHTML += `&gt; test_suite [${stepIdx+1}/${totalSteps}] ${test.name}... ${testStatus}<br>`;
+                    successCounter.innerText = `${currentPassed} / ${totalSteps} PASSED`;
+                    successCounter.className = currentPassed === totalSteps ? "text-emerald-500 font-bold" : "text-rose-500 font-bold";
+
+                    stepIdx++;
+                    setTimeout(runNextTest, 600);
+                } else {
+                    // All steps completed
+                    if (currentViewMode === 'vibe') {
+                        sandboxState = 'testing_failed';
+                        consoleLogs.innerHTML += `<br><span class="text-rose-500 font-bold">&gt; [ALERT] 1 security assertion failed! Vulnerability active in sandbox environment.</span>`;
+                        updateSandboxContent(); // Show magic fix button
+                    } else {
+                        sandboxState = 'testing_passed';
+                        consoleLogs.innerHTML += `<br><span class="text-emerald-500 font-bold">&gt; [SUCCESS] All constraints verified. Integrity audit reports clean package. Build verified!</span>`;
+                    }
+                }
+            }
+
+            setTimeout(runNextTest, 300);
+        }
+
+        function triggerAgentFix() {
+            const overlay = document.getElementById('code-typing-overlay');
+            const statusText = document.getElementById('typing-status-text');
+            
+            overlay.classList.remove('hidden');
+            sandboxState = 'fixing';
+            
+            const fixingSteps = [
+                { text: "Agent: Searching AST for route vulnerabilities...", delay: 600 },
+                { text: "Agent: Modifying AST. Replacing unsafe bindings with secure equivalents...", delay: 1200 },
+                { text: "Agent: Running sandbox linter validation...", delay: 1800 }
+            ];
+
+            fixingSteps.forEach(step => {
+                setTimeout(() => {
+                    statusText.innerText = step.text;
+                }, step.delay);
+            });
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                sandboxState = 'fixed_idle';
+                
+                // Toggle view to agentic code and flash success
+                toggleCodeView('agentic');
+                const outerEditor = document.getElementById('code-container-outer');
+                outerEditor.classList.add('ring-4', 'ring-emerald-500/50');
+                setTimeout(() => outerEditor.classList.remove('ring-4', 'ring-emerald-500/50'), 1500);
+
+                // Run tests automatically
+                runSandboxTests();
+            }, 2600);
+        }
+
+
+        // --- 4. Modality Switcher & Visual Flowchart Simulator ---
+        let activeModality = 'conductor';
+
+        const modalityTemplates = {
+            conductor: {
+                ar_title: "توجيه مباشر وتفاعل لحظي (IDE Synchronous)",
+                en_title: "Hands-on, Real-time Direction (IDE Synchronous)",
+                ar_desc: "أنت تعمل جنباً إلى جنب مع مساعد ذكي مدمج داخل محرر الأكواد الخاص بك. تقوم بكتابة التوجيهات ويقوم هو بكتابة الأكواد وتكملتها أمام عينيك بشكل متزامن وبإشرافك المباشر.",
+                en_desc: "You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.",
+                tag: "ACTIVE FLOW",
+                footer: "IDE ENVIRONMENT STATUS: SYNC_READY"
+            },
+            orchestrator: {
+                ar_title: "التفويض الذاتي لوكلاء متعددين (Async Trajectory)",
+                en_title: "Async Multi-Agent Delegation (Async Trajectory)",
+                ar_desc: "أنت تعمل كمدير يشرف على المشروع. تقوم بكتابة الهدف العام ويقوم وكلاء فرعيون متعددون بالعمل معاً في الخلفية لحل المشكلات البرمجية، وبناء الواجهة، وتجهيز الاختبارات تلقائياً.",
+                en_desc: "You act as a supervisor configuring goal paths and evaluation bounds. Background tasks run autonomously across multiple repositories inside sandbox servers, producing whole pull requests ready for audit.",
+                tag: "BACKGROUND FACTORY",
+                footer: "BACKGROUND AGENT STATUS: RUNNING_IN_ISOLATION"
+            }
+        };
+
+        const subagentsLogs = {
+            frontend: {
+                name: "Frontend Subagent",
+                task: "UI Component building",
+                progress: 80,
+                color: "indigo",
+                logs: [
+                    "[Git] Checked out feature branch: feat/login-design",
+                    "[NPM] Installing font libraries & tailwind assets...",
+                    "[Linter] Formatting files. 0 errors found.",
+                    "[Vite] Live development server hot reloaded."
+                ]
+            },
+            backend: {
+                name: "Backend Subagent",
+                task: "OAuth Database connection",
+                progress: 100,
+                color: "emerald",
+                logs: [
+                    "[Prisma] Scaffolded user session model schemas...",
+                    "[Express] Set up endpoint validation middleware...",
+                    "[Jest] Running database test assertions: 12 tests passed.",
+                    "[Build] Backend production distribution package created."
+                ]
+            },
+            qa: {
+                name: "QA Testing Subagent",
+                task: "Integration assertions & audits",
+                progress: 30,
+                color: "rose",
+                logs: [
+                    "[Cypress] Launching headless browser agent...",
+                    "[Audit] Scanning inputs for SQL Injection... PENDING",
+                    "[Observe] Run time metrics collected. Average response: 24ms."
+                ]
+            }
+        };
+
+        function toggleModality(modeKey) {
+            activeModality = modeKey;
+            const isCond = modeKey === 'conductor';
+            
+            document.getElementById('m-btn-conductor').className = isCond 
+                ? "w-full text-right bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between cursor-pointer" 
+                : "w-full text-right bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between cursor-pointer";
+            
+            document.getElementById('m-btn-orchestrator').className = !isCond 
+                ? "w-full text-right bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between cursor-pointer" 
+                : "w-full text-right bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between cursor-pointer";
+            
+            updateModalityContents();
+        }
+
+        let typingInterval = null;
+        function startConductorTypingSim() {
+            if (typingInterval) clearInterval(typingInterval);
+            
+            const block = document.getElementById('conductor-code-simulator');
+            if (!block) return;
+
+            const codeSnippets = [
+                `const Header = () => {\n  return (\n    <header className="bg-slate-900 px-6 py-4 flex justify-between">\n      <div className="logo">Brand</div>`,
+                `const Header = () => {\n  return (\n    <header className="bg-slate-900 px-6 py-4 flex justify-between">\n      <div className="logo">Brand</div>\n      <nav>\n        <ul className="flex space-x-4">`,
+                `const Header = () => {\n  return (\n    <header className="bg-slate-900 px-6 py-4 flex justify-between">\n      <div className="logo">Brand</div>\n      <nav>\n        <ul className="flex space-x-4">\n          <li>Home</li>\n          <li>Dashboard</li>`
+            ];
+
+            let index = 0;
+            block.textContent = codeSnippets[0] + "\n      _";
+            
+            typingInterval = setInterval(() => {
+                index = (index + 1) % codeSnippets.length;
+                block.textContent = codeSnippets[index] + "\n      _";
+            }, 2000);
+        }
+
+        function updateModalityContents() {
+            const container = document.getElementById('modality-details-view');
+            const data = modalityTemplates[activeModality];
+
+            const title = currentLang === 'ar' ? data.ar_title : data.en_title;
+            const desc = currentLang === 'ar' ? data.ar_desc : data.en_desc;
+
+            if (activeModality === 'conductor') {
+                if (typingInterval) clearInterval(typingInterval);
+                
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl md:text-2xl font-bold text-white">${title}</h3>
+                            <span class="text-[10px] font-mono bg-indigo-900/50 text-indigo-300 px-2 py-0.5 rounded border border-indigo-900/50 uppercase">${data.tag}</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed">${desc}</p>
+                        
+                        <!-- Simulated Editor -->
+                        <div class="p-4 bg-[#05070f] rounded-xl border border-slate-800/80 font-mono text-xs">
+                            <div class="flex justify-between border-b border-slate-900 pb-2 mb-2 text-slate-500">
+                                <span>src/components/Header.jsx</span>
+                                <span class="text-indigo-400 font-bold animate-pulse">${currentLang === 'ar' ? 'الذكاء الاصطناعي يكتب...' : 'AI is typing...'}</span>
+                            </div>
+                            <pre class="text-emerald-400" id="conductor-code-simulator">const Header = () => {
+  return (
+    &lt;header className="bg-slate-900 px-6 py-4 flex justify-between"&gt;
+      &lt;div className="logo"&gt;Brand&lt;/div&gt;
+      _</pre>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">${i18n[currentLang].cond_footer}</div>
+                </div>`;
+                startConductorTypingSim();
+            } else {
+                // Orchestrator Visual Flowchart Simulator
+                if (typingInterval) clearInterval(typingInterval);
+                
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl md:text-2xl font-bold text-white">${title}</h3>
+                            <span class="text-[10px] font-mono bg-indigo-900/50 text-indigo-300 px-2 py-0.5 rounded border border-indigo-900/50 uppercase">${data.tag}</span>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed">${desc}</p>
+                        
+                        <!-- Interactive Flowchart Diagram Nodes -->
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-2 relative">
+                            
+                            <!-- Coordinator Node -->
+                            <div class="md:col-span-3 flex flex-col items-center justify-center p-3 bg-indigo-950/80 rounded-xl border border-indigo-500/40 text-center glow-indigo-strong">
+                                <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-xs mb-1">🛸</div>
+                                <div class="text-[10px] font-bold font-mono">COORDINATOR</div>
+                                <div class="text-[9px] text-indigo-300 font-mono">Status: Routing</div>
+                            </div>
+
+                            <!-- Flow Arrows indicators -->
+                            <div class="hidden md:flex md:col-span-1 flex-col items-center justify-center text-indigo-500/40 text-xl font-bold">
+                                <div>➔</div>
+                            </div>
+
+                            <!-- Subagents Node Columns -->
+                            <div class="md:col-span-8 space-y-2">
+                                <span class="text-[10px] text-slate-500 block">${currentLang === 'ar' ? 'الوكلاء الفرعيون النشطون (اضغط لاستعراض السجلات):' : 'Active Subagents (click to inspect):'}</span>
+                                
+                                <!-- Subagent Node 1 -->
+                                <div onclick="inspectSubagent('frontend')" id="node-frontend" class="p-3 bg-slate-900/90 hover:bg-slate-800 border border-indigo-950 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xs font-bold">FE</div>
+                                        <div>
+                                            <div class="text-[10px] font-bold">Frontend Subagent</div>
+                                            <div class="text-[8px] text-slate-500">UI Building</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right w-24">
+                                        <div class="text-[9px] font-mono text-indigo-400 font-bold mb-1">80%</div>
+                                        <div class="w-full bg-slate-950 h-1 rounded-full overflow-hidden">
+                                            <div class="bg-indigo-500 h-1" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Subagent Node 2 -->
+                                <div onclick="inspectSubagent('backend')" id="node-backend" class="p-3 bg-slate-900/90 hover:bg-slate-800 border border-indigo-950 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-xs font-bold">BE</div>
+                                        <div>
+                                            <div class="text-[10px] font-bold">Backend Subagent</div>
+                                            <div class="text-[8px] text-slate-500">APIs & DB</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right w-24">
+                                        <div class="text-[9px] font-mono text-emerald-400 font-bold mb-1">100%</div>
+                                        <div class="w-full bg-slate-950 h-1 rounded-full overflow-hidden">
+                                            <div class="bg-emerald-500 h-1" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Subagent Node 3 -->
+                                <div onclick="inspectSubagent('qa')" id="node-qa" class="p-3 bg-slate-900/90 hover:bg-slate-800 border border-indigo-950 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-rose-600/20 text-rose-400 flex items-center justify-center text-xs font-bold">QA</div>
+                                        <div>
+                                            <div class="text-[10px] font-bold">QA Testing Subagent</div>
+                                            <div class="text-[8px] text-slate-500">Vulnerabilities Scan</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right w-24">
+                                        <div class="text-[9px] font-mono text-rose-400 font-bold mb-1">30%</div>
+                                        <div class="w-full bg-slate-950 h-1 rounded-full overflow-hidden">
+                                            <div class="bg-rose-500 h-1 animate-pulse" style="width: 30%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Subagent Inspection Terminal Output -->
+                        <div class="bg-[#05070f] rounded-xl border border-slate-900 p-4 font-mono text-[10px] text-slate-400" id="subagent-inspection-logs">
+                            <span class="text-slate-500" data-i18n="agent_logs_title">${i18n[currentLang].agent_logs_title}</span>
+                            <div class="mt-2 text-indigo-400 font-bold" id="inspected-subagent-name">&gt; FE_AGENT Logs:</div>
+                            <div id="inspected-logs-list" class="space-y-1 mt-1">
+                                <div>[Git] Checked out feature branch: feat/login-design</div>
+                                <div>[NPM] Installing font libraries & tailwind assets...</div>
+                                <div>[Linter] Formatting files. 0 errors found.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">${i18n[currentLang].orch_footer}</div>
+                </div>`;
+                inspectSubagent('frontend');
+            }
+        }
+
+        function inspectSubagent(agentKey) {
+            const data = subagentsLogs[agentKey];
+            const nameEl = document.getElementById('inspected-subagent-name');
+            const listEl = document.getElementById('inspected-logs-list');
+
+            // Highlight selected node border
+            ['frontend', 'backend', 'qa'].forEach(k => {
+                const node = document.getElementById(`node-${k}`);
+                if (node) {
+                    node.style.borderColor = k === agentKey ? 'rgba(99, 102, 241, 0.6)' : 'rgba(30, 41, 59, 0.4)';
+                    node.style.boxShadow = k === agentKey ? '0 0 15px rgba(99, 102, 241, 0.15)' : 'none';
+                }
+            });
+
+            nameEl.innerText = `> ${data.name.toUpperCase()} Logs (Task: ${data.task}):`;
+            nameEl.className = `font-bold text-${data.color}-400 mt-2`;
+
+            listEl.innerHTML = data.logs.map(log => {
+                return `<div class="transition-opacity duration-300 opacity-90">${log}</div>`;
+            }).join('');
+        }
+
+
+        // --- 5. Interactive Assistant Chatbot Companion Logic ---
+        // Enhanced scroll listener update bot status/speech
         const speechMap = {
-            'section-hero': "Hello! We are starting the Unit 1 summary. Here we explore how modern code development shifts completely from rigid grammar syntax to human intent expression!",
-            'section-harness': "Look at the 3D grid! This visualizes context engineering. The outer wireframe box represents the Harness (~90% of the agent system). It contains tools, sandboxes, and safe boundaries!",
-            'section-loop': "Now we observe the autonomous loop simulation! Click the steps or autoplay to see how agents self-diagnose inside terminal pipelines until your constraints are successfully met.",
-            'section-stripe': "Crucial lesson: High-stakes financial architectures require disciplined engineering. Notice how Agentic Engineering injects signature tokens to safely avoid security breaches!",
-            'section-modality': "Final milestone: You can act as a Conductor directing code blocks live, or as an Orchestrator delegating multi-agent pipelines synchronously while you focus on high-level system designs!"
+            'section-hero': "bot_speech_scroll_hero",
+            'section-harness': "bot_speech_scroll_harness",
+            'section-loop': "bot_speech_scroll_loop",
+            'section-playground': "bot_speech_scroll_playground",
+            'section-modality': "bot_speech_scroll_modality",
+            'section-mcp': "bot_speech_scroll_mcp",
+            'section-a2a': "bot_speech_scroll_a2a",
+            'section-ledger': "bot_speech_scroll_ledger"
         };
 
         window.addEventListener('scroll', () => {
-            const sections = ['section-hero', 'section-harness', 'section-loop', 'section-stripe', 'section-modality'];
+            const sections = ['section-hero', 'section-harness', 'section-loop', 'section-playground', 'section-modality', 'section-mcp', 'section-a2a', 'section-ledger'];
             let currentSection = 'section-hero';
 
             sections.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     const rect = el.getBoundingClientRect();
-                    // Check if section is currently dominating the screen viewport area
                     if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.4) {
                         currentSection = id;
                     }
                 }
             });
 
-            // Dynamically inject text and slide effects based on scroll analysis
             const speechBubble = document.getElementById('bot-speech');
             const botStatus = document.getElementById('bot-status');
+            
+            const activeKey = speechMap[currentSection];
             if (speechBubble && speechBubble.getAttribute('data-current') !== currentSection) {
                 speechBubble.setAttribute('data-current', currentSection);
                 botStatus.innerText = "ANALYZING_" + currentSection.replace('section-', '').toUpperCase();
                 
                 speechBubble.style.opacity = '0';
                 setTimeout(() => {
-                    speechBubble.innerHTML = speechMap[currentSection];
+                    speechBubble.innerHTML = i18n[currentLang][activeKey];
                     speechBubble.style.opacity = '1';
                 }, 150);
             }
         });
 
-        // --- Interactive Bot Action Handlers ---
+        // Quick action bot router trigger
         function botTriggerAction(actionKey) {
             const botSpeech = document.getElementById('bot-speech');
             const botStatus = document.getElementById('bot-status');
 
             if (actionKey === 'harness') {
                 botStatus.innerText = "ACTION_HARNESS";
-                botSpeech.innerHTML = "Navigating to Harness Module... Let's investigate. Look at the rotating 3D box representing the Harness (~90%) and LLM (~10%)!";
-                const target = document.getElementById('section-harness');
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-                // Flash the 3D grid
-                const sceneEl = document.getElementById('threeDScene');
-                sceneEl.classList.add('ring-2', 'ring-indigo-500');
-                setTimeout(() => sceneEl.classList.remove('ring-2', 'ring-indigo-500'), 1500);
+                botSpeech.innerHTML = currentLang === 'ar' 
+                    ? "الذهاب إلى قسم بيئة التشغيل... القفص ثلاثي الأبعاد يعرض كيف يتحكم الـ Harness بحصانة النموذج!" 
+                    : "Navigating to Harness Module... Let's inspect the rotating 3D box representing the Harness (~90%) and LLM (~10%)!";
+                
+                document.getElementById('section-harness').scrollIntoView({ behavior: 'smooth' });
+                
+                const viewport = document.getElementById('threeDScene');
+                viewport.classList.add('ring-2', 'ring-indigo-500');
+                setTimeout(() => viewport.classList.remove('ring-2', 'ring-indigo-500'), 1500);
 
             } else if (actionKey === 'loop') {
                 botStatus.innerText = "ACTION_LOOP";
-                botSpeech.innerHTML = "Scrolling to Self-Correction Arena... Triggering auto-simulation trajectory logs now!";
-                const target = document.getElementById('section-loop');
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                botSpeech.innerHTML = currentLang === 'ar'
+                    ? "التوجيه إلى حلقة الوكيل... بدء تشغيل دورة المحاكاة والطرفية آلياً!"
+                    : "Scrolling to Self-Correction Arena... Triggering auto-simulation trajectory logs now!";
+                
+                document.getElementById('section-loop').scrollIntoView({ behavior: 'smooth' });
                 resetSim();
-                setTimeout(() => { startAutoSim(); }, 800);
+                setTimeout(startAutoSim, 600);
 
-            } else if (actionKey === 'stripe') {
-                botStatus.innerText = "ACTION_STRIPE";
-                botSpeech.innerHTML = "Auditing code in Stripe API gateway... Look! I've loaded the insecure 'Vibe Coding' example. Note the lack of signature validation.";
-                const target = document.getElementById('section-stripe');
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-                switchCodeTab('vibe');
+            } else if (actionKey === 'playground') {
+                botStatus.innerText = "ACTION_PLAYGROUND";
+                botSpeech.innerHTML = currentLang === 'ar'
+                    ? "الذهاب إلى مختبر الكود الأمني... تشغيل اختبارات Webhook وحل الثغرات تلقائياً!"
+                    : "Navigating to Security Sandbox... Audit Express inputs and apply cryptographic fixes!";
+                
+                document.getElementById('section-playground').scrollIntoView({ behavior: 'smooth' });
+                switchScenario('stripe');
+
+            } else if (actionKey === 'orchestration') {
+                botStatus.innerText = "ACTION_ORCHESTRATION";
+                botSpeech.innerHTML = currentLang === 'ar'
+                    ? "مخطط الأوركستراتور يعرض استدعاء الوكلاء الفرعيين، تفقد تفاصيل سجل كل منهم بالضغط عليه!"
+                    : "Loading subagents visual workflow... Click on FE, BE, or QA node elements to view active background streams!";
+                
+                document.getElementById('section-modality').scrollIntoView({ behavior: 'smooth' });
+                toggleModality('orchestrator');
             }
         }
 
-        // --- Chat Query Handler ---
-        const qaPairs = {
-            "hello": "Hello! I am ready to guide you. Ask me about the 'harness', 'vibe coding', 'agentic engineering', or 'orchestrator'!",
-            "harness": "The Harness (~90%) is the isolated system that surrounds the AI model. It provides sandboxes, verification tests (Evals), and security guardrails to keep execution safe and aligned.",
-            "vibe coding": "Vibe Coding is casual prompting where code is quickly thrown together without tests or structural bounds. It feels fast (Low CapEx) but incurs massive bug-fixing costs (High OpEx) later.",
-            "agentic engineering": "Agentic Engineering is a disciplined approach where agents operate within structured harnesses, running automated loops (Perceive-Plan-Act-Observe-Iterate) and executing tests before deployment.",
-            "orchestrator": "The Orchestrator modality is when the developer delegates complex, multi-file software engineering tasks to autonomous background agents (like Jules) and reviews the final Pull Requests.",
-            "conductor": "The Conductor modality is real-time, synchronous pair-programming. You watch the AI write code inside your editor (like autocomplete) and guide it line-by-line.",
-            "stripe": "Our Stripe gateway demo highlights webhook vulnerabilities. Without signature verification (vibe coding approach), hackers can spoof webhook payloads and bypass payment locks.",
-            "loop": "The self-correcting agent loop lets the agent continuously perceive, plan, act, observe errors, and edit its own code inside the sandbox until the task passes all evaluation tests.",
-            "help": "You can ask me questions like: 'What is the harness?', 'Explain vibe coding', 'Why did the webhook fail?', or click any of the action buttons above."
+        // QA Database for Companion Bot Chat
+        const chatQA = {
+            ar: {
+                "مرحبا": "أهلاً بك! أنا جاهز لمساعدتك، اسألني عن 'القفص'، 'البرمجة الحدسية'، 'هندسة الوكلاء'، أو 'المنسق'، 'أدوات'، 'mcp'!",
+                "القفص": "القفص (Harness) هو البيئة المحصنة المعزولة (~90% من النظام) التي تحيط بالنموذج اللغوي الداخلي. توفر للمساعد خوادم الاختبار، والوصول المقيد للملفات، وبروتوكولات الـ MCP.",
+                "الحدس": "البرمجة الحدسية (Vibe Coding) هي كتابة الأكواد بالاعتماد الكلي على الاقتراحات الفورية للذكاء الاصطناعي دون وجود ملفات فحص أو قيود تشغيل، وهي تسبب ثغرات خطيرة وتكاليف مراجعة عالية.",
+                "الوكلاء": "هندسة الوكلاء الذكية (Agentic Engineering) هي دمج نموذج الذكاء الاصطناعي ببيئة حماية اختبارية قوية تقوم بتشغيل الكود، والتحقق من مخرجاته، وتصحيح الأخطاء تلقائياً قبل الرفع والإنتاج.",
+                "المنسق": "المنسق (Orchestrator) هو وضع للوكلاء يقوم فيه المبرمج بتكليف وكيل المنسق بهدف معقد، فيقوم المنسق بتقسيم العمل واستدعاء وكلاء فرعيين (Frontend, Backend, QA) والعمل معهم بشكل غير متزامن.",
+                "المايسترو": "المايسترو (Conductor) هو وضع متزامن، حيث يعمل المطور جنباً إلى جنب مع المساعد الذكي مباشرة داخل محرر الأكواد (مثل الإكمال التلقائي المتطور)، خطوة بخطوة.",
+                "ثغرة": "مختبر الكود التفاعلي لدينا يوضح ثغرة Stripe Webhook وغيرها. عند استقبال الطلبات بدون توثيق التواقيع التشفيرية، يمكن تزوير العمليات بالكامل وتخطي بوابات الدفع.",
+                "حلقة": "دورة عمل الوكيل (Loop) تسمح له بالإدراك ووضع الخطط وتنفيذها، ثم قراءة سجل الأخطاء من الطرفية وإعادة محاولة إصلاح الكود حتى تنجح جميع القيود الاختبارية المحددة.",
+                "أدوات": "بروتوكول MCP يسمح للوكيل باستدعاء أدوات خارجية ومصادر بيانات بشكل موحد تماماً ومفتوح المصدر.",
+                "mcp": "بروتوكول سياق النموذج (Model Context Protocol) هو معيار مفتوح يربط نماذج الذكاء الاصطناعي بالأدوات وقواعد البيانات بشكل آمن ومبسط.",
+                "دفع": "بروتوكول AP2 (Agent Payments Protocol) يتيح للوكلاء تبادل المدفوعات الرقمية الصغرى بشكل آمن عبر معاملات مشفرة وضمان Escrow يمنع هجمات الاستنزاف.",
+                "تجارة": "بروتوكول التجارة الشامل UCP يتيح للآلات والوكلاء إتمام عمليات تجارية ومالية آمنة ومستقلة تماماً من آلة إلى آلة (M2M)."
+            },
+            en: {
+                "hello": "Hello! I am ready to guide you. Ask me about the 'harness', 'vibe coding', 'agentic engineering', 'mcp', 'ap2', or 'orchestrator'!",
+                "harness": "The Harness (~90%) is the isolated system surrounding the AI model. It provides sandbox terminals, validation tests (Evals), and strict boundaries to keep execution aligned.",
+                "vibe": "Vibe Coding is casual prompting where code is thrown together without assertions or structures. It feels fast initially but incurs major fixing and security costs later.",
+                "agent": "Agentic Engineering is a disciplined approach where models operate within structured environments, running auto-corrective loops (Perceive-Plan-Act-Observe-Iterate) to meet tests.",
+                "orchestrator": "The Orchestrator mode is when a developer delegates complex engineering workflows to background agents (like Frontend, Backend, QA subagents) asynchronously.",
+                "conductor": "The Conductor mode is real-time, synchronous pair-programming. You watch the AI write code inside your editor line-by-line under direct supervision.",
+                "stripe": "Our Stripe gateway demo highlights webhook vulnerabilities. Without signature verification, requests can easily be spoofed to bypass payment guards.",
+                "loop": "The agent loop lets the assistant continuously perceive goals, plan changes, act inside sandboxes, observe errors, and iterate until tests pass successfully.",
+                "mcp": "Model Context Protocol (MCP) is an open standard that allows AI models to connect securely to local or remote servers containing documents, tools, and databases.",
+                "ap2": "Agent Payments Protocol (AP2) is a secure transaction protocol enabling machine-to-machine micropayments with escrow protection to mitigate credit drain risks.",
+                "ucp": "Universal Commerce Protocol (UCP) enables secure machine-to-machine automated transactions and product trading between agents autonomously."
+            }
         };
 
         function handleInputKey(e) {
@@ -398,186 +1845,507 @@ app.post('/webhook', (req, res) => {
             const inputEl = document.getElementById('bot-chat-input');
             const botSpeech = document.getElementById('bot-speech');
             const botStatus = document.getElementById('bot-status');
+            const thinkingArea = document.getElementById('bot-thinking-area');
             const query = inputEl.value.trim().toLowerCase();
             
             if (!query) return;
 
-            // Clear input
+            // Clear input and show thinking nodes
             inputEl.value = "";
-            botStatus.innerText = "THINKING_AGENT";
-            botSpeech.innerHTML = "Inspecting workspace and reasoning...";
+            botStatus.innerText = i18n[currentLang].bot_status_thinking;
+            botSpeech.style.opacity = '0.3';
+            thinkingArea.classList.remove('hidden');
 
+            // Reset thinking nodes opacity
+            const node1 = document.getElementById('cot-node-1');
+            const node2 = document.getElementById('cot-node-2');
+            const node3 = document.getElementById('cot-node-3');
+
+            node1.className = "flex items-center gap-1.5 opacity-100";
+            node1.innerHTML = `<i class="fas fa-spinner animate-spin text-indigo-500"></i> <span>${i18n[currentLang].cot_1}</span>`;
+            
+            node2.className = "flex items-center gap-1.5 opacity-40";
+            node2.innerHTML = `<i class="far fa-circle text-slate-600"></i> <span>${i18n[currentLang].cot_2}</span>`;
+            
+            node3.className = "flex items-center gap-1.5 opacity-40";
+            node3.innerHTML = `<i class="far fa-circle text-slate-600"></i> <span>${i18n[currentLang].cot_3}</span>`;
+
+            // Thought Step 1 -> Step 2
             setTimeout(() => {
-                let answer = "I analyzed your query but couldn't find a direct match in the Day 1 curriculum. Try asking about the 'harness', 'vibe coding', 'stripe API', or 'loop'!";
+                node1.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i> <span>${i18n[currentLang].cot_1}</span>`;
+                node2.className = "flex items-center gap-1.5 opacity-100";
+                node2.innerHTML = `<i class="fas fa-spinner animate-spin text-indigo-500"></i> <span>${i18n[currentLang].cot_2}</span>`;
+            }, 600);
+
+            // Thought Step 2 -> Step 3
+            setTimeout(() => {
+                node2.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i> <span>${i18n[currentLang].cot_2}</span>`;
+                node3.className = "flex items-center gap-1.5 opacity-100";
+                node3.innerHTML = `<i class="fas fa-spinner animate-spin text-indigo-500"></i> <span>${i18n[currentLang].cot_3}</span>`;
+            }, 1200);
+
+            // Deliver Final Response
+            setTimeout(() => {
+                node3.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i> <span>${i18n[currentLang].cot_3}</span>`;
                 
-                // Simple keyword search matching
-                for (let keyword in qaPairs) {
+                let answer = currentLang === 'ar' 
+                    ? "قمت بتحليل طلبك، لكنني لم أجد كلمة مفتاحية مطابقة تماماً. ابحث عن 'القفص' أو 'الحدس' أو 'وضعية المنسق'!"
+                    : "I analyzed your query but couldn't find a direct match in the SDLC curriculum. Try asking about the 'harness', 'vibe coding', 'stripe API', or 'loop'!";
+
+                const db = chatQA[currentLang];
+                for (let keyword in db) {
                     if (query.includes(keyword)) {
-                        answer = qaPairs[keyword];
+                        answer = db[keyword];
                         break;
                     }
                 }
-                
-                botStatus.innerText = "REASONING_DONE";
+
+                botStatus.innerText = i18n[currentLang].bot_status_done;
                 botSpeech.innerHTML = answer;
-            }, 800);
+                botSpeech.style.opacity = '1';
+                
+                // Keep CoT visible for a moment then hide
+                setTimeout(() => {
+                    thinkingArea.classList.add('hidden');
+                }, 1000);
+
+            }, 1800);
         }
 
-        // --- 2. 3D Interaction Logic ---
-        const scene = document.getElementById('threeDScene');
-        const harness = document.getElementById('harnessScene');
-        const innerCube = document.getElementById('innerCube');
-
-        if(scene && harness) {
-            scene.addEventListener('mousemove', (e) => {
-                const rect = scene.getBoundingClientRect();
-                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                const xAxis = (rect.width / 2 - x) / 8; const yAxis = (rect.height / 2 - y) / 8;
-                harness.style.transform = `rotateY(${-xAxis + 25}deg) rotateX(${yAxis - 20}deg)`;
-                if (innerCube) innerCube.style.transform = `rotateY(${-xAxis * 1.5}deg) rotateX(${yAxis * 1.5}deg)`;
-            });
-            scene.addEventListener('mouseleave', () => {
-                harness.style.transform = 'rotateY(25deg) rotateX(-20deg)';
-                if (innerCube) innerCube.style.transform = 'none';
-            });
-        }
-
-        // --- Harness Configuration States ---
-        const activeTools = { sandbox: true, mcp: true, evals: true };
-        function toggleHarnessTool(toolKey, btn) {
-            activeTools[toolKey] = !activeTools[toolKey];
-            btn.className = activeTools[toolKey] ? "px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/30 transition-all" : "px-3 py-1.5 rounded-lg text-xs bg-slate-900 text-slate-500 font-medium border border-slate-800 transition-all";
-            btn.innerText = (activeTools[toolKey] ? "✓ " : "✕ ") + (toolKey==='sandbox'?"Sandbox OS":toolKey==='mcp'?"MCP Protocols":"Eval Judges");
-            
-            const activeCount = Object.values(activeTools).filter(Boolean).length;
-            const statusText = document.getElementById('harness-status-text');
-            const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
-            
-            faces.forEach(f => {
-                const el = document.getElementById(`hface-${f}`);
-                if(el) el.style.borderColor = activeCount===3?"rgba(167,139,250,0.4)":activeCount===2?"rgba(167,139,250,0.2)":"rgba(244,63,94,0.2)";
-            });
-
-            if(statusText) {
-                statusText.innerText = activeCount===3?"Harness status: Strict 360-degree model containment active.":activeCount>0?"Harness status: Structural decay identified. Risks increasing.":"🚨 DANGER: ALL BOUNDARIES REMOVED. MODEL RUNNING UNPROTECTED.";
-                statusText.className = activeCount===3?"text-[11px] text-indigo-400 font-mono mt-1":activeCount>0?"text-[11px] text-amber-400 font-mono mt-1":"text-[11px] text-rose-500 font-mono mt-1 font-bold animate-pulse";
-            }
-        }
-
-        // --- 3. Live Terminal Simulator Logic ---
-        const stepsData = {
-            perceive: {
-                latency: "LATENCY: 15ms // MODEL: GEMINI-PRO",
-                logs: [`<span class="text-indigo-400 font-bold">&gt; [INIT] launching background monitor...</span>`, `The agent receives raw instruction parameters. It extracts user intent specifications, targets core criteria, and provisions an isolated workspace.`]
-            },
-            plan: {
-                latency: "LATENCY: 52ms // PLANNING_AGENT",
-                logs: [`<span class="text-amber-400 font-bold">&gt; [PLANNING] generating blueprints...</span>`, `&gt; Step 1: Ingest active file systems context.<br>&gt; Step 2: Inject dynamic tool protocols via MCP routing.<br>&gt; Step 3: Configure harness assertions step framework.`]
-            },
-            act: {
-                latency: "LATENCY: 120ms // BASH_EXECUTOR",
-                logs: [`<span class="text-purple-400 font-bold">&gt; [ACT] launching compilation tool pipelines...</span>`, `&gt; calling write_to_file("index.html") [success]<br>&gt; calling append_to_file("server/stripe.js") [success]<br>&gt; server ecosystem deployed local pipeline inside container runtime environment.`]
-            },
-            observe: {
-                latency: "LATENCY: 85ms // EVAL_RUNNER",
-                logs: [`<span class="text-rose-500 font-bold">&gt; [OBSERVE] running automated evaluation gates...</span>`, `<span class="text-rose-400">&gt; executing schema checks: npm run test:webhook</span><br><span class="text-rose-600 font-bold">&gt; FAIL: Webhook validation signature rule broken! Server accepted unauthorized spoof event payload.</span>`]
-            },
-            iterate: {
-                latency: "LATENCY: 34ms // REASONING_ENGINE",
-                logs: [`<span class="text-emerald-400 font-bold">&gt; [ITERATE] executing intelligent trajectory correction...</span>`, `&gt; parsing error stack trace... patching node endpoint middleware with secure constructEvent headers verification block.<br><span class="text-emerald-500 font-bold">&gt; PASS: Verification tests completed. Zero vulnerabilities detected. Build package verified secure!</span>`]
-            }
+        // --- 6. MCP Hub Logic ---
+        let activeMcpServers = { gdocs: false, db: false };
+        const mcpServerTools = {
+            gdocs: [
+                { name: "gdocs/list_gcp_docs", desc_ar: "البحث في توثيقات Google Cloud", desc_en: "Search Google Cloud product documentations" },
+                { name: "gdocs/read_gcp_doc", desc_ar: "عرض صفحة توثيق معينة", desc_en: "Retrieve full contents of a GCP API doc page" }
+            ],
+            db: [
+                { name: "db/query_database", desc_ar: "استعلام قاعدة البيانات النشطة", desc_en: "Execute read-only SQL query on production DB" },
+                { name: "db/get_table_schema", desc_ar: "فحص هيكل جداول قاعدة البيانات", desc_en: "Inspect table columns and constraints schemas" }
+            ]
         };
 
-        let activeStep = 'perceive';
-        let autoSimInterval = null;
-
-        function selectStep(stepKey) {
-            activeStep = stepKey;
-            document.querySelectorAll('.sim-step-btn').forEach(b => b.className = "sim-step-btn bg-slate-950 text-slate-400 border border-slate-800 py-3.5 px-3 rounded-xl transition-all");
-            document.getElementById(`step-${stepKey}`).className = "sim-step-btn bg-indigo-600 text-white border border-indigo-400/40 py-3.5 px-3 rounded-xl transition-all shadow-md";
+        function toggleMcpServer(serverKey) {
+            const btn = document.getElementById(`btn-mcp-${serverKey}`);
+            const pulse = document.getElementById(`pulse-mcp-${serverKey}`);
+            const ping = document.getElementById(`ping-mcp-${serverKey}`);
             
-            const logs = document.getElementById('terminal-logs');
-            const latency = document.getElementById('terminal-latency');
-            latency.innerText = stepsData[stepKey].latency;
-            logs.innerHTML = stepsData[stepKey].logs.join('<br>');
+            activeMcpServers[serverKey] = !activeMcpServers[serverKey];
+            
+            if (activeMcpServers[serverKey]) {
+                // Show connecting animation
+                btn.disabled = true;
+                pulse.className = "w-2.5 h-2.5 rounded-full bg-amber-500";
+                ping.className = "absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75 animate-ping";
+                ping.style.display = 'block';
+                
+                logMcpConsole(`--> JSON-RPC: Connecting to mcp-server/${serverKey}...`);
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = i18n[currentLang].mcp_disconnect;
+                    btn.className = "px-3 py-1.5 rounded-lg bg-rose-600/20 text-rose-300 border border-rose-500/20 text-[11px] font-semibold transition-all cursor-pointer";
+                    pulse.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+                    ping.className = "absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping";
+                    
+                    document.getElementById('mcp-latency-display').innerText = "LATENCY: 12ms";
+                    
+                    logMcpConsole(`--> { "jsonrpc": "2.0", "method": "initialize", "params": { "clientName": "antigravity-ide" }, "id": 1 }`);
+                    logMcpConsole(`<-- { "jsonrpc": "2.0", "result": { "protocolVersion": "0.1.0", "serverName": "${serverKey}-mcp-server" }, "id": 1 }`, "emerald");
+                    logMcpConsole(`--> { "jsonrpc": "2.0", "method": "tools/list", "id": 2 }`);
+                    logMcpConsole(`<-- { "jsonrpc": "2.0", "result": { "tools": [ ... ] }, "id": 2 }`, "emerald");
+                    
+                    renderMcpTools();
+                }, 1000);
+            } else {
+                btn.innerText = i18n[currentLang].mcp_connect;
+                btn.className = "px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-semibold transition-all cursor-pointer";
+                pulse.className = "w-2.5 h-2.5 rounded-full bg-slate-500";
+                ping.style.display = 'none';
+                
+                logMcpConsole(`--> Connection closed for mcp-server/${serverKey}.`);
+                
+                // If both disconnected
+                if (!activeMcpServers.gdocs && !activeMcpServers.db) {
+                    document.getElementById('mcp-latency-display').innerText = "LATENCY: --";
+                }
+                
+                renderMcpTools();
+            }
         }
 
-        function startAutoSim() {
-            const btn = document.getElementById('btn-autoplay');
-            if (autoSimInterval) {
-                clearInterval(autoSimInterval); autoSimInterval = null;
-                btn.innerText = "▶ Run Auto Cycle"; btn.className = "px-5 py-2 rounded-xl text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
+        function renderMcpTools() {
+            const listEl = document.getElementById('mcp-tools-list');
+            let html = '';
+            
+            const activeServers = Object.keys(activeMcpServers).filter(k => activeMcpServers[k]);
+            
+            if (activeServers.length === 0) {
+                listEl.innerHTML = `<div class="text-xs text-slate-500 italic py-2" data-i18n="mcp_no_tools">${i18n[currentLang].mcp_no_tools}</div>`;
                 return;
             }
-            btn.innerText = "⏸ Pause Cycle"; btn.className = "px-5 py-2 rounded-xl text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold flex items-center gap-2 transition-all shadow-md cursor-pointer";
-            const order = ['perceive', 'plan', 'act', 'observe', 'iterate'];
-            autoSimInterval = setInterval(() => {
-                let idx = (order.indexOf(activeStep) + 1) % order.length;
-                selectStep(order[idx]);
-            }, 2500);
-        }
-
-        function resetSim() {
-            if(autoSimInterval) { clearInterval(autoSimInterval); autoSimInterval = null; document.getElementById('btn-autoplay').innerText = "▶ Run Auto Cycle"; }
-            selectStep('perceive');
-        }
-
-        // --- 4. Code View Switcher ---
-        function switchCodeTab(key) {
-            const isVibe = key === 'vibe';
-            document.getElementById('tab-vibe').className = isVibe ? "w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer" : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
-            document.getElementById('tab-agentic').className = !isVibe ? "w-1/2 text-center py-2.5 rounded-lg bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all cursor-pointer" : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
             
-            const area = document.getElementById('code-content');
-            if(isVibe) {
-                area.textContent = `app.post('/webhook', (req, res) => {\n    const event = req.body;\n    // ⚠️ CRITICAL VULNERABILITY: Raw event payload validation skipped entirely!\n    if (event.type === 'checkout.session.completed') {\n        fulfillOrder(event.data.object);\n    }\n    res.json({received: true});\n});`;
-                area.parentElement.className = "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-rose-600";
+            activeServers.forEach(server => {
+                const tools = mcpServerTools[server];
+                tools.forEach(tool => {
+                    const desc = currentLang === 'ar' ? tool.desc_ar : tool.desc_en;
+                    html += `
+                        <button onclick="invokeMcpTool('${tool.name}')" class="px-3 py-2 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-300 border border-indigo-500/25 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 max-w-xs">
+                            <span class="font-bold font-mono text-[10px]"><i class="fas fa-terminal text-[9px] mr-1"></i>${tool.name}</span>
+                            <span class="text-[9px] text-slate-400 font-light leading-normal font-sans">${desc}</span>
+                        </button>
+                    `;
+                });
+            });
+            
+            listEl.innerHTML = html;
+        }
+
+        function logMcpConsole(text, colorClass = "slate-400") {
+            const consoleEl = document.getElementById('mcp-console-logs');
+            const color = colorClass === "emerald" ? "text-emerald-400 font-semibold" : colorClass === "rose" ? "text-rose-400 font-bold" : "text-slate-400";
+            
+            if (consoleEl.innerHTML.includes("في انتظار التوصيل") || consoleEl.innerHTML.includes("Connection closed") || consoleEl.innerHTML.includes("waiting for connection")) {
+                consoleEl.innerHTML = `<div class="${color}">${text}</div>`;
             } else {
-                area.textContent = `const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);\nconst endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;\n\napp.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {\n    const sig = req.headers['stripe-signature'];\n    let event;\n    try {\n        // ✓ The Harness enforces deterministic signature evaluation to avoid forging payloads\n        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);\n    } catch (err) {\n        return res.status(400).send(\`Webhook Error: \${err.message}\`);\n    }\n    if (event.type === 'checkout.session.completed') {\n        fulfillOrder(event.data.object);\n    }\n    res.json({received: true});\n});`;
-                area.parentElement.className = "bg-slate-950 rounded-2xl border border-slate-900 p-6 overflow-x-auto relative border-t-4 border-t-emerald-600";
+                consoleEl.innerHTML += `<div class="${color} mt-1">${text}</div>`;
+            }
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function invokeMcpTool(toolName) {
+            logMcpConsole(`--> { "jsonrpc": "2.0", "method": "tools/call", "params": { "name": "${toolName}", "arguments": {} }, "id": 3 }`);
+            
+            // Random parameters or values to simulate payload
+            setTimeout(() => {
+                let resPayload = '{}';
+                if (toolName.includes('list_gcp_docs')) {
+                    resPayload = `{ "documents": [ { "title": "Google Cloud Run Deployments", "url": "/run/docs" } ] }`;
+                } else if (toolName.includes('read_gcp_doc')) {
+                    resPayload = `{ "content": "Deploy containers securely with --allow-unauthenticated..." }`;
+                } else if (toolName.includes('query_database')) {
+                    resPayload = `{ "rows": [ { "id": 102, "amount": 25.00, "status": "settled" } ] }`;
+                } else if (toolName.includes('get_table_schema')) {
+                    resPayload = `{ "columns": { "id": "INT PRIMARY KEY", "amount": "DECIMAL" } }`;
+                }
+                
+                logMcpConsole(`<-- { "jsonrpc": "2.0", "result": { "content": [ { "type": "text", "text": "${resPayload.replace(/"/g, '\\"')}" } ] }, "id": 3 }`, "emerald");
+            }, 600);
+        }
+
+        // --- 7. A2A & A2UI Generative Logic ---
+        let a2aGenerationActive = false;
+        
+        function startA2UIGeneration(widgetType) {
+            if (a2aGenerationActive) return;
+            a2aGenerationActive = true;
+            
+            // Highlight active button
+            document.querySelectorAll('.a2ui-btn').forEach(btn => {
+                btn.disabled = true;
+                btn.className = "a2ui-btn py-2.5 px-3 bg-slate-950 text-slate-600 border border-slate-900 rounded-lg text-xs font-bold transition-all cursor-not-allowed";
+            });
+            document.getElementById(`btn-a2ui-${widgetType}`).className = "a2ui-btn py-2.5 px-3 bg-indigo-600 text-white border border-indigo-400/20 rounded-lg text-xs font-bold transition-all cursor-not-allowed";
+
+            const statusText = document.getElementById('a2a-status-text');
+            const messageStream = document.getElementById('a2a-message-stream');
+            const viewport = document.getElementById('a2ui-viewport');
+            const placeholder = document.getElementById('a2ui-placeholder');
+            
+            statusText.innerText = "NEGOTIATING...";
+            statusText.className = "text-amber-400 font-bold font-mono animate-pulse";
+            
+            placeholder.innerHTML = `
+                <i class="fas fa-cog animate-spin text-3xl text-indigo-500 mb-2"></i>
+                <span class="text-xs text-indigo-300 font-mono" id="a2ui-gen-status">Subagents constructing component...</span>
+            `;
+            
+            const feNode = document.getElementById('node-a2a-fe');
+            const plannerNode = document.getElementById('node-a2a-planner');
+            const qaNode = document.getElementById('node-a2a-qa');
+            
+            const linePlannerFe = document.getElementById('line-planner-fe');
+            const linePlannerQa = document.getElementById('line-planner-qa');
+            const lineFeQa = document.getElementById('line-fe-qa');
+
+            // Set default line opacity
+            linePlannerFe.style.stroke = "rgba(99, 102, 241, 0.15)";
+            linePlannerQa.style.stroke = "rgba(99, 102, 241, 0.15)";
+            lineFeQa.style.stroke = "rgba(99, 102, 241, 0.15)";
+
+            // Step 1: Planner sends instruction to FE Agent
+            setTimeout(() => {
+                plannerNode.classList.add('ring-2', 'ring-indigo-500');
+                linePlannerFe.style.stroke = "rgba(99, 102, 241, 0.8)";
+                feNode.classList.add('ring-2', 'ring-indigo-500/50');
+                
+                messageStream.innerHTML = `<div class="text-indigo-400">&gt; [Planner -> FE_Agent]: "Assemble a responsive ${widgetType === 'weather' ? 'Weather Widget' : 'Server Resources monitor'} with full interactivity."</div>`;
+            }, 500);
+
+            // Step 2: FE Agent builds and requests QA audit
+            setTimeout(() => {
+                plannerNode.classList.remove('ring-2', 'ring-indigo-500');
+                linePlannerFe.style.stroke = "rgba(99, 102, 241, 0.15)";
+                lineFeQa.style.stroke = "rgba(99, 102, 241, 0.8)";
+                qaNode.classList.add('ring-2', 'ring-indigo-500/50');
+                
+                messageStream.innerHTML += `<div class="text-emerald-400 mt-1">&gt; [FE_Agent -> QA_Agent]: "UI component styling configured in HTML/Tailwind. Requesting security verification."</div>`;
+                document.getElementById('a2ui-gen-status').innerText = "QA Agent auditing compiled AST...";
+            }, 1800);
+
+            // Step 3: QA approves code
+            setTimeout(() => {
+                lineFeQa.style.stroke = "rgba(99, 102, 241, 0.15)";
+                linePlannerQa.style.stroke = "rgba(99, 102, 241, 0.8)";
+                
+                messageStream.innerHTML += `<div class="text-rose-400 mt-1">&gt; [QA_Agent -> Planner]: "All verification assertions passed. Component is free of vulnerabilities."</div>`;
+                document.getElementById('a2ui-gen-status').innerText = "Audits passed. Rendering viewport (A2UI)...";
+            }, 3000);
+
+            // Step 4: Planner executes rendering
+            setTimeout(() => {
+                linePlannerQa.style.stroke = "rgba(99, 102, 241, 0.15)";
+                feNode.classList.remove('ring-2', 'ring-indigo-500/50');
+                qaNode.classList.remove('ring-2', 'ring-indigo-500/50');
+                
+                statusText.innerText = "COMPLETED";
+                statusText.className = "text-emerald-400 font-bold font-mono";
+                
+                messageStream.innerHTML += `<div class="text-indigo-400 mt-1">&gt; [Planner]: "Rendering Generative UI component into viewport."</div>`;
+                
+                renderGenerativeWidget(widgetType);
+                
+                // Re-enable buttons
+                a2aGenerationActive = false;
+                document.querySelectorAll('.a2ui-btn').forEach(btn => {
+                    btn.disabled = false;
+                    btn.className = "a2ui-btn py-2.5 px-3 bg-slate-900 hover:bg-slate-805 text-slate-300 border border-slate-800 rounded-lg text-xs font-bold transition-all cursor-pointer";
+                });
+            }, 4200);
+        }
+
+        function renderGenerativeWidget(type) {
+            const viewport = document.getElementById('a2ui-viewport');
+            
+            if (type === 'weather') {
+                viewport.innerHTML = `
+                    <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600 uppercase font-bold tracking-wider">GENERATIVE UI VIEWPORT (A2UI)</div>
+                    <div class="glass-card p-5 rounded-2xl border border-indigo-500/30 text-center w-full max-w-sm space-y-4 glow-indigo-strong transition-all duration-300 transform scale-100 hover:scale-[1.02] mt-6">
+                        <div class="flex justify-between items-center border-b border-indigo-950/50 pb-2">
+                            <span class="text-xs font-bold text-indigo-400 font-mono"><i class="fas fa-cloud-sun mr-1"></i>WEATHER_AGENT</span>
+                            <span class="text-[10px] font-mono bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-900/50">LIVE_WIDGET</span>
+                        </div>
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-extrabold text-white animate-fade-in" id="weather-city">Cairo</h3>
+                            <div class="flex justify-center items-center gap-3">
+                                <span class="text-4xl" id="weather-icon">☀️</span>
+                                <span class="text-5xl font-mono font-extrabold text-indigo-300" id="weather-temp">32°C</span>
+                            </div>
+                            <p class="text-xs text-slate-400" id="weather-desc">Sunny & clear sky</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1.5 pt-2 border-t border-indigo-950/50">
+                            <button onclick="updateWeather('cairo', 32, '☀️', 'Sunny & clear')" class="py-1 px-1.5 bg-slate-900 hover:bg-slate-850 rounded border border-slate-800 text-[10px] text-slate-300 cursor-pointer font-semibold">Cairo</button>
+                            <button onclick="updateWeather('sf', 18, '🌁', 'Foggy & breeze')" class="py-1 px-1.5 bg-slate-900 hover:bg-slate-850 rounded border border-slate-800 text-[10px] text-slate-300 cursor-pointer font-semibold">San Francisco</button>
+                            <button onclick="updateWeather('london', 14, '🌧️', 'Rainy & cold')" class="py-1 px-1.5 bg-slate-900 hover:bg-slate-850 rounded border border-slate-800 text-[10px] text-slate-300 cursor-pointer font-semibold">London</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                viewport.innerHTML = `
+                    <div class="absolute top-4 left-4 text-[10px] code-font text-slate-600 uppercase font-bold tracking-wider">GENERATIVE UI VIEWPORT (A2UI)</div>
+                    <div class="glass-card p-5 rounded-2xl border border-indigo-500/30 w-full max-w-sm space-y-4 glow-indigo-strong transition-all duration-300 transform scale-100 hover:scale-[1.02] mt-6">
+                        <div class="flex justify-between items-center border-b border-indigo-950/50 pb-2">
+                            <span class="text-xs font-bold text-emerald-400 font-mono"><i class="fas fa-chart-line mr-1"></i>RESOURCES_AGENT</span>
+                            <span class="text-[10px] font-mono bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-900/50">LIVE_WIDGET</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                                    <span>CPU Usage:</span>
+                                    <span id="cpu-stat" class="font-bold text-indigo-400">74%</span>
+                                </div>
+                                <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-indigo-500 h-1.5 transition-all duration-500" id="cpu-bar" style="width: 74%"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                                    <span>RAM Memory:</span>
+                                    <span id="ram-stat" class="font-bold text-indigo-400">42%</span>
+                                </div>
+                                <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                                    <div class="bg-indigo-500 h-1.5 transition-all duration-500" id="ram-bar" style="width: 42%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 pt-2 border-t border-indigo-950/50">
+                            <button onclick="refreshStats()" class="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-slate-850 rounded border border-slate-800 text-[10px] text-slate-300 cursor-pointer font-semibold"><i class="fas fa-sync-alt mr-1"></i>Refresh</button>
+                            <button onclick="optimizeStats()" class="flex-1 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 rounded border border-emerald-550 text-[10px] text-white cursor-pointer font-bold"><i class="fas fa-wand-magic-sparkles mr-1"></i>Optimize</button>
+                        </div>
+                    </div>
+                `;
             }
         }
 
-        // --- 5. Modality Switcher Logic ---
-        const mods = {
-            conductor: {
-                title: "Hands-on, Real-time Direction (IDE Synchronous)",
-                tag: "ACTIVE FLOW",
-                desc: "You work hand-in-hand with an AI assistant directly inside code editors. You prompt edits, watch inline code suggestions appear instantly, and maintain granular keystroke-level authority.",
-                bullets: ["Cursor and Windsurf smart AI editors.", "Gemini Code Assist extensions for IDEs."],
-                footer: "IDE ENVIRONMENT STATUS: SYNC_READY"
-            },
-            orchestrator: {
-                title: "Async Multi-Agent Delegation (Async Trajectory)",
-                tag: "BACKGROUND FACTORY",
-                desc: "You act as a supervisor configuring goal paths and evaluation bounds. Background tasks run autonomously across multiple repositories inside sandbox servers, producing whole pull requests ready for human audit.",
-                bullets: ["Google Jules framework autonomous runs.", "Claude Code and GitHub Copilot Agent Mode background factories."],
-                footer: "BACKGROUND AGENT STATUS: RUNNING_IN_ISOLATION"
-            }
+        // Global functions called inside weather/system resources widget actions
+        window.updateWeather = function(city, temp, icon, desc) {
+            document.getElementById('weather-city').innerText = city.charAt(0).toUpperCase() + city.slice(1);
+            document.getElementById('weather-temp').innerText = temp + '°C';
+            document.getElementById('weather-icon').innerText = icon;
+            document.getElementById('weather-desc').innerText = desc;
         };
 
-        function toggleModality(key) {
-            const isCond = key === 'conductor';
-            document.getElementById('m-btn-conductor').className = isCond ? "w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between" : "w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between";
-            document.getElementById('m-btn-orchestrator').className = !isCond ? "w-full text-left bg-indigo-600/20 border border-indigo-500/40 text-indigo-200 px-5 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-between" : "w-full text-left bg-slate-950 text-slate-500 border border-slate-800 px-5 py-4 rounded-xl font-bold text-sm transition-all hover:border-slate-800 flex items-center justify-between";
+        window.refreshStats = function() {
+            const cpu = Math.floor(Math.random() * 50) + 30; // 30 - 80
+            const ram = Math.floor(Math.random() * 30) + 30; // 30 - 60
+            const cpuStat = document.getElementById('cpu-stat');
+            const ramStat = document.getElementById('ram-stat');
             
-            const target = mods[key];
-            const list = target.bullets.map(b => `<li>${b}</li>`).join('');
-            document.getElementById('modality-details-view').innerHTML = `
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-bold text-white">${target.title}</h3>
-                        <span class="text-xs font-mono bg-indigo-900/50 text-indigo-300 px-2.5 py-1 rounded border border-indigo-900/50">${target.tag}</span>
-                    </div>
-                    <p class="text-slate-300 text-sm leading-relaxed">${target.desc}</p>
-                    <div class="p-4 bg-slate-900/40 rounded-xl border border-slate-800/80">
-                        <h4 class="text-xs font-bold text-slate-400 font-mono mb-2">SUPPORTED ENVIRONMENTS:</h4>
-                        <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">${list}</ul>
-                    </div>
-                </div>
-                <div class="text-[10px] text-slate-600 code-font border-t border-slate-900 pt-4">${target.footer}</div>
-            `;
+            cpuStat.innerText = cpu + '%';
+            cpuStat.className = "font-bold text-indigo-400";
+            document.getElementById('cpu-bar').style.width = cpu + '%';
+            
+            ramStat.innerText = ram + '%';
+            ramStat.className = "font-bold text-indigo-400";
+            document.getElementById('ram-bar').style.width = ram + '%';
+        };
+
+        window.optimizeStats = function() {
+            const cpu = 15;
+            const ram = 28;
+            const cpuStat = document.getElementById('cpu-stat');
+            const ramStat = document.getElementById('ram-stat');
+            
+            cpuStat.innerText = cpu + '%';
+            cpuStat.className = "font-bold text-emerald-400";
+            document.getElementById('cpu-bar').style.width = cpu + '%';
+            
+            ramStat.innerText = ram + '%';
+            ramStat.className = "font-bold text-emerald-400";
+            document.getElementById('ram-bar').style.width = ram + '%';
+        };
+
+        // --- 8. AP2 & UCP Machine Commerce Logic ---
+        let walletBalance = 100.00000;
+        let isPaymentSecure = false;
+        let drainInterval = null;
+
+        function togglePaymentSecurity(isSecure) {
+            isPaymentSecure = isSecure;
+            
+            // Stop drain simulation if running
+            if (drainInterval) {
+                clearInterval(drainInterval);
+                drainInterval = null;
+                document.getElementById('btn-drain-tx').disabled = false;
+                document.getElementById('btn-drain-tx').className = "py-3 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer";
+            }
+
+            document.getElementById('btn-pay-insecure').className = !isSecure 
+                ? "w-1/2 text-center py-2.5 rounded-lg bg-rose-600/20 text-rose-300 font-bold border border-rose-500/30 transition-all cursor-pointer"
+                : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+                
+            document.getElementById('btn-pay-secure').className = isSecure 
+                ? "w-1/2 text-center py-2.5 rounded-lg bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all cursor-pointer"
+                : "w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
+                
+            const escrowStatus = document.getElementById('escrow-status');
+            escrowStatus.innerText = isSecure ? "ESCROW: ACTIVE" : "ESCROW: DEACTIVATED";
+            escrowStatus.className = isSecure ? "text-[9px] text-emerald-400 font-bold font-mono" : "text-[9px] text-slate-600 font-mono";
+
+            logLedger(`Mode toggled: ${isSecure ? '🛡️ Cryptographic AP2 Security Enabled' : '❌ Unsecured Vibe Mode (Session token exposed)'}`);
         }
+
+        function logLedger(text, statusClass = "text-slate-300") {
+            const listEl = document.getElementById('ledger-logs-list');
+            const timestamp = new Date().toISOString().slice(11, 19);
+            const styledText = `<div class="font-mono ${statusClass}">&gt; [${timestamp}] ${text}</div>`;
+            
+            if (listEl.innerHTML.includes("في انتظار إجراء المعاملات")) {
+                listEl.innerHTML = styledText;
+            } else {
+                listEl.innerHTML += styledText;
+            }
+            listEl.scrollTop = listEl.scrollHeight;
+        }
+
+        function triggerPaymentTx() {
+            if (walletBalance <= 0) {
+                logLedger("Transaction aborted. Balance is empty!", "text-rose-500 font-bold");
+                return;
+            }
+            
+            const amount = 0.00240;
+            walletBalance -= amount;
+            animateWalletCounter();
+
+            if (isPaymentSecure) {
+                logLedger(`[AP2] Escrow lock configured. Held $${amount.toFixed(5)} USD for tool/call: db/query_database`, "text-indigo-400");
+                setTimeout(() => {
+                    logLedger(`[AP2] Result payload validated. Cryptographic Tx Sign hash: 0x8a1b${Math.floor(Math.random()*9000+1000)}`, "text-emerald-400 font-semibold");
+                    logLedger(`[AP2] Released $${amount.toFixed(5)} USD to Database Provider. Tx completed successfully.`, "text-emerald-500");
+                }, 800);
+            } else {
+                logLedger(`[VibePay] Raw session token header broadcast. Sent $${amount.toFixed(5)} USD to db/query_database endpoint.`, "text-rose-400");
+                logLedger(`[Warning] Endpoint does not require transaction certificate. Replay risk active.`, "text-amber-500 animate-pulse");
+            }
+        }
+
+        function animateWalletCounter() {
+            document.getElementById('wallet-balance').innerText = `$${walletBalance.toFixed(5)}`;
+        }
+
+        function triggerInfiniteDrain() {
+            if (drainInterval) return;
+
+            if (isPaymentSecure) {
+                logLedger("[AP2] Replication loop attack detected on endpoint tool/call!", "text-rose-500 font-bold animate-pulse");
+                logLedger("[AP2] Security Escrow constraint triggered: max_call_threshold breached (Limit: 1 call per 500ms).", "text-amber-400");
+                logLedger("[AP2] Transaction blocked and escrow lock activated. Wallet preserved.", "text-emerald-400 font-bold");
+                return;
+            }
+
+            logLedger("[DANGER] Exploitation started! Malicious client executing infinite payment loops.", "text-rose-500 font-bold animate-pulse");
+            
+            const btnDrain = document.getElementById('btn-drain-tx');
+            btnDrain.disabled = true;
+            btnDrain.className = "py-3 px-4 bg-slate-900 text-rose-500/50 border border-rose-950/20 text-xs rounded-xl flex items-center justify-center gap-2 cursor-not-allowed";
+
+            drainInterval = setInterval(() => {
+                if (walletBalance <= 0) {
+                    clearInterval(drainInterval);
+                    drainInterval = null;
+                    walletBalance = 0;
+                    animateWalletCounter();
+                    btnDrain.disabled = false;
+                    btnDrain.className = "py-3 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer";
+                    
+                    logLedger("[CRITICAL] Wallet fully drained. Account balance depleted to zero!", "text-rose-600 font-extrabold animate-pulse");
+                    logLedger("[CRITICAL] Container execution terminated due to budget depletion.", "text-rose-700 font-bold");
+                    return;
+                }
+
+                const amount = 1.34210;
+                walletBalance -= amount;
+                if (walletBalance < 0) walletBalance = 0;
+                animateWalletCounter();
+                
+                logLedger(`[Exploit] Leaked $${amount.toFixed(5)} USD from raw credentials route. Replay count incremented.`, "text-rose-400");
+            }, 100);
+        }
+
+        // Initialize state defaults
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set English as default during start so translations map perfectly
+            toggleLanguage(); // sets initial language to Arabic (default is ar)
+            updateHarness3D();
+            switchScenario('stripe');
+            toggleModality('conductor');
+            
+            // Day 2 Initializers
+            renderMcpTools();
+            togglePaymentSecurity(false);
+        });
     </script>
 </body>
 </html>
