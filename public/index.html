@@ -1789,7 +1789,7 @@ app.post('/api/heavy-job', jobLimiter, (req, res) => {
 
         // --- 5. Interactive Assistant Chatbot Companion Logic ---
         // Enhanced scroll listener update bot status/speech
-        const speechMap = {
+        const botSpeechSectionMap = {
             'section-hero': "bot_speech_scroll_hero",
             'section-harness': "bot_speech_scroll_harness",
             'section-loop': "bot_speech_scroll_loop",
@@ -1817,7 +1817,7 @@ app.post('/api/heavy-job', jobLimiter, (req, res) => {
             const speechBubble = document.getElementById('bot-speech');
             const botStatus = document.getElementById('bot-status');
             
-            const activeKey = speechMap[currentSection];
+            const activeKey = botSpeechSectionMap[currentSection];
             if (speechBubble && speechBubble.getAttribute('data-current') !== currentSection) {
                 speechBubble.setAttribute('data-current', currentSection);
                 botStatus.innerText = "ANALYZING_" + currentSection.replace('section-', '').toUpperCase();
