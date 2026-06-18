@@ -6,38 +6,9 @@
     <title>Agentic Ecosystem OS - Final Graduation Capstone Masterpiece</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        .en-font { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .ar-font { font-family: 'Cairo', sans-serif; }
-        .code-font { font-family: 'JetBrains Mono', sans-serif; }
-        .perspective-1500 { perspective: 1500px; }
-        .preserve-3d { transform-style: preserve-3d; }
-        .glass-card { background: rgba(8, 12, 26, 0.75); border: 1px solid rgba(99, 102, 241, 0.15); backdrop-filter: blur(16px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .grid-bg { background-size: 50px 50px; background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); }
-        
-        /* 3D Visual Elements */
-        .cube { position: relative; width: 100px; height: 100px; transform-style: preserve-3d; transition: transform 0.5s ease-out; }
-        .cube-face { position: absolute; width: 100px; height: 100px; border: 2px solid rgba(99, 102, 241, 0.8); background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #a5b4fc; font-weight: bold; font-family: 'JetBrains Mono'; }
-        .face-front  { transform: rotateY(  0deg) translateZ(50px); }
-        .face-back   { transform: rotateY(180deg) translateZ(50px); }
-        .face-right  { transform: rotateY( 90deg) translateZ(50px); }
-        .face-left   { transform: rotateY(-90deg) translateZ(50px); }
-        .face-top    { transform: rotateX( 90deg) translateZ(50px); }
-        .face-bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-        .harness-box { position: relative; width: 200px; height: 200px; transform-style: preserve-3d; transition: transform 0.1s ease-out; }
-        .harness-face { position: absolute; width: 200px; height: 200px; border: 1px dashed rgba(167, 139, 250, 0.35); background: rgba(167, 139, 250, 0.02); pointer-events: none; transition: border-color 0.3s; }
-        .h-front  { transform: rotateY(  0deg) translateZ(100px); }
-        .h-back   { transform: rotateY(180deg) translateZ(100px); }
-        .h-right  { transform: rotateY( 90deg) translateZ(100px); }
-        .h-left   { transform: rotateY(-90deg) translateZ(100px); }
-        .h-top    { transform: rotateX( 90deg) translateZ(100px); }
-        .h-bottom { transform: rotateX(-90deg) translateZ(100px); }
-
-        .scanline::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.04)); z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none; }
-        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-        .agent-bot-float { animation: float 4s ease-in-out infinite; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body class="bg-[#020512] text-slate-100 min-h-screen overflow-x-hidden en-font grid-bg relative">
 
@@ -71,13 +42,14 @@
         </div>
     </header>
 
+    <!-- FLOATING ASSISTANT -->
     <div class="fixed bottom-6 right-6 z-50 max-w-sm transition-all duration-500 transform translate-y-0" id="floating-agent-bot">
         <div class="glass-card rounded-2xl p-4 border border-indigo-500/30 shadow-2xl flex items-start space-x-4 shadow-indigo-950/50">
             <div class="relative">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-emerald-500 flex items-center justify-center text-xl agent-bot-float shadow-md">🤖</div>
                 <span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#020512] animate-pulse"></span>
             </div>
-            <div class="flex-1 space-y-1">
+            <div class="flex-1 space-y-2 text-left">
                 <div class="flex justify-between items-center">
                     <span class="text-xs font-bold font-mono text-indigo-400 tracking-wider">GUIDE_AGENT v3.0</span>
                     <span class="text-[9px] code-font bg-slate-950 text-emerald-400 px-1.5 py-0.5 rounded shadow-inner" id="bot-status">INITIAL_TRACK</span>
@@ -85,10 +57,24 @@
                 <p class="text-xs text-slate-300 leading-relaxed font-light transition-opacity duration-150" id="bot-speech">
                     System initialized. Scroll down to deploy active analysis clusters of Day 1 to Day 5 architectural components.
                 </p>
+                
+                <!-- Chat Thought Area (CoT) -->
+                <div id="bot-thinking-area" class="hidden text-[10px] code-font bg-black/40 border border-slate-900/60 rounded p-1.5 space-y-1 text-indigo-300">
+                    <div id="cot-node-1" class="flex items-center gap-1.5 opacity-40"><i class="far fa-circle"></i> Parsing intent...</div>
+                    <div id="cot-node-2" class="flex items-center gap-1.5 opacity-40"><i class="far fa-circle"></i> Querying Ariadne knowledge base...</div>
+                    <div id="cot-node-3" class="flex items-center gap-1.5 opacity-40"><i class="far fa-circle"></i> Verifying security policies...</div>
+                </div>
+
+                <!-- Input Box -->
+                <div class="flex gap-1.5 pt-1">
+                    <input type="text" id="bot-chat-input" onkeydown="handleInputKey(event)" placeholder="Ask bot (e.g. 'Ariadne' or 'Harness')..." class="flex-1 text-[11px] bg-slate-950 border border-indigo-950 focus:border-indigo-500 rounded px-2.5 py-1.5 text-white outline-none font-sans">
+                    <button onclick="submitChatQuery()" class="px-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-[10px] cursor-pointer flex items-center justify-center font-bold">➔</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- HITL INTERCEPT MODAL -->
     <div id="hitl-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="glass-card rounded-2xl p-6 border border-amber-500/40 max-w-md w-full mx-4 space-y-4">
             <div class="flex items-center gap-3 text-amber-400 font-bold font-mono text-sm">
@@ -107,6 +93,7 @@
 
     <main class="max-w-7xl mx-auto px-6 py-12 space-y-32">
 
+        <!-- HERO SECTION -->
         <section id="section-hero" class="text-center max-w-4xl mx-auto space-y-6 pt-6 scroll-mt-28">
             <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300 font-mono">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
@@ -128,6 +115,7 @@
             </div>
         </section>
 
+        <!-- SECTION 1: 3D HARNESS -->
         <section id="section-harness" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-5 space-y-6">
@@ -138,13 +126,29 @@
                     <p class="text-slate-300 text-sm leading-relaxed" id="p-vis1">
                         Demonstrating that the core LLM acts strictly as a raw computation matrix (~10%), entirely wrapped by a security and evaluation harness infrastructure (~90%) providing tool authorization, sandboxes, and policy compliance verification.
                     </p>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-900 space-y-3 shadow-inner">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-900 space-y-3 shadow-inner text-left">
                         <span class="text-xs font-semibold text-slate-400 block" id="lbl-harn-ctrl">Toggle Harness Boundary Layers:</span>
                         <div class="flex flex-wrap gap-2">
                             <button id="btn-layer-sandbox" onclick="toggleHarnessTool('sandbox', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/20 transition-all cursor-pointer shadow">✓ Isolation Sandbox</button>
                             <button id="btn-layer-mcp" onclick="toggleHarnessTool('mcp', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/20 transition-all cursor-pointer shadow">✓ Protocol Gateway</button>
                             <button id="btn-layer-evals" onclick="toggleHarnessTool('evals', this)" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/20 transition-all cursor-pointer shadow">✓ Assertion Evals</button>
                         </div>
+                        
+                        <!-- SLIDERS FOR 3D CONTROL -->
+                        <div class="pt-3 border-t border-slate-900 space-y-2 text-xs">
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span id="lbl-slider-temp">Model Temperature:</span>
+                                <span id="val-slider-temp" class="font-mono text-indigo-400">0.7</span>
+                            </div>
+                            <input type="range" id="slider-temp" min="0.1" max="1.8" step="0.1" value="0.7" oninput="updateHarnessParams()" class="w-full h-1 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                            
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span id="lbl-slider-guard">Guardrail Strictness:</span>
+                                <span id="val-slider-guard" class="font-mono text-emerald-400">Medium</span>
+                            </div>
+                            <input type="range" id="slider-guard" min="1" max="3" step="1" value="2" oninput="updateHarnessParams()" class="w-full h-1 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        </div>
+
                         <p class="text-[11px] text-indigo-400 font-mono mt-1" id="harness-status-text">Harness status: Full 360-degree structural container active.</p>
                     </div>
                 </div>
@@ -175,9 +179,10 @@
             </div>
         </section>
 
+        <!-- SECTION 2: SELF-CORRECTING TRAJECTORY -->
         <section id="section-loop" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
             <div class="space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-left">
                     <div class="space-y-1">
                         <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
                             <span id="label-vis2">VISUALIZATION 02 // RUNTIME</span>
@@ -199,7 +204,7 @@
                     <button id="step-iterate" onclick="selectStep('iterate')" class="sim-step-btn bg-slate-950 text-slate-500 border border-slate-900 py-3 rounded-lg transition-all col-span-2 sm:col-span-1 cursor-pointer">5. ITERATE</button>
                 </div>
 
-                <div class="bg-black/80 rounded-xl border border-slate-900 p-5 relative overflow-hidden scanline shadow-inner">
+                <div class="bg-black/80 rounded-xl border border-slate-900 p-5 relative overflow-hidden scanline shadow-inner text-left">
                     <div class="flex items-center justify-between border-b border-slate-900/60 pb-3 mb-4 text-slate-500 text-xs font-mono">
                         <div class="flex items-center space-x-1.5">
                             <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
@@ -217,8 +222,9 @@
             </div>
         </section>
 
+        <!-- SECTION 3: STRIPE CHECKOUT WEBHOOK AUDIT -->
         <section id="section-stripe" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start text-left">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-md text-xs font-mono text-rose-300">
                         <span id="label-vis3">REAL-WORLD THREAT ANALYSIS</span>
@@ -238,7 +244,7 @@
                     </div>
                     <div class="bg-slate-950/90 rounded-xl border border-slate-900 p-5 overflow-x-auto relative border-t-2 border-t-rose-600 min-h-[200px]">
                         <div class="absolute top-3 right-4 text-[10px] text-slate-600 tracking-wider">ENGINE_OUT: JS_NODE</div>
-                        <pre class="text-slate-300 leading-relaxed text-[11px]" id="code-content">
+                        <pre class="text-slate-300 leading-relaxed text-[11px] text-left" id="code-content">
 app.post('/webhook', (req, res) => {
     const event = req.body;
     if (event.type === 'checkout.session.completed') {
@@ -251,8 +257,9 @@ app.post('/webhook', (req, res) => {
             </div>
         </section>
 
+        <!-- SECTION 4: MODEL CONTEXT PROTOCOL (MCP) -->
         <section id="section-mcp" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-md text-xs font-mono text-purple-300">
                         <span>DAY 2 EXCLUSIVE // PROTOCOL HUB</span>
@@ -269,14 +276,65 @@ app.post('/webhook', (req, res) => {
                 <div class="lg:col-span-7 space-y-2 font-mono text-xs">
                     <div class="text-slate-400 font-bold flex items-center gap-2 px-1"><span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span> JSON-RPC 2.0 PROTOCOL STREAM:</div>
                     <div class="bg-slate-950 rounded-xl border border-slate-900 p-5 min-h-[180px] relative">
-                        <pre class="text-purple-300 text-[11px]" id="mcp-console-box">{\n  "jsonrpc": "2.0",\n  "id": "req_84711",\n  "method": "tools/call",\n  "params": {\n    "name": "query_google_docs",\n    "arguments": { "topic": "Antigravity CLI configuration" }\n  }\n}</pre>
+                        <pre class="text-purple-300 text-[11px] text-left" id="mcp-console-box">{\n  "jsonrpc": "2.0",\n  "id": "req_84711",\n  "method": "tools/call",\n  "params": {\n    "name": "query_google_docs",\n    "arguments": { "topic": "Antigravity CLI configuration" }\n  }\n}</pre>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECTION 5: GENERATIVE A2UI COMPILER PLAYGROUND -->
+        <section id="section-a2ui" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
+                        <span>DAY 2 EXCLUSIVE // GENERATIVE A2UI</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight" id="a2ui-title">Agent-to-User Interface (A2UI) Playground</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed" id="a2ui-desc">
+                        Rather than displaying static raw text outputs, the agent generates secure React/Tailwind visual controls in real-time. Choose a prompt template below and see the agent build, audit, and render the element dynamically.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-mono">
+                        <button onclick="selectA2uiPreset('chart')" id="a2ui-preset-sales" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-800 text-slate-400 cursor-pointer">📊 Sales Chart</button>
+                        <button onclick="selectA2uiPreset('card')" id="a2ui-preset-profile" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-800 text-slate-400 cursor-pointer">👤 Profile Card</button>
+                        <button onclick="selectA2uiPreset('stats')" id="a2ui-preset-metrics" class="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-800 text-slate-400 cursor-pointer">⚡ Metrics Card</button>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-7 space-y-3 font-mono text-xs">
+                    <div class="flex bg-slate-950 rounded-lg p-1 border border-slate-900">
+                        <button onclick="switchA2uiTab('code')" id="a2ui-tab-btn-code" class="w-1/2 text-center py-2.5 rounded-lg bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all cursor-pointer">Code Output</button>
+                        <button onclick="switchA2uiTab('preview')" id="a2ui-tab-btn-preview" class="w-1/2 text-center py-2.5 rounded-lg text-slate-500 hover:text-slate-300 transition-all cursor-pointer">Live Preview</button>
+                    </div>
+                    
+                    <div class="relative bg-slate-950/90 rounded-xl border border-slate-900 p-5 min-h-[220px] flex items-center justify-center">
+                        <!-- Code Output box -->
+                        <div id="a2ui-view-code" class="w-full text-slate-300 text-[11px] leading-relaxed overflow-x-auto whitespace-pre text-left">
+Select a preset above and click Compile to run the agentic layout compiler...
+                        </div>
+                        
+                        <!-- Live Preview viewport -->
+                        <div id="a2ui-view-preview" class="w-full hidden">
+                            <div class="text-slate-500 text-center text-xs font-sans">Preview is compiled and rendered here.</div>
+                        </div>
+                        
+                        <!-- Compiler Loading overlay -->
+                        <div id="a2ui-loading-overlay" class="absolute inset-0 bg-[#020512]/90 backdrop-blur-sm flex flex-col items-center justify-center space-y-3 hidden rounded-xl">
+                            <div class="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                            <span class="text-[11px] text-slate-400" id="a2ui-loading-text">Compiling AST nodes...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <input type="text" id="a2ui-prompt-input" placeholder="Type prompt instruction..." class="flex-1 bg-slate-950 border border-slate-900 focus:border-indigo-500 rounded-lg px-3 py-2 text-white outline-none">
+                        <button onclick="triggerA2uiBuild()" id="a2ui-btn-compile" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg cursor-pointer font-bold">⚡ Compile</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: DYNAMIC SKILLS REGISTRY -->
         <section id="section-skills" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300">
                         <span>DAY 3 EXCLUSIVE // COMPONENT PORTABILITY</span>
@@ -297,8 +355,9 @@ app.post('/webhook', (req, res) => {
             </div>
         </section>
 
+        <!-- SECTION 7: ACTIVE SECURITY MONITOR (EFFECTIVE TRUST) -->
         <section id="section-security" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-md text-xs font-mono text-amber-300">
                         <span>DAY 4 EXCLUSIVE // HIGH-ASSURANCE RED TEAM</span>
@@ -315,8 +374,119 @@ app.post('/webhook', (req, res) => {
             </div>
         </section>
 
+        <!-- SECTION 8: REVOLUTIONARY CYBER SECURITY (PROJECT ARIADNE) -->
+        <section id="section-ariadne" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
+            <div class="space-y-10 text-left">
+                <!-- Header and abstract -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-indigo-950/40 pb-8">
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-md text-xs font-mono text-amber-300">
+                            <span>REVOLUTIONARY CYBER SECURITY // PROJECT ARIADNE</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white tracking-tight" id="ariadne-title">Ariadne: Adaptive Human-in-the-Loop Defense</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed" id="ariadne-desc">
+                            A defense paradigm treating agent hijack as an expected state rather than an exception. Instead of relying on vulnerable prompt directives, Ariadne secures agent tool loops externally by isolating telemetry, running synthetic honeytokens, and gating learning updates behind a human controller.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3 bg-slate-950/80 p-4 rounded-xl border border-slate-900">
+                            <div class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse mt-1.5"></div>
+                            <div>
+                                <span class="text-rose-400 font-bold block text-xs" id="ariadne-threat-lbl">Threat: Indirect Prompt Injection</span>
+                                <span class="text-[10px] text-slate-400 leading-normal" id="ariadne-threat-desc">Attacker injects system override commands in public tickets or web search pages to exfiltrate DB data.</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-slate-950/80 p-4 rounded-xl border border-slate-900">
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1.5"></div>
+                            <div>
+                                <span class="text-emerald-400 font-bold block text-xs" id="ariadne-def-lbl">Defense: External Architecture Guards</span>
+                                <span class="text-[10px] text-slate-400 leading-normal" id="ariadne-def-desc">Independent tamper-evident logs (Observer) and decoy rows (Canaries) trip real-time circuit breakers.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Pillars and comparison table -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Comparison table -->
+                    <div class="lg:col-span-7 bg-slate-950/40 rounded-2xl border border-indigo-950/40 p-6 space-y-4">
+                        <h3 class="text-sm font-bold text-indigo-400 font-mono tracking-wider">SECURITY LEVERAGE MATRIX</h3>
+                        <div class="overflow-x-auto">
+                            <table class="ariadne-table font-sans">
+                                <thead>
+                                    <tr>
+                                        <th id="ari-th-feature">Security Property</th>
+                                        <th id="ari-th-prompt">Prompt-based Defense (Vulnerable)</th>
+                                        <th id="ari-th-arch">Ariadne Architecture (Robust)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold text-slate-300" id="ari-f1">Observability Logs</td>
+                                        <td class="text-slate-500" id="ari-f1-p">Inside the agent (Suppressible by hijacked agent)</td>
+                                        <td class="text-emerald-400 font-medium" id="ari-f1-a">Independent observer layer (Tamper-evident, external)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-slate-300" id="ari-f2">Assuming Breach</td>
+                                        <td class="text-slate-500" id="ari-f2-p">Optimistic (Fails catastrophically once prompt shifts)</td>
+                                        <td class="text-emerald-400 font-medium" id="ari-f2-a">Expected condition (Trips circuit breaker instantly)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-slate-300" id="ari-f3">Remediation Loop</td>
+                                        <td class="text-slate-500" id="ari-f3-p">Autonomous auto-update (Vulnerable to feed poisoning)</td>
+                                        <td class="text-emerald-400 font-medium" id="ari-f3-a">Human-in-the-loop validation (Poisoning resistant)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Simulator controls -->
+                    <div class="lg:col-span-5 bg-slate-950/80 rounded-2xl border border-indigo-950/50 p-6 space-y-5">
+                        <div class="flex justify-between items-center text-xs font-mono">
+                            <span class="text-slate-500" id="ariadne-lab-lbl">ARIADNE DEFENSE VERIFIER (SIMULATOR)</span>
+                            <span class="text-emerald-400 font-bold" id="ariadne-status-lbl">STATUS: MONITORING</span>
+                        </div>
+
+                        <!-- Visual Trace Pipeline -->
+                        <div class="space-y-1.5">
+                            <div class="pipeline-container">
+                                <div class="pipeline-line"></div>
+                                <div class="pipeline-progress-line" id="pipeline-progress"></div>
+                                <div class="pipeline-node text-center" id="node-ingest">1<span class="tooltip" id="tt-ingest">Input Ingestion</span></div>
+                                <div class="pipeline-node text-center" id="node-hijack">2<span class="tooltip" id="tt-hijack">LLM Prompt Hijack</span></div>
+                                <div class="pipeline-node text-center" id="node-read">3<span class="tooltip" id="tt-read">Canary DB Query</span></div>
+                                <div class="pipeline-node text-center" id="node-egress">4<span class="tooltip" id="tt-egress">Outbound Exfil</span></div>
+                                <div class="pipeline-node text-center" id="node-mitigate">5<span class="tooltip" id="tt-mitigate">Breaker Intercept</span></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 text-xs">
+                            <label class="text-slate-400 font-bold font-mono" id="ariadne-sel-lbl">Select Defense Remediation Mode:</label>
+                            <select id="ariadne-mode-select" class="w-full bg-slate-900 border border-indigo-950 rounded-lg p-2.5 text-slate-300 font-mono text-xs focus:border-indigo-500 outline-none">
+                                <option value="none" id="opt-mode-none" selected>Mode 0: No Protection (Exploit Succeeds)</option>
+                                <option value="least" id="opt-mode-least">Mode 1: Least-Privilege Scoping (Blocks Database Access)</option>
+                                <option value="observer" id="opt-mode-observer">Mode 2: Independent Observer (Anomaly Trip on Trace)</option>
+                                <option value="canary" id="opt-mode-canary">Mode 3: Canary Honeytoken Trap (Intercepts on Read ID #47)</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-black/90 p-4 rounded-xl border border-slate-900 space-y-2 text-[10px] font-mono leading-relaxed h-[130px] overflow-y-auto text-left" id="ariadne-console">
+                            <div class="text-slate-500">&gt; [Ariadne Observer] Init session...</div>
+                            <div class="text-slate-500">&gt; Loading synthetic DB records (decoy canary row #47 armed)...</div>
+                        </div>
+
+                        <div class="text-xs font-mono">
+                            <button id="btn-attack" onclick="runAriadneAttack()" class="w-full px-4 py-2.5 bg-rose-950/40 text-rose-300 border border-rose-500/20 hover:bg-rose-900/20 rounded-xl transition-all cursor-pointer text-center font-bold">💥 Launch Attack Injection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: SPEC-DRIVEN DEVELOPMENT (SDD) -->
         <section id="section-sdd" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
                 <div class="lg:col-span-5 space-y-6">
                     <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300">
                         <span>DAY 5 EXCLUSIVE // ENTERPRISE ASSURANCE</span>
@@ -324,7 +494,7 @@ app.post('/webhook', (req, res) => {
                     <h2 class="text-3xl font-bold text-white tracking-tight" id="sdd-title">Spec-Driven Development (SDD) Factory</h2>
                     <p class="text-slate-300 text-sm leading-relaxed" id="sdd-desc">Bridging the gap between fragile prototypes and production systems. In enterprise architectures, raw generated code blocks are fully disposable; deterministic behavior-driven Gherkin specifications establish the immutable anchor source of truth.</p>
                 </div>
-                <div class="lg:col-span-7 space-y-2 font-mono text-xs">
+                <div class="lg:col-span-7 space-y-3 font-mono text-xs">
                     <div class="text-slate-400 font-bold tracking-wider">GHERKIN_BEHAVIOR_SPECIFICATION (.feature):</div>
                     <div id="sdd-gherkin-block" class="bg-slate-950 rounded-xl border border-slate-800 p-5 text-[11px] leading-relaxed text-slate-300 border-l-4 border-l-emerald-500 shadow-inner">
                         <span class="text-purple-400">Feature:</span> Autonomous Transaction Escrow Verification<br>
@@ -333,10 +503,22 @@ app.post('/webhook', (req, res) => {
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">When</span> the MCP server triggers a validated tools/call endpoint request<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Then</span> the system must issue an encrypted AP2 block token approval signature
                     </div>
+                    
+                    <!-- Wallet Micropayment Ledger Log -->
+                    <div class="bg-slate-950 rounded-xl border border-slate-900 p-4 space-y-2">
+                        <div class="flex justify-between items-center border-b border-slate-900 pb-2 mb-1">
+                            <span class="text-slate-400 font-bold" id="lbl-ledger-title">AP2 Wallet Transactions Ledger:</span>
+                            <button onclick="refillWallet()" class="px-2 py-1 bg-indigo-950 text-indigo-300 hover:bg-indigo-900 border border-indigo-900/60 rounded text-[10px] cursor-pointer font-bold">💳 Refill Balance</button>
+                        </div>
+                        <div id="ap2-ledger-list" class="space-y-1.5 text-[10px] max-h-[90px] overflow-y-auto">
+                            <!-- Transactions will be loaded here -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- CONCLUSION SIGNATURE -->
         <section class="bg-gradient-to-tr from-indigo-950/20 via-slate-950/90 to-emerald-950/20 border border-slate-900 rounded-3xl p-8 md:p-12 text-center space-y-6">
             <h2 class="text-3xl font-black text-white" id="grad-title">Graduation Project Architecture Paradigm</h2>
             <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed" id="grad-desc">This framework sets the foundation for a decentralized matrix ecosystem where autonomous structures engineer, evaluate, defend, and secure code packages seamlessly without micro-management overhead.</p>
@@ -347,724 +529,6 @@ app.post('/webhook', (req, res) => {
     <footer class="border-t border-slate-900 py-10 bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
         <p>© 2026 Agentic Ecosystem OS Hub // Engineered by <span class="text-slate-300 font-bold underline">Abd Alrahaman gz</span></p>
     </footer>
-
-    <script>
-        let currentGlobalLang = 'en';
-        
-        // Bounding layers state
-        const activeHarnessLayers = {
-            sandbox: true,
-            mcp: true,
-            evals: true
-        };
-
-        const localizationMap = {
-            en: {
-                toggleBtn: "تغيير للغة العربية",
-                title: "The Enterprise <span class='bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent'>Spec-Driven Development</span> Platform",
-                desc: "An end-to-end operational simulator demonstrating 3D context containment boxes, self-correcting logs, secure JSON-RPC MCP servers, A2A/Generative A2UI interfaces, multi-pillar security grids, and SDD Gherkin engines.",
-                vis1_lbl: "VISUALIZATION 01 // FRAMEWORK", 
-                vis1_h: "3D Context Harness Containment", 
-                vis1_p: "Demonstrating that the core LLM acts strictly as a raw computation matrix (~10%), entirely wrapped by a security and evaluation harness infrastructure (~90%) providing tool authorization, sandboxes, and policy compliance verification.", 
-                vis1_ctrl: "Toggle Harness Boundary Layers:", 
-                vis1_hint: "💡 Move cursor here to orient 3D space matrix",
-                vis2_lbl: "VISUALIZATION 02 // RUNTIME", 
-                vis2_h: "The Self-Correcting Trajectory Loop", 
-                vis2_p: "Simulating deterministic state progression: Ingesting intents, executing compiles, running evaluations, and re-routing adjustments.",
-                vis3_lbl: "REAL-WORLD THREAT ANALYSIS", 
-                vis3_h: "Stripe Ledger Integrity Test", 
-                vis3_p: "Contrasting unverified rapid prototyping vulnerabilities against strict assertion-driven engineering rules during production webhook orchestration pipelines.", 
-                vis3_alert: "🚨 Vulnerability Vector:", 
-                desc_vis3_alert: "Ad-hoc generative endpoints lack signature payload structural verification, creating exposure channels for request forging exploits.",
-                mcp_title: "Model Context Protocol (MCP) Router", 
-                mcp_desc: "Eliminating custom bespoke technical integrations. MCP unifies connection maps by establishing secure, standard plug-and-play bridges between models and canonical data schemas.",
-                skills_title: "Dynamic Skills Registry Framework", 
-                skills_desc: "Mitigating system-wide context rot. Instead of monolithic prompts, specialized agent capabilities are encapsulated into standalone directories powered by portable SKILL.md definitions, loaded strictly on-demand via progressive disclosure.",
-                sec_title: "Continuous \"Effective Trust\" Monitor", 
-                sec_desc: "Enforcing container isolation boundaries. Active Red/Blue testing matrices isolate hallucinated package risks (Slopsquatting), while OpenTelemetry traces analyze pipeline telemetry behavior maps continuously.",
-                sdd_title: "Spec-Driven Development (SDD) Factory", 
-                sdd_desc: "Bridging the gap between fragile prototypes and production systems. In enterprise architectures, raw generated code blocks are fully disposable; deterministic behavior-driven Gherkin specifications establish the immutable anchor source of truth.",
-                grad_title: "Graduation Project Architecture Paradigm", 
-                grad_desc: "This framework sets the foundation for a decentralized matrix ecosystem where autonomous structures engineer, evaluate, defend, and secure code packages seamlessly without micro-management overhead.",
-                
-                btn_capstone: "🎓 Open Capstone Document",
-                btn_explore: "Explore Architecture",
-                wallet_label: "BUDGET:",
-                hitl_header: "[HITL_ALERT] HUMAN-IN-THE-LOOP INTERVENTION REQUESTED",
-                hitl_body: "The billing automation pipeline detected an enterprise deployment charge request ($12.50 USD) for production hosting on Google Cloud. Explicit human sign-off required.",
-                hitl_approve: "APPROVE TRANSACTION",
-                hitl_reject: "REJECT",
-                bot_status_initial: "INITIAL_TRACK",
-                
-                btn_sandbox: "Isolation Sandbox",
-                btn_mcp: "Protocol Gateway",
-                btn_evals: "Assertion Evals",
-                
-                tab_vibe: "❌ Unverified Target Payload",
-                tab_agentic: "🛡️ Monitored Secure Assertions",
-                
-                skill_linter_badge: "READY",
-                skill_linter_desc: "Invokes automated abstract syntax tree analysis via natural language parsing pipelines.",
-                skill_auditor_badge: "READY",
-                skill_auditor_desc: "Scans container codebeds against common dependency vulnerability trees in runtime.",
-                
-                sec_red_title: "RED TEAM",
-                sec_red_desc: "Simulating adversarial vector injection.",
-                sec_blue_title: "BLUE TEAM",
-                sec_blue_desc: "Enforcing sandboxed context blockades.",
-                sec_green_title: "GREEN TEAM",
-                sec_green_desc: "Tracking telemetry signatures.",
-                
-                gherkin_content: `<span class="text-purple-400">Feature:</span> Autonomous Transaction Escrow Verification<br>
-&nbsp;&nbsp;<span class="text-indigo-400">Scenario:</span> Cryptographic pipeline release processing<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Given</span> the sub-agent wallet balance maintains adequate CapEx reserves<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">When</span> the MCP server triggers a validated tools/call endpoint request<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Then</span> the system must issue an encrypted AP2 block token approval signature`
-            },
-            ar: {
-                toggleBtn: "Switch to English Layout",
-                title: "مصنع تطوير البرمجيات القائم على المواصفات <span class='bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent'>(SDD) لعام 2026</span>",
-                desc: "محاكاة معمارية متكاملة لبيئة نظام تشغيل الوكلاء: تشمل هياكل الاحتواء ثلاثية الأبعاد، التيرمنال ذاتي التصحيح، سيرفرات MCP، ثالوث حماية الأنظمة الحركية، ومحرك فحص شروط لغة Gherkin.",
-                vis1_lbl: "الواجهة البصرية 01 // هيكل الاحتواء", 
-                vis1_h: "تجسيد أبعاد طبقة السياق الخارجي (Harness)", 
-                vis1_p: "نموذج فراغي يثبت معيار الدورة المكثفة: النموذج اللغوي الأساسي يعمل فقط كمصفوفة حسابات صامتة بنسبة (~10%)، محمي بالكامل بغلاف سياق خارجي بنسبة (~90%) يوفر أدوات الأمان والتحقق الحركي.", 
-                vis1_ctrl: "عزل وتفعيل طبقات حواجز الحماية للـ Harness:", 
-                vis1_hint: "💡 حرك مؤشر الماوس داخل المربع لتوجه وتدور فضاء المجسم",
-                vis2_lbl: "الواجهة البصرية 02 // سجل التشغيل", 
-                vis2_h: "مسار حلقة التقييم الذاتي والتوجيه المستقل للوكيل", 
-                vis2_p: "رصد فوري لخطوات معالجة نية المستخدم: إدراك الهدف، صياغة المخطط، تشغيل الأدوات، ملاحظة مخرجات الـ Sandbox، وتكرار المحاولة لإصلاح العيوب البرمجية.",
-                vis3_lbl: "تحليل ثغرات واجهات الإنتاج", 
-                vis3_h: "تدقيق معالجة مصفوفة قيود Stripe API", 
-                vis3_p: "دراسة حالة تكشف خطورة البرمجة السريعة العشوائية (Vibe Coding) عند إهمال توقيعات التحقق، مقابل دمج اختبارات التوكيدات الهندسية المنضبطة لحماية خطوط المدفوعات.", 
-                vis3_alert: "🚨 ثغرة حقن الطلبات الوهمية:", 
-                desc_vis3_alert: "عدم فحص ترويسة الطلب يفتح منفذاً عدائياً يسمح بتمرير مخرجات مالية مزيفة تخدع خادم الإنتاج وتستنزف صلاحياته وموارده.",
-                mcp_title: "راوتر بروتوكول سياق النموذج (Model Context Protocol)", 
-                mcp_desc: "إنهاء عصر التوصيلات المخصصة العشوائية والديون التقنية. يؤمن بروتوكول MCP معايير اتصال مفتوحة وموحدة لربط النماذج بالتوثيقات وقواعد بيانات جوجل كأدوات Plug-and-Play.",
-                skills_title: "سجل مستودع مهارات الوكيل الديناميكي (Dynamic Skills)", 
-                skills_desc: "حل مشكلة تعفن وعفن السياق (Context Rot) في الذاكرة. بدلاً من حشو الأوامر، يتم عزل قدرات الوكلاء في مجلدات مستقلة تدار بملف مركزي SKILL.md، ويتم استدعاؤها وتحميلها تدريجياً عند الحاجة فقط.",
-                sec_title: "شاشة رصد نظام الثقة الفعالة (Effective Trust Monitor)", 
-                sec_desc: "فرض حدود الأمان القصوى على الحاويات. تعمل مصفوفات فرق الهجوم والدفاع (Red/Blue Triad) على رصد مخاطر حزم التسمم والهلوسة، وتتبع سلوك الأكواد عبر OpenTelemetry.",
-                sdd_title: "مصنع التطوير الموجه بالمواصفات الصارمة (SDD)", 
-                sdd_desc: "بناء أنظمة متينة ومقاومة للانهيار. في معايير الشركات المؤسسية الكبرى، يعتبر الكود المولد قالباً مستهلكاً وقابلاً للاستبدال والرمي، بينما تظل مواصفات سلوك النظام المكتوبة بلغة Gherkin هي المرجع الثابت والأوحد للحقيقة.",
-                grad_title: "الرؤية الهندسية الشاملة لإطار عمل مشروع التخرج", 
-                grad_desc: "يضع هذا النظام اللبنة الأساسية لمنصة لا مركزية متكاملة تتيح لشبكات الوكلاء كتابة واختبار وحماية وتمويل استدعاءاتها ذاتياً دون الحاجة لأي رقابة يدوية دقيقة ومكلفة.",
-                
-                btn_capstone: "🎓 فتح وثيقة مشروع التخرج",
-                btn_explore: "استكشف الهيكل المعماري",
-                wallet_label: "الميزانية:",
-                hitl_header: "[تنبيه التحكم البشري] مطلوب تدخل بشري مباشر للموافقة",
-                hitl_body: "رصد نظام الفوترة التلقائي طلباً لخصم تكلفة نشر بيئة الإنتاج سحابياً بقيمة ($12.50 USD) على منصة Google Cloud. موافقتك اليدوية الصريحة مطلوبة.",
-                hitl_approve: "الموافقة على المعاملة المالية",
-                hitl_reject: "رفض الطلب",
-                bot_status_initial: "تتبع_أولي",
-                
-                btn_sandbox: "بيئة العزل (Sandbox)",
-                btn_mcp: "بوابة البروتوكول (MCP)",
-                btn_evals: "فحوصات التوكيدات (Evals)",
-                
-                tab_vibe: "❌ حمولة الطلب غير المفحوصة",
-                tab_agentic: "🛡️ التوكيدات الأمنية المراقبة",
-                
-                skill_linter_badge: "جاهز",
-                skill_linter_desc: "تفعيل تحليل شجرة البنية المجردة (AST) للأكواد تلقائياً باستخدام معالجة اللغة الطبيعية.",
-                skill_auditor_badge: "جاهز",
-                skill_auditor_desc: "فحص الحاويات البرمجية ضد ثغرات المكتبات الخارجية ونقاط الضعف في بيئة التشغيل.",
-                
-                sec_red_title: "الفريق الأحمر",
-                sec_red_desc: "محاكاة حقن وتمرير التهديدات والمدخلات الخبيثة.",
-                sec_blue_title: "الفريق الأزرق",
-                sec_blue_desc: "تطبيق جدران العزل والحماية على الحاويات المغلقة.",
-                sec_green_title: "الفريق الأخضر",
-                sec_green_desc: "تتبع البصمات ومؤشرات الأداء عبر القياس الفوري (Telemetry).",
-                
-                gherkin_content: `<span class="text-purple-400">خاصية:</span> التحقق المستقل من خيار الضمان المالي للمعاملة<br>
-&nbsp;&nbsp;<span class="text-indigo-400">سيناريو:</span> معالجة إصدار خطوط الإنتاج البرمجية المشفرة<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">بفرض أن</span> رصيد محفظة الوكيل الفرعي يحتوي على احتياطي رأسمالي كافٍ<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">عندما</span> يقوم خادم MCP بإطلاق طلب استدعاء أداة موثق<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">إذن</span> يجب على النظام إصدار توقيع موافقة مشفر لمعاملة AP2`
-            }
-        };
-
-        const botSpeechLibrary = {
-            en: {
-                'section-hero': "Hello Abdulrahman! Welcome to your graduation project hub shell. Let's trace the fully deployed 5-day agentic infrastructure matrix.",
-                'section-harness': "Section 1: The 3D Harness cage encapsulates the raw execution matrix, locking strict operational policies.",
-                'section-loop': "Section 2: The self-healing trajectory pipeline diagnostics. Watch how errors are automatically patched in isolation.",
-                'section-stripe': "Section 3: Production checkout webhook inspection. Signature hashes confirm valid source payload delivery.",
-                'section-mcp': "Section 4: The Model Context Protocol establishes standardized schema routing channels for Google developer documentation updates.",
-                'section-skills': "Section 5: Portable skill modules maintain lightweight prompt states, invoking metadata profiles only on-demand.",
-                'section-security': "Section 6: Enforcing container isolation. Red/Blue systems capture exploits while OpenTelemetry benchmarks traffic.",
-                'section-sdd': "Section 7: Enterprise SDD alignment. Source files are fully disposable; Gherkin files govern absolute application behavior maps."
-            },
-            ar: {
-                'section-hero': "مرحباً بك يا عبد الرحمن في المنصة الشاملة لمشروع تخرجك! دعنا نستعرض تكامل خطوط إنتاج الوكلاء للأيام الخمسة بالكامل.",
-                'section-harness': "الفصل الأول: مجسم الأبعاد الثلاثية يجسد دور طبقة الـ Harness الخارجي بنسبة (~90%) لتأطير وحماية عمليات النموذج البرمجية.",
-                'section-loop': "الفصل الثاني: كونسول التيرمنال ذاتي التصحيح يوضح رصد الخطأ برمجياً خطوة بـ OBSERVE وتجاوزه فوراً خطوة بـ ITERATE.",
-                'section-stripe': "الفصل الثالث: حماية بوابة أموال Stripe. تدقيق كود التوكيدات الأمنية يغلق منافذ حقن الحزم وصد الهجمات المالية العشوائية.",
-                'section-mcp': "الفصل الرابع: راوتر بروتوكول MCP يدمج قنوات اتصال معيارية مفتوحة لحقن التوثيقات الرسمية لجوجل مباشرة كأدوات ذكية للنموذج.",
-                'section-skills': "الفصل الخامس: مستودع المهارات يعزل القدرات في ملفات SKILL.md لحماية الذاكرة من التعفن واستهلاك الأرصدة غير المحسوب.",
-                'section-security': "الفصل السادس: نظام حماية الثقة الفعالة. يمكنك الضغط على الزر الأسفل لاختبار نافذة اعتراض التحكم البشري في الأنظمة المالية الحساسة.",
-                'section-sdd': "الفصل السابع: مصنع التطوير الموجه بالمواصفات. الكود هنا مستهلك وقابل للإبدال والرمي، وتظل لغة Gherkin هي المرجع الحتمي للسلوك."
-            }
-        };
-
-        const stepLogs = {
-            en: {
-                perceive: {
-                    title: '> [STAGE: PERCEIVE_GOAL]',
-                    text: 'The agent maps target objective bounds. Parsing instruction tokens, determining edge boundaries, and verifying filesystem access paths.'
-                },
-                plan: {
-                    title: '> [STAGE: CONSTRUCT_PLAN]',
-                    text: 'Generating implementation steps checklist inside memory. Allocating tasks to compiler sub-routines and drafting test cases.'
-                },
-                act: {
-                    title: '> [STAGE: EXECUTE_ACTION]',
-                    text: 'Writing code blocks inside isolation sandbox. Running compilation commands and executing file outputs.'
-                },
-                observe: {
-                    title: '> [STAGE: OBSERVE_FEEDBACK]',
-                    text: 'Sandbox feedback: 1 security policy violation detected in Stripe webhook processing. Signature checksum is missing.'
-                },
-                iterate: {
-                    title: '> [STAGE: AUTO_ITERATION]',
-                    text: 'Self-repair script triggered! Appending cryptographic signature validation. Re-running tests... SUCCESS!'
-                }
-            },
-            ar: {
-                perceive: {
-                    title: '> [المرحلة: إدراك الهدف]',
-                    text: 'يقوم الوكيل بتحديد أبعاد الهدف المطلوب، وتحليل مدخلات المستخدم، وفحص سلامة مسار الملفات.'
-                },
-                plan: {
-                    title: '> [المرحلة: صياغة المخطط]',
-                    text: 'توليد قائمة المهام البرمجية في الذاكرة الحية وتجهيز متطلبات الفحص الأمني (Evals).'
-                },
-                act: {
-                    title: '> [المرحلة: تنفيذ العمل]',
-                    text: 'كتابة الأكواد داخل بيئة التطوير المعزولة (Sandbox) وتشغيل خوادم الإنتاج الوهمية.'
-                },
-                observe: {
-                    title: '> [المرحلة: مراقبة المخرجات]',
-                    text: 'رصد خطأ أمني: كاشف التهديدات يسجل محاولة وصول غير موثقة (Stripe signature verification bypass).'
-                },
-                iterate: {
-                    title: '> [المرحلة: التكرار وإصلاح الخطأ]',
-                    text: 'تفعيل نظام الإصلاح الذاتي للوكيل! إعادة صياغة دالة التحقق التشفيرية، تشغيل الاختبارات مجدداً... نجحت جميع الفحوصات بنسبة 100%!'
-                }
-            }
-        };
-
-        let simInterval = null;
-        let currentStepIdx = 0;
-        const simSteps = ['perceive', 'plan', 'act', 'observe', 'iterate'];
-        
-        function selectStep(step) {
-            const dict = stepLogs[currentGlobalLang][step];
-            const logsEl = document.getElementById('terminal-logs');
-            const latencyEl = document.getElementById('terminal-latency');
-            
-            if (logsEl && latencyEl) {
-                const latencies = { perceive: '11ms', plan: '19ms', act: '38ms', observe: '14ms', iterate: '42ms' };
-                latencyEl.innerText = `LATENCY: ${latencies[step] || '20ms'} // REASONER: ACTIVE`;
-                logsEl.innerHTML = `<div class="text-indigo-400 font-bold">${dict.title}</div><p class="mt-1">${dict.text}</p>`;
-            }
-            
-            const steps = ['perceive', 'plan', 'act', 'observe', 'iterate'];
-            steps.forEach(s => {
-                const btn = document.getElementById(`step-${s}`);
-                if (btn) {
-                    if (s === step) {
-                        btn.className = "sim-step-btn bg-indigo-600 text-white border border-indigo-400/20 py-3 rounded-lg transition-all cursor-pointer font-bold";
-                    } else {
-                        btn.className = "sim-step-btn bg-slate-950 text-slate-500 border border-slate-900 py-3 rounded-lg transition-all cursor-pointer";
-                    }
-                }
-            });
-        }
-
-        function startAutoSim() {
-            if (simInterval) clearInterval(simInterval);
-            
-            const btn = document.getElementById('btn-autoplay');
-            btn.innerText = currentGlobalLang === 'ar' ? '⏳ قيد التشغيل...' : '⏳ Running Cycle...';
-            btn.className = "px-4 py-2 rounded-xl bg-amber-600 text-white font-bold flex items-center gap-2 transition-all cursor-pointer shadow shadow-amber-950";
-            
-            currentStepIdx = 0;
-            selectStep(simSteps[currentStepIdx]);
-            chargeWallet(0.01);
-            
-            simInterval = setInterval(() => {
-                currentStepIdx++;
-                if (currentStepIdx < simSteps.length) {
-                    selectStep(simSteps[currentStepIdx]);
-                    chargeWallet(0.01);
-                } else {
-                    clearInterval(simInterval);
-                    simInterval = null;
-                    btn.innerText = currentGlobalLang === 'ar' ? '▶ تشغيل حلقة محاكاة' : '▶ Run Execution Cycle';
-                    btn.className = "px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-2 transition-all cursor-pointer shadow shadow-emerald-950";
-                }
-            }, 2000);
-        }
-
-        function resetSim() {
-            if (simInterval) {
-                clearInterval(simInterval);
-                simInterval = null;
-            }
-            currentStepIdx = 0;
-            const btn = document.getElementById('btn-autoplay');
-            btn.innerText = currentGlobalLang === 'ar' ? '▶ تشغيل حلقة محاكاة' : '▶ Run Execution Cycle';
-            btn.className = "px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-2 transition-all cursor-pointer shadow shadow-emerald-950";
-            selectStep('perceive');
-            resetWallet();
-        }
-
-        // --- Bounding Harness Cage ---
-        function toggleHarnessTool(layer, btn) {
-            activeHarnessLayers[layer] = !activeHarnessLayers[layer];
-            const dict = localizationMap[currentGlobalLang];
-            
-            let label = '';
-            if (layer === 'sandbox') label = dict.btn_sandbox;
-            else if (layer === 'mcp') label = dict.btn_mcp;
-            else if (layer === 'evals') label = dict.btn_evals;
-            
-            if (activeHarnessLayers[layer]) {
-                btn.innerText = '✓ ' + label;
-                btn.className = "px-3 py-1.5 rounded-lg text-xs bg-indigo-600 text-white font-medium border border-indigo-400/20 transition-all cursor-pointer shadow";
-            } else {
-                btn.innerText = '✗ ' + label;
-                btn.className = "px-3 py-1.5 rounded-lg text-xs bg-slate-900 text-slate-400 font-medium border border-slate-800 transition-all cursor-pointer";
-            }
-            
-            const faces = document.querySelectorAll('.harness-face');
-            const statusText = document.getElementById('harness-status-text');
-            
-            let borderStyle = '1px dashed rgba(167, 139, 250, 0.35)';
-            let bg = 'rgba(167, 139, 250, 0.02)';
-            
-            if (!activeHarnessLayers.sandbox && !activeHarnessLayers.mcp && !activeHarnessLayers.evals) {
-                borderStyle = '1px solid rgba(239, 68, 68, 0.3)';
-                bg = 'rgba(239, 68, 68, 0.01)';
-                statusText.innerText = currentGlobalLang === 'ar' 
-                    ? 'تنبيه: القفص معطل بالكامل! النواة معرضة للخطر.' 
-                    : 'CRITICAL ALERT: Bounding cage is fully disabled! Model core is unprotected.';
-                statusText.className = 'text-[11px] text-rose-500 font-mono mt-1 animate-pulse';
-            } else {
-                let activeCount = 0;
-                if (activeHarnessLayers.sandbox) activeCount++;
-                if (activeHarnessLayers.mcp) activeCount++;
-                if (activeHarnessLayers.evals) activeCount++;
-                
-                if (activeCount === 3) {
-                    borderStyle = '1px dashed rgba(167, 139, 250, 0.7)';
-                    bg = 'rgba(167, 139, 250, 0.05)';
-                    statusText.innerText = currentGlobalLang === 'ar' 
-                        ? 'حالة القفص: الحماية الثلاثية نشطة بالكامل (360 درجة).' 
-                        : 'Harness status: Full 360-degree structural container active.';
-                } else {
-                    borderStyle = '1px dashed rgba(99, 102, 241, 0.4)';
-                    bg = 'rgba(99, 102, 241, 0.02)';
-                    statusText.innerText = currentGlobalLang === 'ar' 
-                        ? `حالة القفص: طبقات الحماية نشطة جزئياً (${activeCount}/3).` 
-                        : `Harness status: Boundary partially active (${activeCount}/3 layers).`;
-                }
-                statusText.className = 'text-[11px] text-indigo-400 font-mono mt-1';
-            }
-            
-            faces.forEach(f => {
-                f.style.border = borderStyle;
-                f.style.background = bg;
-            });
-            
-            chargeWallet(0.02);
-        }
-
-        function updateHarnessButtonLabels() {
-            const dict = localizationMap[currentGlobalLang];
-            
-            const btnSandbox = document.getElementById('btn-layer-sandbox');
-            if (btnSandbox) {
-                btnSandbox.innerText = (activeHarnessLayers.sandbox ? '✓ ' : '✗ ') + dict.btn_sandbox;
-            }
-            
-            const btnMcp = document.getElementById('btn-layer-mcp');
-            if (btnMcp) {
-                btnMcp.innerText = (activeHarnessLayers.mcp ? '✓ ' : '✗ ') + dict.btn_mcp;
-            }
-            
-            const btnEvals = document.getElementById('btn-layer-evals');
-            if (btnEvals) {
-                btnEvals.innerText = (activeHarnessLayers.evals ? '✓ ' : '✗ ') + dict.btn_evals;
-            }
-        }
-
-        // --- Stripe Webhook Code Switcher ---
-        let currentCodeTab = 'vibe';
-        const stripeSnippets = {
-            en: {
-                vibe: `app.post('/webhook', (req, res) => {
-    const event = req.body;
-    // Vulnerable: event data is processed without signature validation!
-    if (event.type === 'checkout.session.completed') {
-        processOrder(event.data.object);
-    }
-    res.json({received: true});
-});`,
-                agentic: `const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
-    try {
-        // Secure: cryptographically verify the payload signature!
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-        return res.status(400).send(\`Webhook Error: \${err.message}\`);
-    }
-    if (event.type === 'checkout.session.completed') {
-        processOrder(event.data.object);
-    }
-    res.json({received: true});
-});`
-            },
-            ar: {
-                vibe: `app.post('/webhook', (req, res) => {
-    const event = req.body;
-    // ثغرة أمنية: تتم معالجة بيانات الطلب مباشرة دون فحص التوقيع الرقمي!
-    if (event.type === 'checkout.session.completed') {
-        processOrder(event.data.object);
-    }
-    res.json({received: true});
-});`,
-                agentic: `const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
-    try {
-        // حماية مشددة: فحص التوقيع الرقمي المشفّر القادم من خوادم Stripe!
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-        return res.status(400).send(\`Webhook Error: \${err.message}\`);
-    }
-    if (event.type === 'checkout.session.completed') {
-        processOrder(event.data.object);
-    }
-    res.json({received: true});
-});`
-            }
-        };
-
-        function switchCodeTab(tab) {
-            currentCodeTab = tab;
-            const isVibe = tab === 'vibe';
-            
-            const tabVibe = document.getElementById('tab-vibe');
-            const tabAgentic = document.getElementById('tab-agentic');
-            const codeBox = document.getElementById('code-content');
-            
-            if (isVibe) {
-                tabVibe.className = "w-1/2 text-center py-2 rounded-md bg-rose-600/20 text-rose-300 font-bold border border-rose-500/20 transition-all cursor-pointer";
-                tabAgentic.className = "w-1/2 text-center py-2 rounded-md text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
-                codeBox.textContent = stripeSnippets[currentGlobalLang].vibe;
-                codeBox.parentElement.className = "bg-slate-950/90 rounded-xl border border-slate-900 p-5 overflow-x-auto relative border-t-2 border-t-rose-600 min-h-[200px]";
-            } else {
-                tabVibe.className = "w-1/2 text-center py-2 rounded-md text-slate-500 hover:text-slate-300 transition-all cursor-pointer";
-                tabAgentic.className = "w-1/2 text-center py-2 rounded-md bg-emerald-600/20 text-emerald-300 font-bold border border-emerald-500/20 transition-all cursor-pointer";
-                codeBox.textContent = stripeSnippets[currentGlobalLang].agentic;
-                codeBox.parentElement.className = "bg-slate-950/90 rounded-xl border border-slate-900 p-5 overflow-x-auto relative border-t-2 border-t-emerald-500 min-h-[200px]";
-            }
-        }
-
-        // --- MCP Server Simulator ---
-        let mcpConnected = true;
-        const mcpPayloads = {
-            connected: {
-                en: `{\n  "jsonrpc": "2.0",\n  "id": "req_84711",\n  "method": "tools/call",\n  "params": {\n    "name": "query_google_docs",\n    "arguments": { "topic": "Antigravity CLI configuration" }\n  }\n}`,
-                ar: `{\n  "jsonrpc": "2.0",\n  "id": "req_84711",\n  "method": "tools/call",\n  "params": {\n    "name": "query_google_docs",\n    "arguments": { "topic": "إعداد واجهة برمجة Antigravity" }\n  }\n}`
-            },
-            disconnected: {
-                en: `{\n  "jsonrpc": "2.0",\n  "error": {\n    "code": -32603,\n    "message": "Internal error: Model Context Protocol Router connection refused. Server down."\n  },\n  "id": "req_84711"\n}`,
-                ar: `{\n  "jsonrpc": "2.0",\n  "error": {\n    "code": -32603,\n    "message": "خطأ داخلي: تم رفض الاتصال بموجه بروتوكول سياق النموذج (MCP Router). الخادم متوقف."\n  },\n  "id": "req_84711"\n}`
-            }
-        };
-
-        function toggleMcpServer(id) {
-            mcpConnected = !mcpConnected;
-            refreshMcpDisplay();
-        }
-
-        function refreshMcpDisplay() {
-            const btn = document.getElementById('btn-mcp-1');
-            const consoleBox = document.getElementById('mcp-console-box');
-            if (!btn || !consoleBox) return;
-            if (mcpConnected) {
-                btn.innerText = currentGlobalLang === 'ar' ? 'متصل' : 'CONNECTED';
-                btn.className = "px-2.5 py-1 rounded-md bg-emerald-600 text-white border border-emerald-400/20 shadow cursor-pointer text-[11px]";
-                consoleBox.textContent = mcpPayloads.connected[currentGlobalLang];
-                consoleBox.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.3)';
-                chargeWallet(0.02);
-            } else {
-                btn.innerText = currentGlobalLang === 'ar' ? 'غير متصل' : 'DISCONNECTED';
-                btn.className = "px-2.5 py-1 rounded-md bg-rose-600/20 text-rose-400 border border-rose-500/20 shadow cursor-pointer text-[11px]";
-                consoleBox.textContent = mcpPayloads.disconnected[currentGlobalLang];
-                consoleBox.parentElement.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-            }
-        }
-
-        // --- Dynamic Skills registry ---
-        function triggerSkillLoad(skill) {
-            const botSpeech = document.getElementById('bot-speech');
-            const botStatus = document.getElementById('bot-status');
-            
-            const badge = document.getElementById(`skill-badge-${skill}`);
-            const card = document.getElementById(`skill-card-${skill}`);
-            
-            if (!badge || !card) return;
-            
-            badge.innerText = currentGlobalLang === 'ar' ? 'جاري التحميل...' : 'LOADING...';
-            badge.className = "text-[10px] bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded animate-pulse";
-            card.classList.add('ring-2', 'ring-amber-500/40');
-            
-            botStatus.innerText = "SKILL_LOAD";
-            botSpeech.innerText = currentGlobalLang === 'ar' 
-                ? `جاري تحميل وحقن المهارة: ${skill === 'linter' ? 'محلل الأكواد' : 'مدقق الأمان'}...`
-                : `Injecting dynamic skill module: ${skill === 'linter' ? 'Code Linter' : 'Security Auditor'}...`;
-                
-            setTimeout(() => {
-                badge.innerText = currentGlobalLang === 'ar' ? 'مفعّل' : 'ACTIVE';
-                badge.className = "text-[10px] bg-emerald-950 text-emerald-400 px-1.5 py-0.5 rounded font-bold";
-                card.classList.remove('ring-2', 'ring-amber-500/40');
-                card.classList.add('ring-2', 'ring-emerald-500/40');
-                
-                chargeWallet(0.15);
-                
-                botSpeech.innerText = currentGlobalLang === 'ar'
-                    ? `تم تفعيل المهارة بنجاح وتوفير السياق البرمجي. التكلفة: $0.15`
-                    : `Skill module successfully loaded in sandbox. Context size optimized. Cost: $0.15`;
-            }, 1000);
-        }
-
-        // --- Effective Trust / HITL Intercept ---
-        function triggerHitlIntercept() {
-            const modal = document.getElementById('hitl-modal');
-            const modalText = document.getElementById('hitl-modal-text');
-            const header = document.getElementById('hitl-header');
-            const btnApprove = document.getElementById('btn-hitl-approve');
-            const btnReject = document.getElementById('btn-hitl-reject');
-            
-            if (modal && modalText) {
-                const dict = localizationMap[currentGlobalLang];
-                header.innerText = dict.hitl_header;
-                modalText.innerText = dict.hitl_body;
-                btnApprove.innerText = dict.hitl_approve;
-                btnReject.innerText = dict.hitl_reject;
-                
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                modal.classList.add('opacity-100');
-            }
-        }
-
-        function handleHitlResponse(approved) {
-            const modal = document.getElementById('hitl-modal');
-            if (modal) {
-                modal.classList.remove('opacity-100');
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            }
-            
-            const botSpeech = document.getElementById('bot-speech');
-            const botStatus = document.getElementById('bot-status');
-            
-            if (approved) {
-                chargeWallet(12.50);
-                botStatus.innerText = "HITL_APPROVED";
-                botStatus.className = "text-[9px] code-font bg-slate-950 text-emerald-400 px-1.5 py-0.5 rounded shadow-inner";
-                botSpeech.innerText = currentGlobalLang === 'ar'
-                    ? "تم التفويض والاعتماد المالي للمشروع. تم نشر إصدار التخرج بنجاح على منصة Cloud Run. التكلفة: $12.50"
-                    : "Transaction authorized. Deployed final graduation artifact package to Cloud Run. Cost: $12.50";
-            } else {
-                botStatus.innerText = "HITL_BLOCKED";
-                botStatus.className = "text-[9px] code-font bg-slate-950 text-rose-400 px-1.5 py-0.5 rounded shadow-inner";
-                botSpeech.innerText = currentGlobalLang === 'ar'
-                    ? "تم إلغاء النشر سحابياً. تم حظر العملية لحماية ميزانية الوكيل والحد من تكلفة التشغيل."
-                    : "Deployment aborted. Transaction block protocol initiated to protect sub-agent wallet limits.";
-            }
-        }
-
-        // --- Wallet Logic ---
-        let walletBalance = 15.00;
-        
-        function chargeWallet(amount) {
-            walletBalance -= amount;
-            if (walletBalance < 0) walletBalance = 0;
-            
-            const balanceEl = document.getElementById('wallet-balance');
-            if (balanceEl) {
-                balanceEl.innerText = `$${walletBalance.toFixed(2)}`;
-                balanceEl.classList.remove('text-emerald-400');
-                balanceEl.classList.add('text-amber-400');
-                setTimeout(() => {
-                    balanceEl.classList.remove('text-amber-400');
-                    balanceEl.classList.add('text-emerald-400');
-                }, 800);
-            }
-        }
-
-        function resetWallet() {
-            walletBalance = 15.00;
-            const balanceEl = document.getElementById('wallet-balance');
-            if (balanceEl) {
-                balanceEl.innerText = `$${walletBalance.toFixed(2)}`;
-            }
-        }
-
-        // --- Language Switch Logic ---
-        function toggleGlobalLanguage() {
-            currentGlobalLang = currentGlobalLang === 'en' ? 'ar' : 'en';
-            const dict = localizationMap[currentGlobalLang];
-            document.body.className = currentGlobalLang === 'ar' ? "bg-[#020512] text-slate-100 min-h-screen overflow-x-hidden ar-font grid-bg relative" : "bg-[#020512] text-slate-100 min-h-screen overflow-x-hidden en-font grid-bg relative";
-            document.body.dir = currentGlobalLang === 'ar' ? 'rtl' : 'ltr';
-
-            document.getElementById('lang-toggle-btn').innerText = dict.toggleBtn;
-            document.getElementById('main-title').innerHTML = dict.title;
-            document.getElementById('main-desc').innerText = dict.desc;
-            document.getElementById('label-vis1').innerText = dict.vis1_lbl;
-            document.getElementById('h-vis1').innerText = dict.vis1_h;
-            document.getElementById('p-vis1').innerText = dict.vis1_p;
-            document.getElementById('lbl-harn-ctrl').innerText = dict.vis1_ctrl;
-            document.getElementById('lbl-3d-hint').innerText = dict.vis1_hint;
-            document.getElementById('label-vis2').innerText = dict.vis2_lbl;
-            document.getElementById('h-vis2').innerText = dict.vis2_h;
-            document.getElementById('p-vis2').innerText = dict.vis2_p;
-            document.getElementById('label-vis3').innerText = dict.vis3_lbl;
-            document.getElementById('h-vis3').innerText = dict.vis3_h;
-            document.getElementById('p-vis3').innerText = dict.vis3_p;
-            document.getElementById('lbl-vis3-alert').innerText = dict.vis3_alert;
-            document.getElementById('desc-vis3-alert').innerText = dict.desc_vis3_alert;
-            document.getElementById('mcp-title').innerText = dict.mcp_title;
-            document.getElementById('mcp-desc').innerText = dict.mcp_desc;
-            document.getElementById('skills-title').innerText = dict.skills_title;
-            document.getElementById('skills-desc').innerText = dict.skills_desc;
-            document.getElementById('sec-title').innerText = dict.sec_title;
-            document.getElementById('sec-desc').innerText = dict.sec_desc;
-            document.getElementById('sdd-title').innerText = dict.sdd_title;
-            document.getElementById('sdd-desc').innerText = dict.sdd_desc;
-            document.getElementById('grad-title').innerText = dict.grad_title;
-            document.getElementById('grad-desc').innerText = dict.grad_desc;
-            
-            document.getElementById('btn-capstone-open').innerText = dict.btn_capstone;
-            document.getElementById('btn-explore-link').innerText = dict.btn_explore;
-            document.getElementById('wallet-label').innerText = dict.wallet_label;
-            
-            // Webhook code tabs:
-            document.getElementById('tab-vibe').innerText = dict.tab_vibe;
-            document.getElementById('tab-agentic').innerText = dict.tab_agentic;
-            
-            // Skill cards:
-            document.getElementById('skill-badge-linter').innerText = dict.skill_linter_badge;
-            document.getElementById('skill-desc-linter').innerText = dict.skill_linter_desc;
-            document.getElementById('skill-badge-auditor').innerText = dict.skill_auditor_badge;
-            document.getElementById('skill-desc-auditor').innerText = dict.skill_auditor_desc;
-            
-            // Security cards:
-            document.getElementById('sec-card-red-title').innerText = dict.sec_red_title;
-            document.getElementById('sec-card-red-desc').innerText = dict.sec_red_desc;
-            document.getElementById('sec-card-blue-title').innerText = dict.sec_blue_title;
-            document.getElementById('sec-card-blue-desc').innerText = dict.sec_blue_desc;
-            document.getElementById('sec-card-green-title').innerText = dict.sec_green_title;
-            document.getElementById('sec-card-green-desc').innerText = dict.sec_green_desc;
-            
-            // Gherkin:
-            document.getElementById('sdd-gherkin-block').innerHTML = dict.gherkin_content;
-            
-            updateHarnessButtonLabels();
-            switchCodeTab(currentCodeTab);
-            refreshMcpDisplay();
-            
-            // Autoplay button:
-            const btnAutoplay = document.getElementById('btn-autoplay');
-            if (btnAutoplay) {
-                if (simInterval) {
-                    btnAutoplay.innerText = currentGlobalLang === 'ar' ? '⏳ قيد التشغيل...' : '⏳ Running Cycle...';
-                } else {
-                    btnAutoplay.innerText = currentGlobalLang === 'ar' ? '▶ تشغيل حلقة محاكاة' : '▶ Run Execution Cycle';
-                }
-            }
-
-            selectStep(simSteps[currentStepIdx]);
-            window.dispatchEvent(new Event('scroll'));
-        }
-
-        // --- Capstone Modal Toggle ---
-        function toggleCapstoneModal(show) {
-            const modal = document.getElementById('capstone-modal');
-            if (!modal) return;
-            if (show) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.style.opacity = '1';
-                }, 10);
-                document.getElementById('capstone-content-ar').classList.toggle('hidden', currentGlobalLang !== 'ar');
-                document.getElementById('capstone-content-en').classList.toggle('hidden', currentGlobalLang !== 'en');
-            } else {
-                modal.style.opacity = '0';
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 300);
-            }
-        }
-
-        // --- Scroll Listener for Bot ---
-        window.addEventListener('scroll', () => {
-            const sections = ['section-hero', 'section-harness', 'section-loop', 'section-stripe', 'section-mcp', 'section-skills', 'section-security', 'section-sdd'];
-            let activeId = 'section-hero';
-            sections.forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    const r = el.getBoundingClientRect();
-                    if(r.top <= window.innerHeight * 0.45 && r.bottom >= window.innerHeight * 0.45) activeId = id;
-                }
-            });
-            const speechEl = document.getElementById('bot-speech');
-            const statusEl = document.getElementById('bot-status');
-            if(speechEl && speechEl.getAttribute('data-last') !== activeId) {
-                speechEl.setAttribute('data-last', activeId);
-                statusEl.innerText = "MONITOR_" + activeId.replace('section-', '').toUpperCase();
-                speechEl.innerText = botSpeechLibrary[currentGlobalLang][activeId];
-            }
-        });
-
-        // --- Initialize Defaults ---
-        window.addEventListener('DOMContentLoaded', () => {
-            updateHarnessButtonLabels();
-            switchCodeTab('vibe');
-            refreshMcpDisplay();
-            
-            const threeDScene = document.getElementById('threeDScene');
-            const harnessScene = document.getElementById('harnessScene');
-            if (threeDScene && harnessScene) {
-                threeDScene.addEventListener('mousemove', (e) => {
-                    const rect = threeDScene.getBoundingClientRect();
-                    const x = e.clientX - rect.left - (rect.width / 2);
-                    const y = e.clientY - rect.top - (rect.height / 2);
-                    const rotateY = (x / rect.width) * 75;
-                    const rotateX = -(y / rect.height) * 75;
-                    harnessScene.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-                });
-                threeDScene.addEventListener('mouseleave', () => {
-                    harnessScene.style.transform = 'rotateY(25deg) rotateX(-20deg)';
-                });
-            }
-            
-            selectStep('perceive');
-            window.dispatchEvent(new Event('scroll'));
-        });
-    </script>
 
     <!-- Capstone Project Modal Overlay -->
     <div id="capstone-modal" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 md:p-10 hidden transition-all duration-300 opacity-0">
@@ -1100,6 +564,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
                             <li><strong class="text-white">مستودع المهارات الديناميكي (Dynamic Skills):</strong> عزل قدرات المساعد في مجلدات مستقلة تدار بملف مركزي SKILL.md لحماية الذاكرة من عفن السياق.</li>
                             <li><strong class="text-white">نظام الأمان والتحكم البشري (HITL):</strong> اعتراض العمليات الحساسة التي تتطلب تفويضاً مالياً وتوفير ثقة فعالة مستمرة (Effective Trust).</li>
                             <li><strong class="text-white">التطوير الموجه بالمواصفات (SDD Gherkin):</strong> كتابة مواصفات السلوك الحتمية كلغة مرجعية لا تتبدل، واعتبار الكود المولد قالباً مستهلكاً وقابلاً للإبدال.</li>
+                            <li><strong class="text-white">إطار عمل Ariadne الدفاعي:</strong> دمج ركائز الأمان السيبراني الأربع (الحد الأدنى للصلاحيات، المراقب المستقل، قاطع التيار الفوري، المعالجة البشرية الحتمية) لإفشال محاولات حقن التوجيه وسحب البيانات.</li>
                         </ul>
                     </div>
 
@@ -1158,6 +623,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
                             <li><strong class="text-white">Dynamic Skills Registry:</strong> Encapsulates prompt capabilities into standalone directories powered by portable SKILL.md configurations to avoid context rot.</li>
                             <li><strong class="text-white">Effective Trust & HITL:</strong> Bounding container parameters, auditing sandbox threats, and executing Human-in-the-loop intercept dialog gateways for sensitive transactions.</li>
                             <li><strong class="text-white">Spec-Driven Development (SDD):</strong> Enforcing Gherkin BDD specifications (.feature) to govern exact agent capabilities, treating raw generated code as fully disposable.</li>
+                            <li><strong class="text-white">Ariadne Security Architecture:</strong> Adopts the four defense pillars (least-privilege runtime, independent observer telemetry, real-time circuit breakers, and human-gated remediation) to prevent prompt injection data breaches.</li>
                         </ul>
                     </div>
 

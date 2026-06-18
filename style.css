@@ -1,0 +1,235 @@
+/* Graduation Capstone Custom Styling - Agentic Ecosystem OS Hub */
+
+.en-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+.ar-font { font-family: 'Cairo', sans-serif; }
+.code-font { font-family: 'JetBrains Mono', sans-serif; }
+
+.perspective-1500 { perspective: 1500px; }
+.preserve-3d { transform-style: preserve-3d; }
+
+.glass-card { 
+    background: rgba(8, 12, 26, 0.75); 
+    border: 1px solid rgba(99, 102, 241, 0.15); 
+    backdrop-filter: blur(16px); 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+}
+
+.grid-bg { 
+    background-size: 50px 50px; 
+    background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), 
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); 
+}
+
+/* 3D Model Core Engine */
+.cube { 
+    position: relative; 
+    width: 100px; 
+    height: 100px; 
+    transform-style: preserve-3d; 
+    transition: transform 0.5s ease-out; 
+}
+
+.cube-face { 
+    position: absolute; 
+    width: 100px; 
+    height: 100px; 
+    border: 2px solid rgba(99, 102, 241, 0.8); 
+    background: rgba(99, 102, 241, 0.15); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 11px; 
+    color: #a5b4fc; 
+    font-weight: bold; 
+    font-family: 'JetBrains Mono'; 
+}
+
+.face-front  { transform: rotateY(  0deg) translateZ(50px); }
+.face-back   { transform: rotateY(180deg) translateZ(50px); }
+.face-right  { transform: rotateY( 90deg) translateZ(50px); }
+.face-left   { transform: rotateY(-90deg) translateZ(50px); }
+.face-top    { transform: rotateX( 90deg) translateZ(50px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+/* 3D Context Harness Box */
+.harness-box { 
+    position: relative; 
+    width: 200px; 
+    height: 200px; 
+    transform-style: preserve-3d; 
+    transition: transform 0.1s ease-out; 
+}
+
+.harness-face { 
+    position: absolute; 
+    width: 200px; 
+    height: 200px; 
+    border: 1px dashed rgba(167, 139, 250, 0.35); 
+    background: rgba(167, 139, 250, 0.02); 
+    pointer-events: none; 
+    transition: border-color 0.3s, background-color 0.3s; 
+}
+
+.h-front  { transform: rotateY(  0deg) translateZ(100px); }
+.h-back   { transform: rotateY(180deg) translateZ(100px); }
+.h-right  { transform: rotateY( 90deg) translateZ(100px); }
+.h-left   { transform: rotateY(-90deg) translateZ(100px); }
+.h-top    { transform: rotateX( 90deg) translateZ(100px); }
+.h-bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+.scanline::before { 
+    content: " "; 
+    display: block; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    bottom: 0; 
+    right: 0; 
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
+        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.04)); 
+    z-index: 2; 
+    background-size: 100% 3px, 3px 100%; 
+    pointer-events: none; 
+}
+
+@keyframes float { 
+    0%, 100% { transform: translateY(0px) rotate(0deg); } 
+    50% { transform: translateY(-8px) rotate(2deg); } 
+}
+.agent-bot-float { animation: float 4s ease-in-out infinite; }
+
+/* Ariadne Pipeline Tracing Styles */
+.pipeline-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 10px 0;
+}
+
+.pipeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 0;
+    transform: translateY(-50%);
+}
+
+.pipeline-progress-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(to right, #6366f1, #10b981);
+    z-index: 1;
+    transform: translateY(-50%);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.pipeline-node {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #090d16;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: bold;
+    color: #4b5563;
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+}
+
+.pipeline-node.active {
+    border-color: #6366f1;
+    color: #818cf8;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+.pipeline-node.completed {
+    border-color: #10b981;
+    background: #10b981;
+    color: #090d16;
+}
+
+.pipeline-node.intercepted {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.pipeline-node.compromised {
+    border-color: #ef4444;
+    background: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+}
+
+.pipeline-node .tooltip {
+    visibility: hidden;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #e2e8f0;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+}
+
+.pipeline-node:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Ariadne Comparison Table Styles */
+.ariadne-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.ariadne-table th, .ariadne-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ariadne-table th {
+    background: rgba(99, 102, 241, 0.05);
+    color: #818cf8;
+    font-weight: bold;
+}
+
+.ariadne-table tr:hover td {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+/* Arabic RTL Overrides for styling */
+[dir="rtl"] .pipeline-progress-line {
+    left: auto;
+    right: 0;
+    background: linear-gradient(to left, #6366f1, #10b981);
+}
+
+[dir="rtl"] .ariadne-table th, [dir="rtl"] .ariadne-table td {
+    text-align: right;
+}
