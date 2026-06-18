@@ -2712,6 +2712,19 @@ window.addEventListener('scroll', () => {
 
 // --- Initialize Defaults ---
 window.addEventListener('DOMContentLoaded', () => {
+    // Force start from the beginning on load (ignore url hash & scroll restoration)
+    if (window.location.hash) {
+        try {
+            history.replaceState("", document.title, window.location.pathname + window.location.search);
+        } catch (e) {}
+    }
+    window.scrollTo(0, 0);
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    setTimeout(() => { window.scrollTo(0, 0); }, 50);
+    setTimeout(() => { window.scrollTo(0, 0); }, 200);
+
     updateHarnessButtonLabels();
     switchCodeTab('vibe');
     refreshMcpDisplay();
