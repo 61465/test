@@ -2128,7 +2128,8 @@ function toggleGlobalLanguage() {
     ];
     idsToTranslate.forEach(id => {
         const el = document.getElementById(id);
-        if (el && dict[id]) el.innerHTML = dict[id];
+        const key = id.replace(/-/g, '_');
+        if (el && dict[key]) el.innerHTML = dict[key];
     });
 
     const btypes = ['ecommerce', 'restaurant', 'healthcare', 'finance', 'education', 'realestate', 'logistics', 'tech'];
