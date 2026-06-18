@@ -707,7 +707,7 @@ Select a preset above and click Compile to run the agentic layout compiler...
                 </div>
 
                 <!-- Input Form -->
-                <div class="max-w-2xl mx-auto space-y-5">
+                <div id="blueprint-input-container" class="max-w-2xl mx-auto space-y-5">
                     <!-- Name -->
                     <div class="space-y-2">
                         <label class="text-xs font-mono text-slate-400 tracking-widest uppercase" id="lbl-gen-name">YOUR NAME</label>
@@ -737,6 +737,31 @@ Select a preset above and click Compile to run the agentic layout compiler...
                     </button>
 
                     <p class="text-center text-xs text-slate-600 font-mono" id="lbl-gen-note">Select a business type above to generate your personalized system</p>
+                </div>
+
+                <!-- Loading Progress Container -->
+                <div id="blueprint-loading-container" class="max-w-2xl mx-auto space-y-6 hidden text-center p-8 bg-slate-950/60 rounded-3xl border border-indigo-500/20 shadow-xl">
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <!-- Spinner -->
+                        <div class="relative w-16 h-16">
+                            <div class="absolute inset-0 rounded-full border-4 border-indigo-500/10"></div>
+                            <div class="absolute inset-0 rounded-full border-4 border-t-indigo-500 border-r-purple-500 border-b-emerald-400 animate-spin"></div>
+                        </div>
+                        <div class="space-y-1">
+                            <div id="blueprint-loading-status" class="text-sm font-mono text-indigo-300 font-bold transition-all duration-300">Initializing sandbox...</div>
+                            <div class="text-[10px] text-slate-500 font-mono" id="blueprint-loading-step">Step 1 of 6</div>
+                        </div>
+                        <!-- Progress Bar Wrapper -->
+                        <div class="w-full bg-slate-900 rounded-full h-3 border border-indigo-500/20 overflow-hidden relative">
+                            <div id="blueprint-progress" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full w-0 transition-all duration-200"></div>
+                        </div>
+                        <div id="blueprint-loading-percent" class="text-xs font-mono text-emerald-400 font-bold">0%</div>
+                    </div>
+                </div>
+
+                <!-- Interactive Sandbox Container -->
+                <div id="blueprint-sandbox-container" class="max-w-4xl mx-auto space-y-6 hidden p-6 md:p-8 bg-slate-950/90 rounded-3xl border border-indigo-500/30 shadow-2xl relative">
+                    <!-- Loaded dynamically via script.js -->
                 </div>
             </div>
         </section>
