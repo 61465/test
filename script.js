@@ -115,7 +115,63 @@ const localizationMap = {
 &nbsp;&nbsp;<span class="text-indigo-400">Scenario:</span> Cryptographic pipeline release processing<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Given</span> the sub-agent wallet balance maintains adequate CapEx reserves<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">When</span> the MCP server triggers a validated tools/call endpoint request<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Then</span> the system must issue an encrypted AP2 block token approval signature`
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">Then</span> the system must issue an encrypted AP2 block token approval signature`,
+
+        // Section 10: Learning Journey
+        lbl_journey: "THE COMPLETE JOURNEY // 5-DAY INTENSIVE DEEP DIVE",
+        h_journey: "What You've Mastered",
+        p_journey: "Each concept builds on the last. Here's the full architecture of your learning journey — and how every piece reinforces the complete system.",
+        j_d1_badge: "FOUNDATION // HARNESS ARCHITECTURE",
+        j_d1_h: "Context Harness: The 90% That Matters",
+        j_d1_p: "The paradigm shift: The LLM is not the product — it's a tiny raw engine. The 90% that matters is the harness: sandboxes, guardrails, tool authorization, and policy enforcement. Without the harness, the model is a liability, not an asset.",
+        j_d1_b1: "Temperature controls entropy and output variance",
+        j_d1_b2: "Guardrails enforce behavioral constraint boundaries",
+        j_d1_b3: "Sandboxes contain execution blast radius to zero",
+        
+        j_d2_badge: "PROTOCOLS // MCP + A2UI INTERFACE LAYER",
+        j_d2_h: "MCP + A2UI: The Universal Integration Standard",
+        j_d2_p: "MCP eliminates the integration tax. Instead of 100 bespoke connectors, one standardized JSON-RPC 2.0 protocol routes all tool calls. A2UI closes the loop — the agent generates interactive UI components directly, bridging capability and presentation without human templating.",
+        j_d2_b1: "JSON-RPC 2.0 is the universal tool invocation language",
+        j_d2_b2: "A2UI renders real-time interactive components on-demand",
+        j_d2_b3: "Standard schemas eliminate cross-service integration debt",
+        
+        j_d3_badge: "PORTABILITY // DYNAMIC SKILLS REGISTRY",
+        j_d3_h: "Skills & Context Management: Fighting Context Rot",
+        j_d3_p: "Context rot is the silent killer of agent reliability. As prompts grow monolithically, precision degrades exponentially. Dynamic skills solve this: specialized capabilities are encapsulated in SKILL.md manifests and loaded only when needed — keeping context windows clean, costs predictable, and agents focused.",
+        j_d3_b1: "SKILL.md is the single source of truth for capabilities",
+        j_d3_b2: "Progressive disclosure prevents context window exhaustion",
+        j_d3_b3: "Portable manifests enable skill reuse across agent teams",
+        
+        j_d4_badge: "SECURITY // ARIADNE + HITL TRUST MODEL",
+        j_d4_h: "Ariadne Defense: Trust Is Not Assumed",
+        j_d4_p: "Ariadne treats agent compromise as an expected operational state — not an edge case. Defenses hold even when the LLM is fully hijacked. Human-In-The-Loop gates block irreversible operations at the exact moment of decision, when human judgment is most valuable and machine judgment is least reliable.",
+        j_d4_b1: "Assume breach as an operational baseline, never deny it",
+        j_d4_b2: "External observers are immune to agent-side corruption",
+        j_d4_b3: "Canary tokens reveal exfiltration attempts in milliseconds",
+        
+        j_d5_badge: "PRODUCTION // SPEC-DRIVEN DEVELOPMENT",
+        j_d5_h: "SDD: Code Is Disposable, Specs Are Immortal",
+        j_d5_p: "In enterprise SDD, raw generated code is fully disposable — a transient artifact. Gherkin feature files are the permanent, machine-executable contracts that govern exact system behavior. The LLM is a code factory; the spec is the architect. This is how reliable AI production systems are built.",
+        j_d5_b1: "Gherkin specs are executable behavioral contracts",
+        j_d5_b2: "Generated code is throwaway; specifications are permanent",
+        j_d5_b3: "AP2 micropayments enforce accountable cost-per-execution",
+        
+        // Section 11: Personalized Generator
+        lbl_gen_header: "⚡ INTERACTIVE EXPERIENCE // PERSONALIZED BLUEPRINT GENERATOR",
+        h_gen: "Build <span class='bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent'>YOUR</span> Agentic System",
+        p_gen: "Apply everything you've mastered. Enter your name and business idea — and watch the system generate a complete, personalized Agentic OS blueprint tailored to your exact domain.",
+        lbl_gen_name: "YOUR NAME",
+        lbl_gen_type: "SELECT YOUR BUSINESS TYPE",
+        btype_ecommerce: "E-Commerce",
+        btype_restaurant: "Restaurant",
+        btype_healthcare: "Healthcare",
+        btype_finance: "Finance",
+        btype_education: "Education",
+        btype_realestate: "Real Estate",
+        btype_logistics: "Logistics",
+        btype_tech: "Tech Startup",
+        btn_generate_blueprint: "⚡ Generate My Agentic Blueprint",
+        lbl_gen_note: "Select a business type above to generate your personalized system"
     },
     ar: {
         toggleBtn: "Switch to English Layout",
@@ -222,7 +278,63 @@ const localizationMap = {
 &nbsp;&nbsp;<span class="text-indigo-400">سيناريو:</span> معالجة إصدار خطوط الإنتاج البرمجية المشفرة<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">بفرض أن</span> رصيد محفظة الوكيل الفرعي يحتوي على احتياطي رأسمالي كافٍ<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">عندما</span> يقوم خادم MCP بإطلاق طلب استدعاء أداة موثق<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">إذن</span> يجب على النظام إصدار توقيع موافقة مشفر لمعاملة AP2`
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">إذن</span> يجب على النظام إصدار توقيع موافقة مشفر لمعاملة AP2`,
+
+        // Section 10: Learning Journey
+        lbl_journey: "الرحلة التعليمية الكاملة // معسكر الـ 5 أيام المكثف",
+        h_journey: "ما قمت بهندسته واحترافه",
+        p_journey: "كل مفهوم يبني على ما قبله. إليك البنية الهيكلية الكاملة لرحلتك التعليمية - وكيف تترابط الأجزاء لتشكل معاً نظام تشغيل متكامل للوكلاء.",
+        j_d1_badge: "الأساس // معمارية القفص الاحتوائي (HARNESS)",
+        j_d1_h: "القفص الاحتوائي: الـ 90% الأهم في معمارية الوكيل",
+        j_d1_p: "تغيير جوهري في التفكير: النموذج اللغوي ليس هو المنتج، بل هو مجرد محرك حوسبة خام يمثل 10%. الجزء الأهم بنسبة 90% هو القفص المحيط به: بيئات العزل، وجدران الحماية، والتحقق الحركي لتجنب الهلوسة.",
+        j_d1_b1: "تتحكم درجة الحرارة في مستوى عشوائية وابتكار مخرجات النموذج",
+        j_d1_b2: "تفرض جدران الحماية (Guardrails) قيوداً سلوكية وأمنية صارمة",
+        j_d1_b3: "تضمن حاويات العزل (Sandboxes) بقاء ضرر الأكواد المنفذة صفراً",
+        
+        j_d2_badge: "البروتوكولات // بروتوكول MCP + واجهات A2UI التفاعلية",
+        j_d2_h: "بروتوكول MCP والواجهات الحركية: معايير الاتصال الموحدة",
+        j_d2_p: "ينهي بروتوكول MCP فوضى الوصلات البرمجية المخصصة. بروتوكول JSON-RPC 2.0 موحد يوجه استدعاء الأدوات للبيانات والوثائق الخارجية. بينما تتيح واجهة A2UI للوكيل إنتاج وتجميع واجهات تفاعلية حية بدلاً من النصوص الجامدة.",
+        j_d2_b1: "يمثل بروتوكول JSON-RPC 2.0 لغة الاستدعاء والربط القياسية للأدوات",
+        j_d2_b2: "تولد واجهات A2UI عناصر تحكم ديناميكية تفاعلية حسب طلب المستخدم",
+        j_d2_b3: "تنهي المعايير المفتوحة ديون التكامل والربط المعقد بين الخدمات سحابياً",
+        
+        j_d3_badge: "قابلية النقل // مستودع المهارات الديناميكي المستقل",
+        j_d3_h: "إدارة المهارات والسياق: محاربة تعفّن السياق (Context Rot)",
+        j_d3_p: "تعفن السياق هو القاتل الصامت لدقة الوكلاء. مع نمو Prompts بشكل ضخم، تنخفض الكفاءة بشكل كبير. هنا يأتي دور المهارات الديناميكية: عزل القدرات المتخصصة في ملفات SKILL.md وتحميلها فقط عند الحاجة لتقليل الكلفة وحماية الذاكرة.",
+        j_d3_b1: "ملف SKILL.md هو المصدر المرجعي والوحيد لتعريف مهارة الوكيل",
+        j_d3_b2: "يمنع التحميل التدريجي للمهارات استهلاك كامل نافذة سياق النموذج",
+        j_d3_b3: "تتيح وحدات المهارات المحمولة إعادة استخدامها لفرق الوكلاء المختلفة",
+        
+        j_d4_badge: "الأمان // معمارية ARIADNE وتأمين التحكم البشري",
+        j_d4_h: "دفاع نظام أريادني: افتراض الاختراق كحالة تشغيل طبيعية",
+        j_d4_p: "يفترض نظام Ariadne حدوث الاختراق والالتفاف على الأوامر كحالة طبيعية، وينقل الحماية لخارج النموذج عبر سجلات غير قابلة للتعديل والرموز التمويهية (Canaries) وقواطع الدورة. بينما تتدخل بوابات HITL لاعتماد العمليات المالية والنشر.",
+        j_d4_b1: "افترض الاختراق دائماً كحالة تشغيلية ولا تعتمد على وعود النماذج اللغوية",
+        j_d4_b2: "تعمل سجلات المراقبة الخارجية بشكل معزول يمنع تلاعب الوكيل بها",
+        j_d4_b3: "تكشف مصائد Canary التمويهية محاولات تسريب وسحب البيانات في أجزاء من الثانية",
+        
+        j_d5_badge: "الإنتاج // التطوير الموجه بالمواصفات والفوترة",
+        j_d5_h: "منهجية SDD: الكود قالب مستهلك، والمواصفات هي المرجع الخالد",
+        j_d5_p: "في معايير المؤسسات الكبرى، يعتبر الكود المولد من الذكاء الاصطناعي قالباً مؤقتاً قابلاً للاستبدال والرمي. تظل ملفات Gherkin (.feature) هي العقود المرجعية الثابتة التي تحكم سلوك النظام. وتتبع محفظة AP2 الفوترة الدقيقة للوكلاء.",
+        j_d5_b1: "تمثل مواصفات Gherkin عقوداً سلوكية برمجية قابلة للتنفيذ والفحص",
+        j_d5_b2: "يعتبر الكود المولد قالباً مؤقتاً سريع التبديل بينما المواصفة ثابتة لا تتغير",
+        j_d5_b3: "تضمن معاملات محفظة AP2 الفوترة والتحكم الدقيق في تكاليف استدعاء الأدوات",
+        
+        // Section 11: Personalized Generator
+        lbl_gen_header: "⚡ التجربة التفاعلية // مولّد البلوبرينت الشخصي للوكلاء",
+        h_gen: "ابنِ نظامك <span class='bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent'>الوكيل الخاص</span>",
+        p_gen: "قم بتطبيق كل ما تعلمته في هذه الرحلة. اكتب اسمك ونوع عملك التجاري، وشاهد النظام يبني لك بلوبرينت متكاملاً لنظام تشغيل وكلاء مخصص لعملك وحمايته بالكامل.",
+        lbl_gen_name: "اسمك الكريم",
+        lbl_gen_type: "اختر نوع النشاط التجاري لشركتك",
+        btype_ecommerce: "تجارة إلكترونية",
+        btype_restaurant: "مطعم وطلب طعام",
+        btype_healthcare: "رعاية صحية وعيادات",
+        btype_finance: "خدمات مالية وبنوك",
+        btype_education: "تعليم وتقنية معلومات",
+        btype_realestate: "عقارات وإدارة أملاك",
+        btype_logistics: "خدمات لوجستية وشحن",
+        btype_tech: "شركة تقنية وسحابية",
+        btn_generate_blueprint: "⚡ توليد مخطط الوكلاء المخصص لي",
+        lbl_gen_note: "اختر نشاطك التجاري واكتب اسمك أعلاه لبناء معماريتك الخاصة"
     }
 };
 
@@ -908,7 +1020,52 @@ function generateBlueprint() {
         return;
     }
 
+    const genBtn = document.getElementById('btn-generate-blueprint');
+    if (!genBtn) return;
+    
+    // Disable and show loading progression
+    genBtn.disabled = true;
+    genBtn.style.opacity = '0.75';
+    
     const lang = currentGlobalLang || 'en';
+    const steps = lang === 'ar'
+        ? [
+            "🔍 تحليل أهداف النظام وكتابة المعايير...",
+            "⚙️ ربط بوابات MCP وتأمين الاتصال...",
+            "📦 تسجيل وحقن وحدات المهارات (Skills)...",
+            "🛡️ تشغيل حراسة أريادني وفحص التهديدات...",
+            "📋 التحقق من توافق مواصفات SDD...",
+            "🚀 اكتمل البناء! فتح مخطط نظام التشغيل..."
+          ]
+        : [
+            "🔍 Analyzing System Objectives...",
+            "⚙️ Mapping MCP Gateways...",
+            "📦 Registering Skill Modules...",
+            "🛡️ Arming Ariadne Shields...",
+            "📋 Assuring SDD Specifications...",
+            "🚀 Synthesized! Loading OS Blueprint..."
+          ];
+          
+    let stepIdx = 0;
+    const interval = setInterval(() => {
+        if (stepIdx < steps.length) {
+            genBtn.innerText = steps[stepIdx];
+            stepIdx++;
+        } else {
+            clearInterval(interval);
+            
+            // Restore button
+            genBtn.disabled = false;
+            genBtn.style.opacity = '1';
+            genBtn.innerText = lang === 'ar' ? "⚡ توليد مخطط الوكلاء المخصص لي" : "⚡ Generate My Agentic Blueprint";
+            
+            // Build the blueprint modal content
+            renderBlueprintModalContent(name, lang);
+        }
+    }, 350);
+}
+
+function renderBlueprintModalContent(name, lang) {
     const bp = businessBlueprints[selectedBusinessType][lang];
     const modal = document.getElementById('blueprint-modal');
     const content = document.getElementById('blueprint-modal-content');
@@ -1958,6 +2115,34 @@ function toggleGlobalLanguage() {
     // Gherkin:
     document.getElementById('sdd-gherkin-block').innerHTML = dict.gherkin_content;
     
+    // Section 10 (Deep Dive Journey) & Section 11 (Generator) Translations:
+    const idsToTranslate = [
+        'lbl-journey', 'h-journey', 'p-journey',
+        'j-d1-badge', 'j-d1-h', 'j-d1-p', 'j-d1-b1', 'j-d1-b2', 'j-d1-b3',
+        'j-d2-badge', 'j-d2-h', 'j-d2-p', 'j-d2-b1', 'j-d2-b2', 'j-d2-b3',
+        'j-d3-badge', 'j-d3-h', 'j-d3-p', 'j-d3-b1', 'j-d3-b2', 'j-d3-b3',
+        'j-d4-badge', 'j-d4-h', 'j-d4-p', 'j-d4-b1', 'j-d4-b2', 'j-d4-b3',
+        'j-d5-badge', 'j-d5-h', 'j-d5-p', 'j-d5-b1', 'j-d5-b2', 'j-d5-b3',
+        'lbl-gen-header', 'h-gen', 'p-gen', 'lbl-gen-name', 'lbl-gen-type',
+        'lbl-gen-note'
+    ];
+    idsToTranslate.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && dict[id]) el.innerHTML = dict[id];
+    });
+
+    const btypes = ['ecommerce', 'restaurant', 'healthcare', 'finance', 'education', 'realestate', 'logistics', 'tech'];
+    btypes.forEach(type => {
+        const el = document.getElementById('btype-' + type + '-lbl');
+        if (el && dict['btype_' + type]) el.innerText = dict['btype_' + type];
+    });
+
+    const genBtn = document.getElementById('btn-generate-blueprint');
+    if (genBtn) genBtn.innerText = dict.btn_generate_blueprint;
+
+    const nameInput = document.getElementById('gen-name-input');
+    if (nameInput) nameInput.placeholder = currentGlobalLang === 'ar' ? 'مثال: أحمد، سارة، محمد...' : 'e.g. Ahmad, Sara, Mohammed...';
+
     updateHarnessButtonLabels();
     switchCodeTab(currentCodeTab);
     refreshMcpDisplay();
