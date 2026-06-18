@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agentic Ecosystem OS - Final Graduation Capstone Masterpiece</title>
+    <title>Agentic Ecosystem OS — Graduation Capstone | Abd Alrahaman gz</title>
+    <meta name="description" content="A graduation capstone showcasing a full Agentic Ecosystem OS: 3D context harness, self-correcting trajectory loops, MCP protocol, A2UI compiler, Ariadne security architecture, and SDD Gherkin engine.">
+    <meta name="keywords" content="Agentic AI, LLM Security, Ariadne, MCP Protocol, SDD, Graduation Project, AI Agents, Prompt Injection Defense">
+    <meta name="author" content="Abd Alrahaman gz">
+    <meta property="og:title" content="Agentic Ecosystem OS — Graduation Capstone">
+    <meta property="og:description" content="Interactive 5-day AI Agents intensive showcase with live simulators for Ariadne defense, MCP routing, A2UI compilation, and SDD specification.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#020512">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,31 +20,48 @@
 </head>
 <body class="bg-[#020512] text-slate-100 min-h-screen overflow-x-hidden en-font grid-bg relative">
 
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 z-[200] transition-all duration-100" style="width:0%"></div>
+
     <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-indigo-900/10 rounded-full blur-[150px] pointer-events-none"></div>
     <div class="absolute top-[40%] left-1/4 w-[500px] h-[500px] bg-emerald-900/5 rounded-full blur-[150px] pointer-events-none"></div>
 
-    <header class="border-b border-indigo-950/60 sticky top-0 z-50 bg-[#020512]/80 backdrop-blur-lg">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <header class="border-b border-indigo-950/60 sticky top-[3px] z-50 bg-[#020512]/90 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 p-2.5 rounded-xl text-white font-black tracking-wider shadow-lg shadow-indigo-500/20 text-xs font-mono">
+                <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 p-2 rounded-xl text-white font-black tracking-wider shadow-lg shadow-indigo-500/20 text-xs font-mono">
                     AGENT_OS.MASTER
                 </div>
-                <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-200 via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                <span class="font-extrabold text-lg bg-gradient-to-r from-indigo-200 via-slate-100 to-slate-400 bg-clip-text text-transparent hidden md:block">
                     Ecosystem Matrix Platform
                 </span>
             </div>
-            <div class="flex items-center gap-4">
+
+            <!-- SECTION NAVIGATION -->
+            <nav class="hidden lg:flex items-center gap-1" id="section-nav">
+                <a href="#section-harness" class="nav-link" id="navlink-harness" onclick="handleNavClick(event,'section-harness')">3D Harness</a>
+                <a href="#section-loop" class="nav-link" id="navlink-loop" onclick="handleNavClick(event,'section-loop')">Loop</a>
+                <a href="#section-stripe" class="nav-link" id="navlink-stripe" onclick="handleNavClick(event,'section-stripe')">Stripe</a>
+                <a href="#section-mcp" class="nav-link" id="navlink-mcp" onclick="handleNavClick(event,'section-mcp')">MCP</a>
+                <a href="#section-a2ui" class="nav-link" id="navlink-a2ui" onclick="handleNavClick(event,'section-a2ui')">A2UI</a>
+                <a href="#section-skills" class="nav-link" id="navlink-skills" onclick="handleNavClick(event,'section-skills')">Skills</a>
+                <a href="#section-security" class="nav-link" id="navlink-security" onclick="handleNavClick(event,'section-security')">Security</a>
+                <a href="#section-ariadne" class="nav-link nav-link-ariadne" id="navlink-ariadne" onclick="handleNavClick(event,'section-ariadne')">🛡️ Ariadne</a>
+                <a href="#section-sdd" class="nav-link" id="navlink-sdd" onclick="handleNavClick(event,'section-sdd')">SDD</a>
+            </nav>
+
+            <div class="flex items-center gap-2">
                 <!-- WALLET WIDGET -->
                 <div id="header-wallet" class="flex items-center gap-2 bg-emerald-950/40 border border-emerald-900/50 px-3 py-1.5 rounded-lg text-emerald-400 font-mono text-xs shadow-inner">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span id="wallet-label">BUDGET:</span>
                     <span id="wallet-balance" class="font-bold font-mono">$15.00</span>
                 </div>
-                <button onclick="toggleGlobalLanguage()" id="lang-toggle-btn" class="px-3.5 py-1.5 text-xs bg-indigo-950/60 text-indigo-300 rounded-lg border border-indigo-900/50 hover:bg-indigo-900/40 transition-all font-bold cursor-pointer font-sans">
+                <button onclick="toggleGlobalLanguage()" id="lang-toggle-btn" class="px-3 py-1.5 text-xs bg-indigo-950/60 text-indigo-300 rounded-lg border border-indigo-900/50 hover:bg-indigo-900/40 transition-all font-bold cursor-pointer font-sans">
                     تغيير للغة العربية
                 </button>
-                <div class="hidden md:flex text-xs code-font bg-indigo-950/40 text-indigo-400 px-3 py-1.5 rounded-lg border border-indigo-900/40">
-                    GRAD_PROJECT_CORE // PRODUCTION_V3
+                <div class="hidden xl:flex text-xs code-font bg-indigo-950/40 text-indigo-400 px-3 py-1.5 rounded-lg border border-indigo-900/40">
+                    PRODUCTION_V3
                 </div>
             </div>
         </div>
@@ -508,12 +533,210 @@ Select a preset above and click Compile to run the agentic layout compiler...
                     <div class="bg-slate-950 rounded-xl border border-slate-900 p-4 space-y-2">
                         <div class="flex justify-between items-center border-b border-slate-900 pb-2 mb-1">
                             <span class="text-slate-400 font-bold" id="lbl-ledger-title">AP2 Wallet Transactions Ledger:</span>
-                            <button onclick="refillWallet()" class="px-2 py-1 bg-indigo-950 text-indigo-300 hover:bg-indigo-900 border border-indigo-900/60 rounded text-[10px] cursor-pointer font-bold">💳 Refill Balance</button>
-                        </div>
                         <div id="ap2-ledger-list" class="space-y-1.5 text-[10px] max-h-[90px] overflow-y-auto">
                             <!-- Transactions will be loaded here -->
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: THE COMPLETE LEARNING JOURNEY (DEEP DIVE) -->
+        <section id="section-journey" class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28">
+            <div class="space-y-12 text-left">
+                <div class="text-center space-y-3">
+                    <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-full text-xs font-mono text-purple-300">
+                        <span id="lbl-journey">THE COMPLETE JOURNEY // 5-DAY INTENSIVE DEEP DIVE</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-white" id="h-journey">What You've Mastered</h2>
+                    <p class="text-slate-400 text-sm max-w-2xl mx-auto leading-relaxed" id="p-journey">Each concept builds on the last. Here's the full architecture of your learning journey — and how every piece reinforces the complete system.</p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="space-y-10">
+
+                    <!-- Day 1 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center p-6 bg-indigo-950/20 rounded-2xl border border-indigo-900/30 hover:border-indigo-500/30 transition-all">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-black text-white text-sm font-mono">D1</div>
+                                <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300" id="j-d1-badge">FOUNDATION // HARNESS ARCHITECTURE</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="j-d1-h">Context Harness: The 90% That Matters</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed" id="j-d1-p">The paradigm shift: The LLM is not the product — it's a tiny raw engine. The 90% that matters is the harness: sandboxes, guardrails, tool authorization, and policy enforcement. Without the harness, the model is a liability, not an asset.</p>
+                            <div class="space-y-1 text-xs font-mono">
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-indigo-400">→</span><span id="j-d1-b1">Temperature controls entropy and output variance</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-indigo-400">→</span><span id="j-d1-b2">Guardrails enforce behavioral constraint boundaries</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-indigo-400">→</span><span id="j-d1-b3">Sandboxes contain execution blast radius to zero</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950/90 rounded-xl border border-indigo-900/50 p-5 font-mono text-xs space-y-2">
+                            <div class="text-indigo-400 font-bold mb-3">HARNESS COMPOSITION MATRIX:</div>
+                            <div class="space-y-2 text-slate-400">
+                                <div class="flex justify-between items-center"><span>Sandbox Isolation Layer</span><span class="text-emerald-400 font-bold">✓ ENFORCED</span></div>
+                                <div class="flex justify-between items-center"><span>Tool Authorization Gate</span><span class="text-emerald-400 font-bold">✓ VERIFIED</span></div>
+                                <div class="flex justify-between items-center"><span>Policy Compliance Engine</span><span class="text-emerald-400 font-bold">✓ ACTIVE</span></div>
+                                <div class="flex justify-between items-center border-t border-slate-900 pt-2 mt-2"><span>LLM Core (~10%)</span><span class="text-indigo-400 font-bold">⬡ CONTAINED</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 2 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center p-6 bg-emerald-950/20 rounded-2xl border border-emerald-900/30 hover:border-emerald-500/30 transition-all">
+                        <div class="space-y-3 lg:order-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center font-black text-white text-sm font-mono">D2</div>
+                                <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300" id="j-d2-badge">PROTOCOLS // MCP + A2UI INTERFACE LAYER</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="j-d2-h">MCP + A2UI: The Universal Integration Standard</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed" id="j-d2-p">MCP eliminates the integration tax. Instead of 100 bespoke connectors, one standardized JSON-RPC 2.0 protocol routes all tool calls. A2UI closes the loop — the agent generates interactive UI components directly, bridging capability and presentation without human templating.</p>
+                            <div class="space-y-1 text-xs font-mono">
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d2-b1">JSON-RPC 2.0 is the universal tool invocation language</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d2-b2">A2UI renders real-time interactive components on-demand</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d2-b3">Standard schemas eliminate cross-service integration debt</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950/90 rounded-xl border border-emerald-900/50 p-5 font-mono text-xs space-y-2 lg:order-1">
+                            <div class="text-emerald-400 font-bold mb-3">MCP REQUEST FLOW TRACE:</div>
+                            <div class="space-y-2 text-slate-400">
+                                <div>Agent <span class="text-slate-600">──→</span> <span class="text-purple-400">tools/call</span> <span class="text-slate-600">──→</span> MCP Router</div>
+                                <div>MCP Router <span class="text-slate-600">──→</span> <span class="text-amber-400">validate</span> <span class="text-slate-600">──→</span> Tool Handler</div>
+                                <div>Tool Handler <span class="text-slate-600">──→</span> <span class="text-indigo-400">result</span> <span class="text-slate-600">──→</span> A2UI Compiler</div>
+                                <div>A2UI Compiler <span class="text-slate-600">──→</span> <span class="text-emerald-400">render()</span> <span class="text-slate-600">──→</span> User Widget</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 3 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center p-6 bg-indigo-950/20 rounded-2xl border border-indigo-900/30 hover:border-indigo-500/30 transition-all">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-black text-white text-sm font-mono">D3</div>
+                                <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-md text-xs font-mono text-indigo-300" id="j-d3-badge">PORTABILITY // DYNAMIC SKILLS REGISTRY</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="j-d3-h">Skills & Context Management: Fighting Context Rot</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed" id="j-d3-p">Context rot is the silent killer of agent reliability. As prompts grow monolithically, precision degrades exponentially. Dynamic skills solve this: specialized capabilities are encapsulated in SKILL.md manifests and loaded only when needed — keeping context windows clean, costs predictable, and agents focused.</p>
+                            <div class="space-y-1 text-xs font-mono">
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-violet-400">→</span><span id="j-d3-b1">SKILL.md is the single source of truth for capabilities</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-violet-400">→</span><span id="j-d3-b2">Progressive disclosure prevents context window exhaustion</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-violet-400">→</span><span id="j-d3-b3">Portable manifests enable skill reuse across agent teams</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950/90 rounded-xl border border-indigo-900/50 p-5 font-mono text-xs">
+                            <div class="text-indigo-400 font-bold mb-3">SKILL REGISTRY STATUS:</div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-slate-400"><span>Code_Linter.skill</span><span class="text-emerald-400">● LOADED (12ms)</span></div>
+                                <div class="flex justify-between items-center text-slate-500"><span>Security_Audit.skill</span><span class="text-slate-600">○ IDLE</span></div>
+                                <div class="flex justify-between items-center text-slate-500"><span>Payments_Agent.skill</span><span class="text-slate-600">○ IDLE</span></div>
+                                <div class="flex justify-between items-center text-slate-500"><span>MCP_Router.skill</span><span class="text-slate-600">○ IDLE</span></div>
+                                <div class="border-t border-slate-900 pt-2 mt-2 flex justify-between text-slate-500">
+                                    <span>Context tokens used:</span><span class="text-emerald-400">2.1k / 128k</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 4 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center p-6 bg-amber-950/20 rounded-2xl border border-amber-900/30 hover:border-amber-500/30 transition-all">
+                        <div class="space-y-3 lg:order-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-rose-600 flex items-center justify-center font-black text-white text-sm font-mono">D4</div>
+                                <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-md text-xs font-mono text-amber-300" id="j-d4-badge">SECURITY // ARIADNE + HITL TRUST MODEL</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="j-d4-h">Ariadne Defense: Trust Is Not Assumed</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed" id="j-d4-p">Ariadne treats agent compromise as an expected operational state — not an edge case. Defenses hold even when the LLM is fully hijacked. Human-In-The-Loop gates block irreversible operations at the exact moment of decision, when human judgment is most valuable and machine judgment is least reliable.</p>
+                            <div class="space-y-1 text-xs font-mono">
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-amber-400">→</span><span id="j-d4-b1">Assume breach as an operational baseline, never deny it</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-amber-400">→</span><span id="j-d4-b2">External observers are immune to agent-side corruption</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-amber-400">→</span><span id="j-d4-b3">Canary tokens reveal exfiltration attempts in milliseconds</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950/90 rounded-xl border border-amber-900/50 p-5 font-mono text-xs lg:order-1">
+                            <div class="text-amber-400 font-bold mb-3">ARIADNE DEFENSE STACK:</div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-[8px]">1</span><span class="text-slate-400">Least-Privilege Scoping</span></div>
+                                <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-[8px]">2</span><span class="text-slate-400">Independent Observer Log</span></div>
+                                <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-[8px]">3</span><span class="text-slate-400">Canary Honeytoken Traps</span></div>
+                                <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-[8px]">4</span><span class="text-slate-400">Human-Gated Remediation</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 5 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center p-6 bg-emerald-950/20 rounded-2xl border border-emerald-900/30 hover:border-emerald-500/30 transition-all">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-green-600 flex items-center justify-center font-black text-white text-sm font-mono">D5</div>
+                                <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md text-xs font-mono text-emerald-300" id="j-d5-badge">PRODUCTION // SPEC-DRIVEN DEVELOPMENT</div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="j-d5-h">SDD: Code Is Disposable, Specs Are Immortal</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed" id="j-d5-p">In enterprise SDD, raw generated code is fully disposable — a transient artifact. Gherkin feature files are the permanent, machine-executable contracts that govern exact system behavior. The LLM is a code factory; the spec is the architect. This is how reliable AI production systems are built.</p>
+                            <div class="space-y-1 text-xs font-mono">
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d5-b1">Gherkin specs are executable behavioral contracts</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d5-b2">Generated code is throwaway; specifications are permanent</span></div>
+                                <div class="flex items-center gap-2 text-slate-500"><span class="text-emerald-400">→</span><span id="j-d5-b3">AP2 micropayments enforce accountable cost-per-execution</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950/90 rounded-xl border border-emerald-900/50 p-5 font-mono text-xs border-l-4 border-l-emerald-500">
+                            <div class="text-emerald-400 font-bold mb-3">SDD CONTRACT STATUS:</div>
+                            <div class="text-slate-300 space-y-1">
+                                <div><span class="text-purple-400">Feature:</span> Production Behavior Assurance</div>
+                                <div class="pl-4"><span class="text-indigo-400">Scenario:</span> Full pipeline verification</div>
+                                <div class="pl-8"><span class="text-emerald-400">Given</span> specs are formally defined</div>
+                                <div class="pl-8"><span class="text-emerald-400">When</span> agent generates any code artifact</div>
+                                <div class="pl-8"><span class="text-emerald-400">Then</span> all behavioral tests must pass</div>
+                            </div>
+                            <div class="mt-3 pt-2 border-t border-slate-900 text-emerald-400 font-bold">✓ Contract verified: 100% passing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 11: PERSONALIZED BLUEPRINT GENERATOR -->
+        <section id="section-generator" class="rounded-3xl p-8 md:p-12 relative overflow-hidden scroll-mt-28" style="background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(8,12,26,0.9) 50%, rgba(16,185,129,0.06) 100%); border: 1px solid rgba(99,102,241,0.25);">
+            <div class="space-y-8 text-left">
+                <!-- Header -->
+                <div class="text-center space-y-4">
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/10 to-emerald-500/10 border border-indigo-500/25 px-5 py-2 rounded-full text-xs font-mono text-indigo-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span id="lbl-gen-header">⚡ INTERACTIVE EXPERIENCE // PERSONALIZED BLUEPRINT GENERATOR</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-white" id="h-gen">Build <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">YOUR</span> Agentic System</h2>
+                    <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed" id="p-gen">Apply everything you've mastered. Enter your name and business idea — and watch the system generate a complete, personalized Agentic OS blueprint tailored to your exact domain.</p>
+                </div>
+
+                <!-- Input Form -->
+                <div class="max-w-2xl mx-auto space-y-5">
+                    <!-- Name -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-slate-400 tracking-widest uppercase" id="lbl-gen-name">YOUR NAME</label>
+                        <input type="text" id="gen-name-input" placeholder="e.g. Ahmad, Sara, Mohammed..."
+                            class="w-full bg-slate-950/80 border border-slate-800 focus:border-indigo-500 rounded-xl px-4 py-3.5 text-white text-sm outline-none font-sans placeholder:text-slate-600 transition-all">
+                    </div>
+
+                    <!-- Business Type Grid -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-slate-400 tracking-widest uppercase" id="lbl-gen-type">SELECT YOUR BUSINESS TYPE</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="business-type-grid">
+                            <button onclick="selectBusinessType('ecommerce')" id="btype-ecommerce" class="btype-btn btype-inactive">🛒<br><span id="btype-ecommerce-lbl">E-Commerce</span></button>
+                            <button onclick="selectBusinessType('restaurant')" id="btype-restaurant" class="btype-btn btype-inactive">🍕<br><span id="btype-restaurant-lbl">Restaurant</span></button>
+                            <button onclick="selectBusinessType('healthcare')" id="btype-healthcare" class="btype-btn btype-inactive">🏥<br><span id="btype-healthcare-lbl">Healthcare</span></button>
+                            <button onclick="selectBusinessType('finance')" id="btype-finance" class="btype-btn btype-inactive">💰<br><span id="btype-finance-lbl">Finance</span></button>
+                            <button onclick="selectBusinessType('education')" id="btype-education" class="btype-btn btype-inactive">🎓<br><span id="btype-education-lbl">Education</span></button>
+                            <button onclick="selectBusinessType('realestate')" id="btype-realestate" class="btype-btn btype-inactive">🏗️<br><span id="btype-realestate-lbl">Real Estate</span></button>
+                            <button onclick="selectBusinessType('logistics')" id="btype-logistics" class="btype-btn btype-inactive">🚚<br><span id="btype-logistics-lbl">Logistics</span></button>
+                            <button onclick="selectBusinessType('tech')" id="btype-tech" class="btype-btn btype-inactive">💻<br><span id="btype-tech-lbl">Tech Startup</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button onclick="generateBlueprint()" id="btn-generate-blueprint"
+                        class="w-full py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-emerald-600 hover:from-indigo-500 hover:via-purple-500 hover:to-emerald-500 text-white font-black text-sm rounded-xl shadow-2xl shadow-indigo-500/20 transition-all transform hover:scale-[1.02] cursor-pointer font-sans tracking-widest uppercase">
+                        ⚡ Generate My Agentic Blueprint
+                    </button>
+
+                    <p class="text-center text-xs text-slate-600 font-mono" id="lbl-gen-note">Select a business type above to generate your personalized system</p>
                 </div>
             </div>
         </section>
@@ -525,6 +748,9 @@ Select a preset above and click Compile to run the agentic layout compiler...
             <div class="text-xs text-emerald-400 font-mono tracking-widest uppercase">Validated & Standardized for Production Scale Deployments 2026</div>
         </section>
     </main>
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <button id="scroll-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
     <footer class="border-t border-slate-900 py-10 bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
         <p>© 2026 Agentic Ecosystem OS Hub // Engineered by <span class="text-slate-300 font-bold underline">Abd Alrahaman gz</span></p>

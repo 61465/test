@@ -233,3 +233,220 @@
 [dir="rtl"] .ariadne-table th, [dir="rtl"] .ariadne-table td {
     text-align: right;
 }
+
+/* ============================
+   NAVIGATION BAR STYLES
+   ============================ */
+
+.nav-link {
+    padding: 5px 11px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    color: #64748b;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+}
+
+.nav-link:hover {
+    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.nav-link.active {
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.12);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+}
+
+.nav-link-ariadne {
+    color: #f59e0b;
+}
+
+.nav-link-ariadne:hover {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.25);
+}
+
+.nav-link-ariadne.active {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+}
+
+/* RTL nav adjustments */
+[dir="rtl"] #section-nav {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-link {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+}
+
+/* ============================
+   SCROLL-TO-TOP BUTTON
+   ============================ */
+#scroll-to-top {
+    position: fixed;
+    bottom: 120px;
+    right: 24px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #818cf8;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 49;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+#scroll-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#scroll-to-top:hover {
+    background: rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* ============================
+   SECTION ENTRY ANIMATIONS
+   ============================ */
+@keyframes sectionFadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-animate {
+    animation: sectionFadeIn 0.5s ease forwards;
+}
+
+/* Mobile hamburger menu */
+#mobile-nav-menu {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    #mobile-nav-toggle {
+        display: flex;
+    }
+}
+
+/* ============================
+   BUSINESS TYPE BUTTONS
+   ============================ */
+.btype-btn {
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.6;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.btype-inactive {
+    background: rgba(15, 23, 42, 0.8);
+    color: #64748b;
+    border-color: rgba(51, 65, 85, 0.5);
+}
+
+.btype-inactive:hover {
+    background: rgba(30, 41, 59, 0.8);
+    color: #94a3b8;
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-1px);
+}
+
+.btype-active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
+    transform: translateY(-1px);
+}
+
+/* ============================
+   BLUEPRINT MODAL
+   ============================ */
+#blueprint-modal {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+}
+
+.blueprint-header {
+    background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(16,185,129,0.08));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.blueprint-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%);
+    pointer-events: none;
+}
+
+.blueprint-card {
+    background: rgba(8, 12, 26, 0.85);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+}
+
+.blueprint-card-emerald {
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.blueprint-card-amber {
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.blueprint-card-purple {
+    border-color: rgba(167, 139, 250, 0.2);
+}
+
+@keyframes blueprintBuild {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.blueprint-animate {
+    animation: blueprintBuild 0.4s ease forwards;
+}
+
+.blueprint-animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.blueprint-animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.blueprint-animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
+.blueprint-animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
+.blueprint-animate-delay-5 { animation-delay: 0.5s; opacity: 0; }

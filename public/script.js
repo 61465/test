@@ -166,12 +166,12 @@ const localizationMap = {
         skill_auditor_badge: "جاهز",
         skill_auditor_desc: "فحص الحاويات البرمجية ضد ثغرات المكتبات الخارجية ونقاط الضعف في بيئة التشغيل.",
         
-        sec_red_title: "RED TEAM",
-        sec_red_desc: "Simulating adversarial vector injection.",
-        sec_blue_title: "BLUE TEAM",
-        sec_blue_desc: "Enforcing sandboxed context blockades.",
-        sec_green_title: "GREEN TEAM",
-        sec_green_desc: "Tracking telemetry signatures.",
+        sec_red_title: "فريق الهجوم (Red Team)",
+        sec_red_desc: "محاكاة هجمات حقن المتجهات العدائية وفحص نقاط الضعف.",
+        sec_blue_title: "فريق الدفاع (Blue Team)",
+        sec_blue_desc: "فرض حواجز عزل السياق وتفعيل آليات الحماية الاستباقية.",
+        sec_green_title: "فريق المراقبة (Green Team)",
+        sec_green_desc: "تتبع توقيعات البيانات التشغيلية عبر OpenTelemetry.",
         
         // Ariadne Additions
         ariadne_title: "أريادني: نظام دفاع التغذية الراجعة بقيادة بشرية",
@@ -367,6 +367,759 @@ function resetSim() {
 }
 
 // --- Bounding Harness Cage ---
+// ========================================
+// BLUEPRINT GENERATOR SYSTEM
+// ========================================
+
+let selectedBusinessType = null;
+
+const businessBlueprints = {
+    ecommerce: {
+        en: { icon: '🛒', name: 'E-Commerce Platform',
+            tagline: 'Autonomous commerce intelligence from catalog to checkout',
+            agents: [
+                { name: 'CatalogAgent', role: 'Manages product listings, inventory sync & pricing rules', color: 'indigo' },
+                { name: 'CheckoutAgent', role: 'Orchestrates cart validation, discount application & payment flow', color: 'emerald' },
+                { name: 'FulfillmentAgent', role: 'Dispatches warehouse picks, shipping labels & tracking updates', color: 'purple' },
+                { name: 'SupportAgent', role: 'Resolves return requests, FAQs & escalations autonomously', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_inventory_db', desc: 'Fetches real-time stock levels before every checkout', cost: '$0.002' },
+                { name: 'process_stripe_payment', desc: 'Validates webhook signatures & executes secure payments', cost: '$0.008' },
+                { name: 'update_fulfillment_api', desc: 'Syncs confirmed orders with warehouse management system', cost: '$0.003' },
+                { name: 'send_email_notification', desc: 'Triggers order confirmation & shipping transactional emails', cost: '$0.001' },
+                { name: 'generate_discount_code', desc: 'Creates personalized coupon codes based on user segments', cost: '$0.002' }
+            ],
+            threats: [
+                { title: 'Cart Price Injection', desc: 'Malicious agent manipulates unit price fields before final checkout commit', shield: 'Schema validation + HITL gate on price mutations' },
+                { title: 'Webhook Spoofing', desc: 'Fake Stripe events trigger unauthorized order fulfillment at zero cost', shield: 'HMAC-SHA256 signature verification on every webhook payload' },
+                { title: 'Inventory Poisoning', desc: 'Adversarial inputs corrupt product catalog data causing overselling', shield: 'Canary products with sentinel values trigger circuit breaker' }
+            ],
+            skills: [
+                { name: 'Stripe_Auditor.skill', desc: 'Validates payment webhook signatures cryptographically before trust', color: 'emerald' },
+                { name: 'Inventory_Guard.skill', desc: 'Monitors stock mutations and flags anomalous bulk-change patterns', color: 'indigo' },
+                { name: 'Returns_Processor.skill', desc: 'Executes refund policy logic against SDD-defined return contracts', color: 'purple' }
+            ],
+            gherkin: `Feature: Secure E-Commerce Checkout Pipeline\n\n  Scenario: Customer completes a purchase order\n    Given the customer basket contains verified product SKUs\n    And inventory levels confirm sufficient stock\n    When the payment webhook fires with a valid HMAC signature\n    Then the FulfillmentAgent dispatches a warehouse pick order\n    And the customer receives a confirmation email within 2 seconds\n    And the AP2 ledger records a $0.014 execution cost\n\n  Scenario: Webhook spoofing attempt is detected\n    Given a POST request arrives at /webhook/stripe\n    When the HMAC-SHA256 signature fails verification\n    Then Ariadne circuit breaker halts all downstream tool calls\n    And a HITL alert is raised for human review`,
+            wallet: [
+                { op: 'inventory_check', cost: '$0.002' }, { op: 'payment_process', cost: '$0.008' },
+                { op: 'fulfillment_dispatch', cost: '$0.003' }, { op: 'email_send', cost: '$0.001' }
+            ]
+        },
+        ar: { icon: '🛒', name: 'منصة تجارة إلكترونية',
+            tagline: 'ذكاء تجاري مستقل من الكتالوج حتى الدفع',
+            agents: [
+                { name: 'CatalogAgent', role: 'يدير قوائم المنتجات ومزامنة المخزون وقواعد التسعير', color: 'indigo' },
+                { name: 'CheckoutAgent', role: 'يُنسّق التحقق من السلة وتطبيق الخصومات وعملية الدفع', color: 'emerald' },
+                { name: 'FulfillmentAgent', role: 'يُصدر أوامر الانتقاء من المستودع وملصقات الشحن', color: 'purple' },
+                { name: 'SupportAgent', role: 'يحل طلبات الإرجاع والأسئلة الشائعة والتصعيد تلقائياً', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_inventory_db', desc: 'يجلب مستويات المخزون الحية قبل كل عملية دفع', cost: '$0.002' },
+                { name: 'process_stripe_payment', desc: 'يتحقق من توقيعات Webhook وينفذ المدفوعات', cost: '$0.008' },
+                { name: 'update_fulfillment_api', desc: 'يزامن الطلبات المؤكدة مع نظام إدارة المستودع', cost: '$0.003' },
+                { name: 'send_email_notification', desc: 'يُشغّل رسائل تأكيد الطلب وتحديثات الشحن', cost: '$0.001' },
+                { name: 'generate_discount_code', desc: 'يُنشئ كوبونات مخصصة حسب شرائح المستخدمين', cost: '$0.002' }
+            ],
+            threats: [
+                { title: 'حقن سعر السلة', desc: 'وكيل خبيث يُعدّل حقول الأسعار قبل تأكيد الدفع النهائي', shield: 'التحقق من الـ Schema + بوابة HITL على تعديلات الأسعار' },
+                { title: 'انتحال Webhook', desc: 'أحداث Stripe مزيفة تُشغّل تنفيذ طلبات غير مصرح بها', shield: 'التحقق من التوقيع HMAC-SHA256 على كل طلب وارد' },
+                { title: 'تسميم المخزون', desc: 'مدخلات عدائية تُفسد بيانات كتالوج المنتجات', shield: 'منتجات Canary مع قيم حارسة تُفعّل قاطع الدائرة' }
+            ],
+            skills: [
+                { name: 'Stripe_Auditor.skill', desc: 'يتحقق من توقيعات الدفع تشفيرياً قبل منح الثقة', color: 'emerald' },
+                { name: 'Inventory_Guard.skill', desc: 'يراقب تعديلات المخزون ويُبلغ عن الأنماط الشاذة', color: 'indigo' },
+                { name: 'Returns_Processor.skill', desc: 'يُنفّذ منطق سياسة الإرجاع وفق عقود SDD', color: 'purple' }
+            ],
+            gherkin: `الميزة: خط أنابيب دفع التجارة الإلكترونية الآمن\n\n  السيناريو: يُكمل العميل طلب شراء\n    بافتراض أن سلة العميل تحتوي على رموز منتجات محققة\n    وأن مستويات المخزون تؤكد توفر الكمية الكافية\n    عند تنشيط Webhook بتوقيع HMAC صحيح\n    إذن يُصدر FulfillmentAgent أمر انتقاء من المستودع\n    ويتلقى العميل رسالة تأكيد خلال ثانيتين`,
+            wallet: [
+                { op: 'فحص المخزون', cost: '$0.002' }, { op: 'معالجة الدفع', cost: '$0.008' },
+                { op: 'إرسال الطلب', cost: '$0.003' }, { op: 'إرسال البريد', cost: '$0.001' }
+            ]
+        }
+    },
+    restaurant: {
+        en: { icon: '🍕', name: 'Restaurant & Food Ordering',
+            tagline: 'AI-powered kitchen-to-customer orchestration',
+            agents: [
+                { name: 'MenuAgent', role: 'Dynamically prices menu items based on demand, season & stock', color: 'amber' },
+                { name: 'OrderAgent', role: 'Validates orders, assigns kitchen queues & manages modifiers', color: 'emerald' },
+                { name: 'DeliveryAgent', role: 'Dispatches drivers, tracks GPS & optimizes delivery routes', color: 'indigo' },
+                { name: 'ReviewAgent', role: 'Processes customer reviews and triggers quality improvement loops', color: 'rose' }
+            ],
+            tools: [
+                { name: 'submit_kitchen_order', desc: 'Sends validated order JSON to KDS (Kitchen Display System)', cost: '$0.002' },
+                { name: 'query_menu_availability', desc: 'Checks real-time ingredient stock before accepting an order', cost: '$0.001' },
+                { name: 'assign_delivery_driver', desc: 'Matches nearest available driver using GPS optimization', cost: '$0.003' },
+                { name: 'process_payment_intent', desc: 'Authorizes card pre-auth and captures on delivery confirmation', cost: '$0.005' },
+                { name: 'send_push_notification', desc: 'Pushes real-time order status updates to customer app', cost: '$0.001' }
+            ],
+            threats: [
+                { title: 'Order Manipulation', desc: 'Malicious prompts alter dish modifiers (e.g., remove allergen flags) after validation', shield: 'Immutable order hash stored before kitchen dispatch; any mutation fails comparison' },
+                { title: 'Driver Location Spoofing', desc: 'Fake GPS coordinates mark deliveries as complete without actual delivery', shield: 'Canary delivery addresses trigger HITL verification before payment capture' },
+                { title: 'Menu Price Poisoning', desc: 'Adversarial input sets premium items to $0.01 during flash sale windows', shield: 'Price bounds guardrails enforce min/max constraints with observer alerting' }
+            ],
+            skills: [
+                { name: 'Allergen_Guard.skill', desc: 'Cross-checks order modifiers against dietary restriction profiles', color: 'rose' },
+                { name: 'Kitchen_Scheduler.skill', desc: 'Optimizes queue order for parallel cooking station execution', color: 'amber' },
+                { name: 'Review_Analyst.skill', desc: 'Extracts actionable feedback signals from raw customer reviews', color: 'emerald' }
+            ],
+            gherkin: `Feature: Secure Restaurant Order Pipeline\n\n  Scenario: Customer places a food order successfully\n    Given the customer selects items that are in stock\n    And no allergen conflicts are detected in modifiers\n    When payment pre-authorization succeeds\n    Then the OrderAgent submits to KDS with an immutable order hash\n    And the DeliveryAgent assigns the nearest available driver`,
+            wallet: [
+                { op: 'menu_check', cost: '$0.001' }, { op: 'kitchen_submit', cost: '$0.002' },
+                { op: 'driver_assign', cost: '$0.003' }, { op: 'payment_capture', cost: '$0.005' }
+            ]
+        },
+        ar: { icon: '🍕', name: 'مطعم وطلب الطعام',
+            tagline: 'تنسيق ذكي من المطبخ إلى العميل',
+            agents: [
+                { name: 'MenuAgent', role: 'يُسعّر القائمة ديناميكياً بناءً على الطلب والموسم والمخزون', color: 'amber' },
+                { name: 'OrderAgent', role: 'يتحقق من الطلبات ويُعيّن طوابير المطبخ ويُدير الإضافات', color: 'emerald' },
+                { name: 'DeliveryAgent', role: 'يُوفّر السائقين ويتتبع GPS ويُحسّن مسارات التوصيل', color: 'indigo' },
+                { name: 'ReviewAgent', role: 'يعالج تقييمات العملاء ويُشغّل حلقات تحسين الجودة', color: 'rose' }
+            ],
+            tools: [
+                { name: 'submit_kitchen_order', desc: 'يُرسل JSON الطلب المُتحقق إلى شاشة عرض المطبخ', cost: '$0.002' },
+                { name: 'query_menu_availability', desc: 'يفحص مخزون المكونات في الوقت الفعلي قبل قبول الطلب', cost: '$0.001' },
+                { name: 'assign_delivery_driver', desc: 'يُطابق أقرب سائق متاح باستخدام تحسين GPS', cost: '$0.003' },
+                { name: 'process_payment_intent', desc: 'يُفعّل التفويض المسبق للبطاقة ويلتقط عند التأكيد', cost: '$0.005' },
+                { name: 'send_push_notification', desc: 'يُرسل تحديثات حالة الطلب الفورية لتطبيق العميل', cost: '$0.001' }
+            ],
+            threats: [
+                { title: 'التلاعب بالطلب', desc: 'مدخلات ضارة تُعدّل إضافات الأطباق بعد التحقق', shield: 'تجزئة الطلب غير القابلة للتغيير قبل الإرسال إلى المطبخ' },
+                { title: 'انتحال موقع السائق', desc: 'إحداثيات GPS مزيفة تُسجّل التوصيل دون تسليم فعلي', shield: 'عناوين Canary تُشغّل التحقق HITL قبل التقاط الدفع' },
+                { title: 'تسميم أسعار القائمة', desc: 'مدخلات عدائية تُضبط الأصناف المميزة بسعر $0.01', shield: 'حواجز السعر تُطبّق قيوداً min/max مع تنبيه المراقب' }
+            ],
+            skills: [
+                { name: 'Allergen_Guard.skill', desc: 'يتحقق من إضافات الطلب ضد ملفات القيود الغذائية', color: 'rose' },
+                { name: 'Kitchen_Scheduler.skill', desc: 'يُحسّن ترتيب الطابور للطهي المتوازي في محطات العمل', color: 'amber' },
+                { name: 'Review_Analyst.skill', desc: 'يستخرج إشارات ملاحظات قابلة للتنفيذ من التقييمات', color: 'emerald' }
+            ],
+            gherkin: `الميزة: خط أنابيب طلب المطعم الآمن\n\n  السيناريو: يضع العميل طلباً للطعام\n    بافتراض أن العميل يختار أصنافاً متوفرة في المخزون\n    ولا يوجد تعارض في الحساسيات الغذائية\n    عند نجاح التفويض المسبق للدفع\n    إذن يُرسل OrderAgent إلى المطبخ مع تجزئة غير قابلة للتغيير`,
+            wallet: [
+                { op: 'فحص القائمة', cost: '$0.001' }, { op: 'إرسال المطبخ', cost: '$0.002' },
+                { op: 'تعيين السائق', cost: '$0.003' }, { op: 'التقاط الدفع', cost: '$0.005' }
+            ]
+        }
+    },
+    healthcare: {
+        en: { icon: '🏥', name: 'Healthcare & Clinic Management',
+            tagline: 'HIPAA-compliant AI agents for clinical excellence',
+            agents: [
+                { name: 'SchedulingAgent', role: 'Books appointments, manages cancellations & sends reminders', color: 'indigo' },
+                { name: 'TriageAgent', role: 'Pre-screens symptoms and routes to appropriate specialist', color: 'rose' },
+                { name: 'MedRecordAgent', role: 'Retrieves and updates EHR records with strict access controls', color: 'emerald' },
+                { name: 'BillingAgent', role: 'Processes insurance claims and manages payment collections', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_ehr_system', desc: 'Retrieves patient records with role-based access control', cost: '$0.004' },
+                { name: 'schedule_appointment', desc: 'Books slots in clinic calendar with conflict resolution', cost: '$0.002' },
+                { name: 'submit_insurance_claim', desc: 'Formats and submits HL7/FHIR compliant claims to payers', cost: '$0.006' },
+                { name: 'send_sms_reminder', desc: 'Dispatches appointment reminders 24h and 1h before visit', cost: '$0.001' },
+                { name: 'flag_critical_lab_result', desc: 'Escalates abnormal lab values to attending physician HITL', cost: '$0.003' }
+            ],
+            threats: [
+                { title: 'PHI Data Exfiltration', desc: 'Hijacked agent attempts to export protected health information via egress call', shield: 'Canary patient records with sentinel SSNs trigger immediate circuit breaker' },
+                { title: 'Unauthorized Record Access', desc: 'Prompt injection grants agent access to records outside its authorized scope', shield: 'Least-privilege: agent can only query records for current session patient ID' },
+                { title: 'Prescription Manipulation', desc: 'Adversarial inputs alter medication dosage fields in EHR updates', shield: 'HITL gate on all EHR write operations; immutable audit log for compliance' }
+            ],
+            skills: [
+                { name: 'HIPAA_Auditor.skill', desc: 'Validates all data operations against HIPAA Privacy Rule requirements', color: 'rose' },
+                { name: 'Lab_Interpreter.skill', desc: 'Parses HL7 lab results and flags values outside normal reference ranges', color: 'indigo' },
+                { name: 'Insurance_Encoder.skill', desc: 'Maps diagnoses to ICD-10 codes for accurate insurance claim filing', color: 'emerald' }
+            ],
+            gherkin: `Feature: Secure Clinical Appointment Pipeline\n\n  Scenario: Patient books a specialist appointment\n    Given the patient is authenticated with verified identity\n    And the specialist has available slots in the next 7 days\n    When the SchedulingAgent requests a booking\n    Then a confirmed slot is reserved with a unique booking ID\n    And an SMS reminder is dispatched 24 hours before the visit\n    And the EHR is updated with HITL approval for clinical notes`,
+            wallet: [
+                { op: 'ehr_query', cost: '$0.004' }, { op: 'slot_book', cost: '$0.002' },
+                { op: 'claim_submit', cost: '$0.006' }, { op: 'sms_send', cost: '$0.001' }
+            ]
+        },
+        ar: { icon: '🏥', name: 'الرعاية الصحية وإدارة العيادات',
+            tagline: 'وكلاء ذكاء اصطناعي متوافقون مع HIPAA للتميز السريري',
+            agents: [
+                { name: 'SchedulingAgent', role: 'يحجز المواعيد ويُدير الإلغاءات ويُرسل التذكيرات', color: 'indigo' },
+                { name: 'TriageAgent', role: 'يفحص الأعراض مسبقاً ويُوجّه إلى المختص المناسب', color: 'rose' },
+                { name: 'MedRecordAgent', role: 'يسترجع ويُحدّث سجلات EHR بضوابط وصول صارمة', color: 'emerald' },
+                { name: 'BillingAgent', role: 'يعالج مطالبات التأمين ويُدير تحصيل المدفوعات', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_ehr_system', desc: 'يسترجع سجلات المرضى مع التحكم في الوصول حسب الدور', cost: '$0.004' },
+                { name: 'schedule_appointment', desc: 'يحجز مواعيد في تقويم العيادة مع حل التعارضات', cost: '$0.002' },
+                { name: 'submit_insurance_claim', desc: 'يُنسّق ويُقدّم مطالبات HL7/FHIR للجهات المدفوعة', cost: '$0.006' },
+                { name: 'flag_critical_lab_result', desc: 'يُصعّد نتائج المختبر غير الطبيعية للطبيب عبر HITL', cost: '$0.003' }
+            ],
+            threats: [
+                { title: 'تسريب البيانات الصحية PHI', desc: 'وكيل مُخترق يحاول تصدير المعلومات الصحية المحمية', shield: 'سجلات مرضى Canary برقم ضمان اجتماعي حارس تُفعّل قاطع الدائرة' },
+                { title: 'الوصول غير المصرح به', desc: 'حقن الـ Prompt يمنح الوكيل وصولاً لسجلات خارج نطاقه', shield: 'أقل الصلاحيات: الوكيل يستعلم فقط عن المريض الحالي' },
+                { title: 'التلاعب بالوصفات', desc: 'مدخلات عدائية تُعدّل حقول جرعة الأدوية في EHR', shield: 'بوابة HITL على جميع عمليات الكتابة في EHR' }
+            ],
+            skills: [
+                { name: 'HIPAA_Auditor.skill', desc: 'يتحقق من جميع عمليات البيانات ضد متطلبات HIPAA', color: 'rose' },
+                { name: 'Lab_Interpreter.skill', desc: 'يُحلّل نتائج HL7 ويُبرز القيم خارج المعدل الطبيعي', color: 'indigo' },
+                { name: 'Insurance_Encoder.skill', desc: 'يُعيّن التشخيصات إلى رموز ICD-10 للمطالبات', color: 'emerald' }
+            ],
+            gherkin: `الميزة: خط أنابيب الموعد السريري الآمن\n\n  السيناريو: يحجز المريض موعداً مع متخصص\n    بافتراض أن المريض موثّق بهوية مُتحققة\n    وأن المتخصص لديه مواعيد متاحة خلال 7 أيام\n    عند طلب SchedulingAgent حجزاً\n    إذن يُحجز موعد مؤكد بمعرّف فريد\n    ويُرسل تذكير SMS قبل 24 ساعة من الزيارة`,
+            wallet: [
+                { op: 'استعلام EHR', cost: '$0.004' }, { op: 'حجز موعد', cost: '$0.002' },
+                { op: 'تقديم مطالبة', cost: '$0.006' }, { op: 'إرسال SMS', cost: '$0.001' }
+            ]
+        }
+    },
+    finance: {
+        en: { icon: '💰', name: 'Financial Services & FinTech',
+            tagline: 'Institutional-grade AI agents for capital markets & banking',
+            agents: [
+                { name: 'AnalysisAgent', role: 'Processes market data feeds and generates investment signals', color: 'emerald' },
+                { name: 'RiskAgent', role: 'Monitors portfolio exposure and enforces stop-loss constraints', color: 'rose' },
+                { name: 'ComplianceAgent', role: 'Validates all transactions against AML/KYC regulatory rules', color: 'amber' },
+                { name: 'ReportingAgent', role: 'Generates daily P&L statements and regulatory filings', color: 'indigo' }
+            ],
+            tools: [
+                { name: 'query_market_data_api', desc: 'Fetches real-time price feeds from Bloomberg/Reuters', cost: '$0.010' },
+                { name: 'submit_trade_order', desc: 'Places orders via FIX protocol to exchange gateways', cost: '$0.025' },
+                { name: 'run_risk_calculation', desc: 'Computes VaR, beta exposure and margin requirements', cost: '$0.008' },
+                { name: 'validate_kyc_record', desc: 'Checks customer identity against AML watchlists', cost: '$0.005' },
+                { name: 'generate_regulatory_report', desc: 'Produces FINRA/SEC compliant transaction reports', cost: '$0.012' }
+            ],
+            threats: [
+                { title: 'Rogue Trade Execution', desc: 'Hijacked agent submits unauthorized market orders causing financial loss', shield: 'HITL gate on ALL trade submissions above $1,000 value threshold' },
+                { title: 'Market Data Poisoning', desc: 'Manipulated price feed data causes agent to generate incorrect signals', shield: 'Canary tickers with sentinel prices trigger data source verification' },
+                { title: 'Regulatory Bypass', desc: 'Prompt injection skips AML/KYC validation for flagged transactions', shield: 'ComplianceAgent runs in isolated sandbox; trade blocked until AML clears' }
+            ],
+            skills: [
+                { name: 'AML_Scanner.skill', desc: 'Cross-references transactions against global financial crime watchlists', color: 'rose' },
+                { name: 'Risk_Calculator.skill', desc: 'Computes Value-at-Risk and stress-test scenarios in real-time', color: 'amber' },
+                { name: 'FIX_Protocol.skill', desc: 'Manages FIX session state and order book reconciliation', color: 'emerald' }
+            ],
+            gherkin: `Feature: Secure Algorithmic Trading Pipeline\n\n  Scenario: Agent submits a market buy order\n    Given the market data feed shows a valid buy signal\n    And the portfolio risk exposure is within approved limits\n    And the AML/KYC validation returns CLEAR status\n    When the trade value is below the $1,000 HITL threshold\n    Then the FIX order is submitted to the exchange gateway\n    And the risk model is updated with the new position`,
+            wallet: [
+                { op: 'market_data_fetch', cost: '$0.010' }, { op: 'risk_calc', cost: '$0.008' },
+                { op: 'kyc_validate', cost: '$0.005' }, { op: 'trade_submit', cost: '$0.025' }
+            ]
+        },
+        ar: { icon: '💰', name: 'الخدمات المالية والتكنولوجيا المالية',
+            tagline: 'وكلاء ذكاء اصطناعي بمستوى مؤسسي لأسواق المال والبنوك',
+            agents: [
+                { name: 'AnalysisAgent', role: 'يعالج تغذيات بيانات السوق ويُولّد إشارات الاستثمار', color: 'emerald' },
+                { name: 'RiskAgent', role: 'يراقب تعرّض المحفظة ويُطبّق قيود وقف الخسارة', color: 'rose' },
+                { name: 'ComplianceAgent', role: 'يتحقق من جميع المعاملات ضد قواعد AML/KYC', color: 'amber' },
+                { name: 'ReportingAgent', role: 'يُولّد بيانات الأرباح والخسائر والتقارير التنظيمية', color: 'indigo' }
+            ],
+            tools: [
+                { name: 'query_market_data_api', desc: 'يجلب تغذيات الأسعار الحية من Bloomberg/Reuters', cost: '$0.010' },
+                { name: 'submit_trade_order', desc: 'يضع أوامر عبر بروتوكول FIX لبوابات الصرف', cost: '$0.025' },
+                { name: 'run_risk_calculation', desc: 'يحسب VaR والتعرض للبيتا ومتطلبات الهامش', cost: '$0.008' },
+                { name: 'validate_kyc_record', desc: 'يفحص هوية العميل ضد قوائم مراقبة AML', cost: '$0.005' }
+            ],
+            threats: [
+                { title: 'تنفيذ تداول مارق', desc: 'وكيل مُخترق يُقدّم أوامر سوق غير مصرح بها', shield: 'بوابة HITL على جميع أوامر التداول فوق $1,000' },
+                { title: 'تسميم بيانات السوق', desc: 'بيانات أسعار مُعدَّلة تجعل الوكيل يُولّد إشارات خاطئة', shield: 'أسهم Canary بأسعار حارسة تُشغّل التحقق من المصدر' },
+                { title: 'تجاوز الامتثال التنظيمي', desc: 'حقن Prompt يتخطى التحقق من AML/KYC', shield: 'ComplianceAgent يعمل في sandbox معزول؛ التداول محظور حتى النقاء' }
+            ],
+            skills: [
+                { name: 'AML_Scanner.skill', desc: 'يتحقق من المعاملات ضد قوائم الجرائم المالية العالمية', color: 'rose' },
+                { name: 'Risk_Calculator.skill', desc: 'يحسب القيمة المعرضة للخطر وسيناريوهات الإجهاد', color: 'amber' },
+                { name: 'FIX_Protocol.skill', desc: 'يُدير حالة جلسة FIX ومطابقة دفتر الأوامر', color: 'emerald' }
+            ],
+            gherkin: `الميزة: خط أنابيب التداول الخوارزمي الآمن\n\n  السيناريو: يُقدّم الوكيل أمر شراء سوقياً\n    بافتراض أن تغذية البيانات تُظهر إشارة شراء صحيحة\n    وأن تعرّض المحفظة ضمن الحدود المعتمدة\n    وأن التحقق AML/KYC يُعيد حالة CLEAR\n    عند أن تكون قيمة التداول دون حد HITL البالغ $1,000\n    إذن يُرسل أمر FIX إلى بوابة الصرف`,
+            wallet: [
+                { op: 'جلب بيانات السوق', cost: '$0.010' }, { op: 'حساب المخاطر', cost: '$0.008' },
+                { op: 'التحقق KYC', cost: '$0.005' }, { op: 'تقديم تداول', cost: '$0.025' }
+            ]
+        }
+    },
+    education: {
+        en: { icon: '🎓', name: 'EdTech & Online Learning Platform',
+            tagline: 'Personalized AI tutors that adapt to every learner',
+            agents: [
+                { name: 'CurriculumAgent', role: 'Builds adaptive learning paths based on student performance data', color: 'indigo' },
+                { name: 'TutorAgent', role: 'Delivers personalized Socratic explanations and practice problems', color: 'emerald' },
+                { name: 'AssessmentAgent', role: 'Generates, grades and provides feedback on student submissions', color: 'purple' },
+                { name: 'EngagementAgent', role: 'Monitors dropout signals and triggers re-engagement sequences', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_student_progress', desc: 'Retrieves mastery scores and learning velocity per module', cost: '$0.002' },
+                { name: 'generate_practice_problem', desc: 'Creates difficulty-calibrated exercises from knowledge graph', cost: '$0.004' },
+                { name: 'submit_ai_graded_response', desc: 'Evaluates free-text answers against rubric criteria', cost: '$0.006' },
+                { name: 'update_learning_path', desc: 'Adjusts module sequence based on performance vectors', cost: '$0.002' },
+                { name: 'send_nudge_notification', desc: 'Triggers motivational push at optimal engagement windows', cost: '$0.001' }
+            ],
+            threats: [
+                { title: 'Grade Manipulation', desc: 'Student exploits LLM to auto-generate perfect graded responses bypassing learning', shield: 'AssessmentAgent cross-validates against Bloom taxonomy rubric; anomaly flags HITL' },
+                { title: 'Curriculum Poisoning', desc: 'Adversarial content injected into learning path corrupts subsequent modules', shield: 'Content integrity hash stored at ingestion; any mutation invalidates the module' },
+                { title: 'Progress Data Falsification', desc: 'Manipulated mastery scores unlock advanced content without actual competency', shield: 'Canary assessment checkpoints require live proctored verification' }
+            ],
+            skills: [
+                { name: 'Bloom_Taxonomy.skill', desc: 'Maps learning objectives to Bloom cognitive levels for rubric validation', color: 'indigo' },
+                { name: 'Adaptive_Engine.skill', desc: 'Calibrates exercise difficulty using item response theory models', color: 'emerald' },
+                { name: 'Dropout_Predictor.skill', desc: 'Identifies at-risk students from engagement signal patterns', color: 'amber' }
+            ],
+            gherkin: `Feature: Personalized Adaptive Learning Pipeline\n\n  Scenario: Student completes a module and advances\n    Given the student achieves 80%+ mastery on module assessments\n    And no plagiarism signals are detected in submissions\n    When the CurriculumAgent evaluates advancement eligibility\n    Then the next module is unlocked with calibrated difficulty\n    And the parent dashboard is updated with progress metrics`,
+            wallet: [
+                { op: 'progress_query', cost: '$0.002' }, { op: 'problem_gen', cost: '$0.004' },
+                { op: 'grading_run', cost: '$0.006' }, { op: 'path_update', cost: '$0.002' }
+            ]
+        },
+        ar: { icon: '🎓', name: 'تقنية التعليم والتعلم الإلكتروني',
+            tagline: 'مدرسون ذكاء اصطناعي شخصيون يتكيفون مع كل متعلم',
+            agents: [
+                { name: 'CurriculumAgent', role: 'يبني مسارات تعليمية تكيفية بناءً على بيانات أداء الطالب', color: 'indigo' },
+                { name: 'TutorAgent', role: 'يُقدّم شروحاً سقراطية وتمارين شخصية', color: 'emerald' },
+                { name: 'AssessmentAgent', role: 'يُولّد الاختبارات ويُصحّحها ويُقدّم تغذية راجعة', color: 'purple' },
+                { name: 'EngagementAgent', role: 'يراقب إشارات التسرب ويُشغّل تسلسلات إعادة الانخراط', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_student_progress', desc: 'يسترجع نقاط الإتقان وسرعة التعلم لكل وحدة', cost: '$0.002' },
+                { name: 'generate_practice_problem', desc: 'يُنشئ تمارين معايَرة الصعوبة من الرسم البياني', cost: '$0.004' },
+                { name: 'submit_ai_graded_response', desc: 'يُقيّم الإجابات الحرة ضد معايير التقييم', cost: '$0.006' }
+            ],
+            threats: [
+                { title: 'التلاعب بالدرجات', desc: 'طالب يستغل النموذج لتوليد إجابات مثالية دون تعلم', shield: 'التحقق المتقاطع ضد معايير Bloom؛ الشذوذ يُشغّل HITL' },
+                { title: 'تسميم المنهج', desc: 'محتوى عدائي يُدرج في المسار التعليمي ويُفسد الوحدات', shield: 'تجزئة سلامة المحتوى عند الاستيعاب؛ أي تعديل يُبطل الوحدة' },
+                { title: 'تزوير بيانات التقدم', desc: 'درجات إتقان مُعدَّلة تفتح محتوى متقدماً دون كفاءة', shield: 'نقاط تفتيش Canary تتطلب تحقق مُراقب مباشر' }
+            ],
+            skills: [
+                { name: 'Bloom_Taxonomy.skill', desc: 'يُعيّن أهداف التعلم إلى مستويات Bloom المعرفية', color: 'indigo' },
+                { name: 'Adaptive_Engine.skill', desc: 'يُعاير صعوبة التمرين باستخدام نظرية الاستجابة', color: 'emerald' },
+                { name: 'Dropout_Predictor.skill', desc: 'يُحدّد الطلاب المعرضين للخطر من أنماط الانخراط', color: 'amber' }
+            ],
+            gherkin: `الميزة: خط أنابيب التعلم التكيفي الشخصي\n\n  السيناريو: يكمل الطالب وحدة وينتقل للتالية\n    بافتراض أن الطالب حقق 80%+ إتقان في تقييمات الوحدة\n    ولم يُكتشف أي إشارة انتحال في التقديمات\n    عند تقييم CurriculumAgent لأهلية التقدم\n    إذن تُفتح الوحدة التالية بصعوبة معايَرة`,
+            wallet: [
+                { op: 'استعلام التقدم', cost: '$0.002' }, { op: 'توليد تمرين', cost: '$0.004' },
+                { op: 'تشغيل التصحيح', cost: '$0.006' }, { op: 'تحديث المسار', cost: '$0.002' }
+            ]
+        }
+    },
+    realestate: {
+        en: { icon: '🏗️', name: 'Real Estate & Property Management',
+            tagline: 'AI agents that close deals, manage properties and maximize ROI',
+            agents: [
+                { name: 'ListingAgent', role: 'Auto-generates property listings from raw photos and specs', color: 'indigo' },
+                { name: 'ValuationAgent', role: 'Computes real-time AVM prices from comparable sales data', color: 'emerald' },
+                { name: 'LeadAgent', role: 'Qualifies buyer inquiries and schedules viewings autonomously', color: 'purple' },
+                { name: 'ContractAgent', role: 'Drafts, reviews and flags anomalies in property contracts', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_mls_database', desc: 'Fetches comparable property sales from MLS data feeds', cost: '$0.003' },
+                { name: 'generate_property_listing', desc: 'Creates SEO-optimized listing copy from raw agent notes', cost: '$0.005' },
+                { name: 'schedule_property_viewing', desc: 'Books viewings in agent calendar with confirmation flow', cost: '$0.002' },
+                { name: 'run_avm_valuation', desc: 'Executes automated valuation model against 50+ data points', cost: '$0.008' },
+                { name: 'validate_contract_clauses', desc: 'Checks purchase agreement clauses against legal templates', cost: '$0.006' }
+            ],
+            threats: [
+                { title: 'Listing Price Manipulation', desc: 'Adversarial input sets below-market listing prices causing revenue loss', shield: 'AVM valuation bounds check; prices outside 15% band require HITL approval' },
+                { title: 'Fraudulent Lead Qualification', desc: 'Fake buyer leads manipulate agent into leaking confidential seller info', shield: 'Canary seller data with synthetic names triggers exfiltration detection' },
+                { title: 'Contract Clause Injection', desc: 'Hidden adversarial clauses inserted into auto-drafted contracts', shield: 'ContractAgent validates all clauses against approved legal template library' }
+            ],
+            skills: [
+                { name: 'AVM_Engine.skill', desc: 'Computes automated valuation using hedonic pricing regression', color: 'emerald' },
+                { name: 'Contract_Validator.skill', desc: 'Flags non-standard clauses against jurisdiction-specific templates', color: 'amber' },
+                { name: 'Lead_Scorer.skill', desc: 'Ranks buyer leads by financing readiness and intent signals', color: 'indigo' }
+            ],
+            gherkin: `Feature: Secure Property Transaction Pipeline\n\n  Scenario: Agent processes a new buyer inquiry\n    Given the buyer submits a property inquiry with valid contact details\n    And the lead score exceeds the qualification threshold\n    When the LeadAgent processes the inquiry\n    Then a viewing is scheduled with the listing agent\n    And the buyer profile is stored with explicit consent flags`,
+            wallet: [
+                { op: 'mls_query', cost: '$0.003' }, { op: 'avm_run', cost: '$0.008' },
+                { op: 'viewing_book', cost: '$0.002' }, { op: 'contract_check', cost: '$0.006' }
+            ]
+        },
+        ar: { icon: '🏗️', name: 'العقارات وإدارة الممتلكات',
+            tagline: 'وكلاء ذكاء اصطناعي يُبرمون الصفقات ويُديرون العقارات',
+            agents: [
+                { name: 'ListingAgent', role: 'يُولّد إعلانات العقارات تلقائياً من الصور والمواصفات', color: 'indigo' },
+                { name: 'ValuationAgent', role: 'يحسب أسعار AVM الحية من بيانات المبيعات المماثلة', color: 'emerald' },
+                { name: 'LeadAgent', role: 'يؤهّل استفسارات المشترين ويجدول المعاينات تلقائياً', color: 'purple' },
+                { name: 'ContractAgent', role: 'يُسوّد العقود ويراجعها ويُبرز الشذوذات', color: 'amber' }
+            ],
+            tools: [
+                { name: 'query_mls_database', desc: 'يجلب مبيعات العقارات المماثلة من قواعد بيانات MLS', cost: '$0.003' },
+                { name: 'generate_property_listing', desc: 'يُنشئ نص إعلان محسّن لـ SEO من ملاحظات الوكيل', cost: '$0.005' },
+                { name: 'run_avm_valuation', desc: 'يُنفّذ نموذج التقييم الآلي ضد 50+ نقطة بيانات', cost: '$0.008' }
+            ],
+            threats: [
+                { title: 'التلاعب بسعر الإعلان', desc: 'مدخل عدائي يُضبط أسعاراً دون السوق محدثاً خسارة', shield: 'فحص حدود AVM؛ الأسعار خارج النطاق 15% تتطلب موافقة HITL' },
+                { title: 'الاستفسارات الوهمية', desc: 'عملاء محتملون مزيفون يتلاعبون بالوكيل لتسريب بيانات البائع', shield: 'بيانات بائع Canary بأسماء مصطنعة تكشف محاولات التسريب' }
+            ],
+            skills: [
+                { name: 'AVM_Engine.skill', desc: 'يحسب التقييم الآلي باستخدام انحدار التسعير الهيدوني', color: 'emerald' },
+                { name: 'Contract_Validator.skill', desc: 'يُبرز البنود غير القياسية ضد القوالب القانونية', color: 'amber' },
+                { name: 'Lead_Scorer.skill', desc: 'يصنّف العملاء المحتملين حسب الاستعداد التمويلي', color: 'indigo' }
+            ],
+            gherkin: `الميزة: خط أنابيب المعاملة العقارية الآمنة\n\n  السيناريو: يعالج الوكيل استفساراً جديداً من مشترٍ\n    بافتراض أن المشتري يُقدّم استفساراً بتفاصيل اتصال صحيحة\n    وأن نقاط التأهيل تتجاوز الحد المطلوب\n    عند معالجة LeadAgent للاستفسار\n    إذن تُجدوَل معاينة مع وكيل الإعلان`,
+            wallet: [
+                { op: 'استعلام MLS', cost: '$0.003' }, { op: 'تشغيل AVM', cost: '$0.008' },
+                { op: 'حجز معاينة', cost: '$0.002' }, { op: 'فحص العقد', cost: '$0.006' }
+            ]
+        }
+    },
+    logistics: {
+        en: { icon: '🚚', name: 'Logistics & Supply Chain',
+            tagline: 'AI-orchestrated supply chains that self-optimize in real time',
+            agents: [
+                { name: 'RouteAgent', role: 'Optimizes last-mile delivery routes using real-time traffic data', color: 'indigo' },
+                { name: 'InventoryAgent', role: 'Monitors warehouse stock levels and triggers automated reorders', color: 'emerald' },
+                { name: 'CarrierAgent', role: 'Selects optimal carriers based on cost, speed and reliability', color: 'amber' },
+                { name: 'ExceptionAgent', role: 'Detects shipment anomalies and executes resolution workflows', color: 'rose' }
+            ],
+            tools: [
+                { name: 'optimize_delivery_route', desc: 'Computes shortest path with real-time traffic constraints', cost: '$0.004' },
+                { name: 'query_carrier_rates', desc: 'Fetches live rate quotes from FedEx/UPS/DHL APIs', cost: '$0.002' },
+                { name: 'create_shipping_label', desc: 'Generates and prints carrier-compliant shipping labels', cost: '$0.003' },
+                { name: 'track_shipment_gps', desc: 'Polls GPS location of active shipments every 5 minutes', cost: '$0.001' },
+                { name: 'trigger_reorder_po', desc: 'Submits purchase orders to suppliers below reorder threshold', cost: '$0.005' }
+            ],
+            threats: [
+                { title: 'GPS Spoofing Attack', desc: 'Fake driver location data marks shipments as delivered prematurely', shield: 'Canary delivery addresses trigger forced verification before POD' },
+                { title: 'Carrier Rate Manipulation', desc: 'Adversarial rate responses inflate carrier selection costs', shield: 'Rate bounds validation; anomalous quotes require HITL approval above threshold' },
+                { title: 'Reorder Flood Attack', desc: 'Prompt injection triggers excessive PO submissions depleting supplier capacity', shield: 'Reorder cooldown enforced; daily PO volume caps with observer alerting' }
+            ],
+            skills: [
+                { name: 'Route_Optimizer.skill', desc: 'Implements Dijkstra + traffic-weighted pathfinding algorithms', color: 'indigo' },
+                { name: 'Carrier_Ranker.skill', desc: 'Multi-factor carrier scoring using cost, SLA and reliability data', color: 'amber' },
+                { name: 'Exception_Handler.skill', desc: 'Classifies shipment exceptions and triggers resolution workflows', color: 'rose' }
+            ],
+            gherkin: `Feature: Secure Last-Mile Delivery Pipeline\n\n  Scenario: Driver completes a delivery\n    Given the shipment GPS location matches the delivery address\n    And the delivery time is within the SLA window\n    When the driver captures a proof-of-delivery photo\n    Then the shipment status is updated to DELIVERED\n    And the customer receives a delivery confirmation notification`,
+            wallet: [
+                { op: 'route_optimize', cost: '$0.004' }, { op: 'carrier_query', cost: '$0.002' },
+                { op: 'label_create', cost: '$0.003' }, { op: 'gps_poll', cost: '$0.001' }
+            ]
+        },
+        ar: { icon: '🚚', name: 'اللوجستيات وسلسلة التوريد',
+            tagline: 'سلاسل توريد مُنسَّقة بالذكاء الاصطناعي تُحسّن نفسها',
+            agents: [
+                { name: 'RouteAgent', role: 'يُحسّن مسارات التوصيل الأخيرة ببيانات حركة المرور', color: 'indigo' },
+                { name: 'InventoryAgent', role: 'يراقب مستويات المخزون ويُشغّل إعادة الطلب التلقائي', color: 'emerald' },
+                { name: 'CarrierAgent', role: 'يختار الناقل الأمثل بناءً على التكلفة والسرعة والموثوقية', color: 'amber' },
+                { name: 'ExceptionAgent', role: 'يكشف شذوذات الشحن ويُنفّذ سير عمل الحل', color: 'rose' }
+            ],
+            tools: [
+                { name: 'optimize_delivery_route', desc: 'يحسب المسار الأقصر مع قيود حركة المرور', cost: '$0.004' },
+                { name: 'query_carrier_rates', desc: 'يجلب عروض الأسعار المباشرة من FedEx/UPS/DHL', cost: '$0.002' },
+                { name: 'track_shipment_gps', desc: 'يستطلع موقع GPS للشحنات كل 5 دقائق', cost: '$0.001' }
+            ],
+            threats: [
+                { title: 'هجوم انتحال GPS', desc: 'بيانات موقع سائق مزيفة تُسجّل الشحنات كمُسلَّمة', shield: 'عناوين Canary تُشغّل التحقق القسري قبل POD' },
+                { title: 'التلاعب بأسعار الناقل', desc: 'استجابات أسعار عدائية تُضخّم تكاليف اختيار الناقل', shield: 'التحقق من حدود السعر؛ العروض الشاذة تتطلب موافقة HITL' }
+            ],
+            skills: [
+                { name: 'Route_Optimizer.skill', desc: 'يُطبّق خوارزمية Dijkstra + التوجيه بثقل حركة المرور', color: 'indigo' },
+                { name: 'Carrier_Ranker.skill', desc: 'تصنيف الناقل متعدد العوامل بالتكلفة والموثوقية', color: 'amber' },
+                { name: 'Exception_Handler.skill', desc: 'يُصنّف استثناءات الشحن ويُشغّل سير حل المشكلات', color: 'rose' }
+            ],
+            gherkin: `الميزة: خط أنابيب توصيل الميل الأخير الآمن\n\n  السيناريو: يُكمل السائق توصيلاً\n    بافتراض أن موقع GPS للشحنة يتطابق مع العنوان\n    وأن وقت التوصيل ضمن نافذة SLA\n    عند التقاط السائق صورة إثبات التسليم\n    إذن يُحدَّث حالة الشحنة إلى DELIVERED`,
+            wallet: [
+                { op: 'تحسين المسار', cost: '$0.004' }, { op: 'استعلام الناقل', cost: '$0.002' },
+                { op: 'إنشاء الملصق', cost: '$0.003' }, { op: 'استطلاع GPS', cost: '$0.001' }
+            ]
+        }
+    },
+    tech: {
+        en: { icon: '💻', name: 'Tech Startup & SaaS Platform',
+            tagline: 'AI-native development cycles that ship faster and break less',
+            agents: [
+                { name: 'CodeAgent', role: 'Generates, reviews and refactors code against spec-driven contracts', color: 'indigo' },
+                { name: 'TestAgent', role: 'Writes and executes unit/integration tests for every generated artifact', color: 'emerald' },
+                { name: 'DevOpsAgent', role: 'Manages CI/CD pipelines, infra provisioning and rollback decisions', color: 'purple' },
+                { name: 'MonitorAgent', role: 'Tracks production errors, latency anomalies and uptime SLAs', color: 'amber' }
+            ],
+            tools: [
+                { name: 'run_code_linter', desc: 'Executes AST-level static analysis against coding standards', cost: '$0.002' },
+                { name: 'execute_test_suite', desc: 'Runs full regression suite and returns coverage report', cost: '$0.008' },
+                { name: 'deploy_to_cloud_run', desc: 'Packages container and deploys to Cloud Run with zero-downtime', cost: '$0.015' },
+                { name: 'query_error_dashboard', desc: 'Fetches production error rates and P99 latency from Datadog', cost: '$0.003' },
+                { name: 'trigger_rollback', desc: 'Reverts deployment to last stable version on SLA breach', cost: '$0.005' }
+            ],
+            threats: [
+                { title: 'Supply Chain Code Injection', desc: 'Malicious dependency updates inject backdoors into production builds', shield: 'Dependency lockfiles verified against SBOM; HITL required for any version bump' },
+                { title: 'Rogue Cloud Run Deployment', desc: 'Hijacked DevOpsAgent deploys unauthorized containers to production', shield: 'All deploy_to_cloud_run calls are HITL-gated above staging environment' },
+                { title: 'Log Poisoning', desc: 'Adversarial inputs write misleading entries into monitoring dashboards', shield: 'Canary error codes in logs trigger Ariadne observer alert immediately' }
+            ],
+            skills: [
+                { name: 'SDD_Generator.skill', desc: 'Converts Gherkin feature specs to executable test scaffolding', color: 'indigo' },
+                { name: 'Dependency_Auditor.skill', desc: 'Scans package manifests against CVE databases and SBOM integrity', color: 'rose' },
+                { name: 'Infra_Provisioner.skill', desc: 'Manages Terraform/Pulumi plans with cost estimation gates', color: 'emerald' }
+            ],
+            gherkin: `Feature: Secure CI/CD Deployment Pipeline\n\n  Scenario: Code change passes all gates and deploys\n    Given a pull request passes 100% of unit tests\n    And the dependency audit returns no critical CVEs\n    And the SAST scanner finds no injection vulnerabilities\n    When the HITL deployment gate is approved by an engineer\n    Then the container is pushed to Cloud Run with zero-downtime\n    And the MonitorAgent confirms healthy P99 latency within 60s`,
+            wallet: [
+                { op: 'lint_run', cost: '$0.002' }, { op: 'test_suite', cost: '$0.008' },
+                { op: 'deploy_run', cost: '$0.015' }, { op: 'monitor_query', cost: '$0.003' }
+            ]
+        },
+        ar: { icon: '💻', name: 'شركة تقنية ناشئة ومنصة SaaS',
+            tagline: 'دورات تطوير أصلية بالذكاء الاصطناعي أسرع وأقل كسراً',
+            agents: [
+                { name: 'CodeAgent', role: 'يُولّد الكود ويراجعه ويُعيد هيكلته ضد عقود SDD', color: 'indigo' },
+                { name: 'TestAgent', role: 'يكتب وينفّذ اختبارات الوحدة/التكامل لكل مخرج', color: 'emerald' },
+                { name: 'DevOpsAgent', role: 'يُدير خطوط CI/CD وتوفير البنية التحتية وقرارات التراجع', color: 'purple' },
+                { name: 'MonitorAgent', role: 'يتتبع أخطاء الإنتاج وشذوذات الكمون واتفاقيات SLA', color: 'amber' }
+            ],
+            tools: [
+                { name: 'run_code_linter', desc: 'يُنفّذ التحليل الثابت على مستوى AST', cost: '$0.002' },
+                { name: 'execute_test_suite', desc: 'يُشغّل مجموعة الانحدار الكاملة ويُعيد تقرير التغطية', cost: '$0.008' },
+                { name: 'deploy_to_cloud_run', desc: 'يُعبّئ الحاوية وينشرها بدون توقف', cost: '$0.015' },
+                { name: 'trigger_rollback', desc: 'يُعيد النشر للإصدار المستقر الأخير عند خرق SLA', cost: '$0.005' }
+            ],
+            threats: [
+                { title: 'حقن كود سلسلة التوريد', desc: 'تحديثات تبعية ضارة تُدرج بابًا خلفياً في بيئة الإنتاج', shield: 'التحقق من قفل التبعيات ضد SBOM؛ HITL مطلوب لأي تحديث' },
+                { title: 'نشر Cloud Run المارق', desc: 'DevOpsAgent مُخترق ينشر حاويات غير مصرح بها', shield: 'جميع نداءات deploy_to_cloud_run محمية بـ HITL فوق بيئة التطوير' }
+            ],
+            skills: [
+                { name: 'SDD_Generator.skill', desc: 'يُحوّل مواصفات Gherkin إلى سقالة اختبار قابلة للتنفيذ', color: 'indigo' },
+                { name: 'Dependency_Auditor.skill', desc: 'يفحص تفاصيل الحزم ضد قواعد بيانات CVE', color: 'rose' },
+                { name: 'Infra_Provisioner.skill', desc: 'يُدير خطط Terraform مع بوابات تقدير التكلفة', color: 'emerald' }
+            ],
+            gherkin: `الميزة: خط أنابيب النشر CI/CD الآمن\n\n  السيناريو: تجتاز تغيير الكود جميع البوابات وتُنشر\n    بافتراض أن طلب السحب يجتاز 100% من الاختبارات\n    وأن مراجعة التبعيات لا تُعيد ثغرات CVE حرجة\n    وأن SAST لا يجد ثغرات حقن\n    عند موافقة بوابة HITL من مهندس\n    إذن تُنشر الحاوية في Cloud Run بدون توقف`,
+            wallet: [
+                { op: 'تشغيل المُحلّل', cost: '$0.002' }, { op: 'مجموعة الاختبار', cost: '$0.008' },
+                { op: 'تشغيل النشر', cost: '$0.015' }, { op: 'استعلام المراقبة', cost: '$0.003' }
+            ]
+        }
+    }
+};
+
+function selectBusinessType(type) {
+    selectedBusinessType = type;
+    document.querySelectorAll('.btype-btn').forEach(btn => {
+        btn.classList.remove('btype-active');
+        btn.classList.add('btype-inactive');
+    });
+    const activeBtn = document.getElementById('btype-' + type);
+    if (activeBtn) {
+        activeBtn.classList.remove('btype-inactive');
+        activeBtn.classList.add('btype-active');
+    }
+    const noteEl = document.getElementById('lbl-gen-note');
+    if (noteEl) noteEl.classList.add('hidden');
+}
+
+function generateBlueprint() {
+    const nameInput = document.getElementById('gen-name-input');
+    const name = nameInput ? nameInput.value.trim() : '';
+
+    if (!name) {
+        nameInput.focus();
+        nameInput.style.borderColor = '#f43f5e';
+        setTimeout(() => { nameInput.style.borderColor = ''; }, 1500);
+        return;
+    }
+    if (!selectedBusinessType) {
+        document.getElementById('business-type-grid').style.outline = '2px solid rgba(244,63,94,0.5)';
+        document.getElementById('business-type-grid').style.borderRadius = '12px';
+        setTimeout(() => { document.getElementById('business-type-grid').style.outline = ''; }, 1500);
+        return;
+    }
+
+    const lang = currentGlobalLang || 'en';
+    const bp = businessBlueprints[selectedBusinessType][lang];
+    const modal = document.getElementById('blueprint-modal');
+    const content = document.getElementById('blueprint-modal-content');
+
+    const colorMap = {
+        indigo: { bg: 'rgba(99,102,241,0.1)', border: 'rgba(99,102,241,0.3)', text: '#818cf8' },
+        emerald: { bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.3)', text: '#34d399' },
+        purple: { bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.3)', text: '#a78bfa' },
+        amber: { bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.3)', text: '#fbbf24' },
+        rose: { bg: 'rgba(244,63,94,0.1)', border: 'rgba(244,63,94,0.2)', text: '#fb7185' }
+    };
+
+    const agentsHTML = bp.agents.map(a => {
+        const c = colorMap[a.color] || colorMap.indigo;
+        return `<div style="background:${c.bg};border:1px solid ${c.border};border-radius:10px;padding:12px;">
+            <div style="color:${c.text};font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;">${a.name}</div>
+            <div style="color:#94a3b8;font-size:11px;margin-top:4px;">${a.role}</div>
+        </div>`;
+    }).join('');
+
+    const toolsHTML = bp.tools.map((t, i) => `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(99,102,241,0.08);">
+            <div>
+                <div style="color:#818cf8;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;">${t.name}()</div>
+                <div style="color:#64748b;font-size:11px;margin-top:2px;">${t.desc}</div>
+            </div>
+            <div style="color:#34d399;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;white-space:nowrap;margin-left:12px;">${t.cost}</div>
+        </div>`).join('');
+
+    const threatsHTML = bp.threats.map(t => `
+        <div style="background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.2);border-radius:10px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="color:#fb7185;font-size:11px;font-weight:700;">⚠️ ${t.title}</div>
+            </div>
+            <div style="color:#94a3b8;font-size:11px;margin-bottom:6px;">${t.desc}</div>
+            <div style="color:#34d399;font-size:10px;font-family:'JetBrains Mono',monospace;">🛡️ ${t.shield}</div>
+        </div>`).join('');
+
+    const skillsHTML = bp.skills.map(s => {
+        const c = colorMap[s.color] || colorMap.indigo;
+        return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;">
+            <div style="background:${c.bg};border:1px solid ${c.border};border-radius:6px;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:${c.text};white-space:nowrap;">${s.name}</div>
+            <div style="color:#64748b;font-size:11px;">${s.desc}</div>
+        </div>`;
+    }).join('');
+
+    const gherkinFormatted = bp.gherkin.replace(/Feature:/g,'<span style="color:#a78bfa">Feature:</span>')
+        .replace(/Scenario:/g,'<span style="color:#818cf8">  Scenario:</span>')
+        .replace(/الميزة:/g,'<span style="color:#a78bfa">الميزة:</span>')
+        .replace(/السيناريو:/g,'<span style="color:#818cf8">السيناريو:</span>')
+        .replace(/Given/g,'<span style="color:#34d399">    Given</span>')
+        .replace(/When/g,'<span style="color:#34d399">    When</span>')
+        .replace(/Then/g,'<span style="color:#34d399">    Then</span>')
+        .replace(/And/g,'<span style="color:#94a3b8">    And</span>')
+        .replace(/بافتراض/g,'<span style="color:#34d399">    بافتراض</span>')
+        .replace(/عند/g,'<span style="color:#34d399">    عند</span>')
+        .replace(/إذن/g,'<span style="color:#34d399">    إذن</span>')
+        .replace(/\n/g,'<br>');
+
+    const totalCost = bp.wallet.reduce((sum, w) => sum + parseFloat(w.cost.replace('$','')), 0).toFixed(3);
+    const walletHTML = bp.wallet.map(w => `
+        <div style="display:flex;justify-content:space-between;font-size:10px;font-family:'JetBrains Mono',monospace;padding:4px 0;">
+            <span style="color:#64748b;">${w.op}</span><span style="color:#34d399;">${w.cost}</span>
+        </div>`).join('') + `<div style="display:flex;justify-content:space-between;font-size:11px;font-family:'JetBrains Mono',monospace;border-top:1px solid rgba(99,102,241,0.2);padding-top:8px;margin-top:4px;"><span style="color:#94a3b8;font-weight:700;">${lang==='ar'?'تكلفة الاستجابة الكاملة':'Full Response Cost'}</span><span style="color:#fbbf24;font-weight:700;">$${totalCost}</span></div>`;
+
+    const isRTL = lang === 'ar';
+    const dir = isRTL ? 'dir="rtl"' : '';
+    const fontClass = isRTL ? 'ar-font' : 'en-font';
+    const headerText = isRTL
+        ? `النظام الوكيلي الخاص بـ ${name}`
+        : `${name}'s Agentic OS`;
+    const subText = isRTL
+        ? `${bp.icon} ${bp.name} — ${bp.tagline}`
+        : `${bp.icon} ${bp.name} — ${bp.tagline}`;
+    const closeText = isRTL ? '✕ إغلاق' : '✕ Close';
+    const agentsTitleText = isRTL ? '🤖 فريق الوكلاء المتخصصين' : '🤖 Specialized Agent Team';
+    const toolsTitleText = isRTL ? '🔧 أدوات MCP المُسجَّلة' : '🔧 MCP Tool Registry';
+    const secTitleText = isRTL ? '🛡️ دفاع Ariadne المُخصَّص' : '🛡️ Ariadne Custom Defense';
+    const skillsTitleText = isRTL ? '📦 سجل المهارات الديناميكي' : '📦 Dynamic Skills Registry';
+    const sddTitleText = isRTL ? '📋 عقد SDD الخاص بك' : '📋 Your SDD Contract';
+    const walletTitleText = isRTL ? '💳 محفظة AP2 الميكرو' : '💳 AP2 Micro-Wallet';
+    const deployText = isRTL ? '🚀 محاكاة النشر السحابي' : '🚀 Simulate Cloud Deploy';
+    const genByText = isRTL ? 'تم التوليد بواسطة Agentic Ecosystem OS' : 'Generated by Agentic Ecosystem OS';
+
+    content.innerHTML = `
+    <div ${dir} class="${fontClass}" style="color:#e2e8f0;">
+
+      <!-- Header -->
+      <div class="blueprint-header blueprint-animate" style="margin-bottom:16px;">
+        <button onclick="closeBlueprintModal()" style="position:absolute;top:16px;${isRTL?'left':'right'}:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;">${closeText}</button>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#818cf8;margin-bottom:8px;letter-spacing:0.1em;">AGENTIC_OS // PERSONALIZED BLUEPRINT // GENERATED</div>
+        <h1 style="font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,#a5b4fc,#c4b5fd,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">${headerText}</h1>
+        <p style="color:#94a3b8;font-size:14px;">${subText}</p>
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+          <span style="background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:#818cf8;padding:4px 12px;border-radius:6px;font-size:10px;font-family:'JetBrains Mono',monospace;">✓ HARNESS_ACTIVE</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#34d399;padding:4px 12px;border-radius:6px;font-size:10px;font-family:'JetBrains Mono',monospace;">✓ MCP_CONNECTED</span>
+          <span style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:#fbbf24;padding:4px 12px;border-radius:6px;font-size:10px;font-family:'JetBrains Mono',monospace;">🛡️ ARIADNE_GUARD</span>
+          <span style="background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:#a78bfa;padding:4px 12px;border-radius:6px;font-size:10px;font-family:'JetBrains Mono',monospace;">✓ SDD_CONTRACT</span>
+        </div>
+      </div>
+
+      <!-- Grid Row 1: Agents + Tools -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="blueprint-card blueprint-animate blueprint-animate-delay-1">
+          <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">${agentsTitleText}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">${agentsHTML}</div>
+        </div>
+        <div class="blueprint-card blueprint-animate blueprint-animate-delay-2">
+          <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">${toolsTitleText}</div>
+          ${toolsHTML}
+        </div>
+      </div>
+
+      <!-- Grid Row 2: Security + Skills -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="blueprint-card blueprint-card-amber blueprint-animate blueprint-animate-delay-3">
+          <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">${secTitleText}</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">${threatsHTML}</div>
+        </div>
+        <div class="blueprint-card blueprint-card-purple blueprint-animate blueprint-animate-delay-4">
+          <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">${skillsTitleText}</div>
+          ${skillsHTML}
+          <div style="border-top:1px solid rgba(99,102,241,0.15);margin-top:12px;padding-top:12px;">
+            <div class="blueprint-card" style="padding:12px;">
+              <div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:8px;font-family:'JetBrains Mono',monospace;">${walletTitleText}</div>
+              ${walletHTML}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SDD + Deploy Row -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;">
+        <div class="blueprint-card blueprint-card-emerald blueprint-animate blueprint-animate-delay-5">
+          <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">${sddTitleText}</div>
+          <div style="background:#020512;border-radius:8px;padding:16px;border-left:3px solid #34d399;">
+            <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#cbd5e1;white-space:pre-wrap;line-height:1.7;margin:0;">${gherkinFormatted}</pre>
+          </div>
+        </div>
+        <div class="blueprint-card blueprint-animate blueprint-animate-delay-5" style="display:flex;flex-direction:column;gap:12px;justify-content:space-between;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">SYSTEM STATUS</div>
+            <div style="space-y:8px;font-family:'JetBrains Mono',monospace;font-size:10px;">
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(99,102,241,0.08);"><span style="color:#64748b;">LLM_CORE</span><span style="color:#34d399;">● READY</span></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(99,102,241,0.08);"><span style="color:#64748b;">HARNESS</span><span style="color:#34d399;">● ACTIVE</span></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(99,102,241,0.08);"><span style="color:#64748b;">MCP_ROUTER</span><span style="color:#34d399;">● ONLINE</span></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(99,102,241,0.08);"><span style="color:#64748b;">ARIADNE</span><span style="color:#fbbf24;">🛡️ GUARD</span></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#64748b;">HITL_GATE</span><span style="color:#34d399;">● ARMED</span></div>
+            </div>
+          </div>
+          <div>
+            <button id="bp-deploy-btn" onclick="simulateBlueprintDeploy('${name}')" style="width:100%;padding:12px;background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;border-radius:10px;color:white;font-weight:800;font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.05em;">${deployText}</button>
+            <div id="bp-deploy-log" style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#34d399;display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="text-align:center;padding:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#334155;">
+        ${genByText} // Abd Alrahaman gz // PRODUCTION_V3
+      </div>
+    </div>`;
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => modal.scrollTo(0, 0), 50);
+}
+
+function closeBlueprintModal() {
+    const modal = document.getElementById('blueprint-modal');
+    if (modal) modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function simulateBlueprintDeploy(name) {
+    const btn = document.getElementById('bp-deploy-btn');
+    const log = document.getElementById('bp-deploy-log');
+    const lang = currentGlobalLang || 'en';
+    if (!btn || !log) return;
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    log.style.display = 'block';
+    const steps = lang === 'ar'
+        ? [`> جارٍ بناء حاوية ${name}_agent_os...`, '> فحص التبعيات ضد SBOM...', '> تشغيل مجموعة الاختبار...', '> ✓ جميع الاختبارات ناجحة (100%)', '> جارٍ النشر على Cloud Run...', `> ✓ نشر ${name}.agent-os.run بنجاح!`]
+        : [`> Building ${name}_agent_os container...`, '> Verifying dependencies against SBOM...', '> Running test suite...', '> ✓ All tests passed (100%)', '> Deploying to Cloud Run...', `> ✓ ${name}.agent-os.run deployed successfully!`];
+    let i = 0;
+    log.innerHTML = '';
+    const interval = setInterval(() => {
+        if (i < steps.length) {
+            log.innerHTML += steps[i] + '<br>';
+            i++;
+        } else {
+            clearInterval(interval);
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+            btn.textContent = lang === 'ar' ? '✓ تم النشر بنجاح!' : '✓ Deployed Successfully!';
+        }
+    }, 600);
+}
+
+// Close modal on backdrop click
+document.addEventListener('DOMContentLoaded', () => {
+    const bpModal = document.getElementById('blueprint-modal');
+    if (bpModal) {
+        bpModal.addEventListener('click', (e) => {
+            if (e.target === bpModal) closeBlueprintModal();
+        });
+    }
+});
+
 function toggleHarnessTool(layer, btn) {
     activeHarnessLayers[layer] = !activeHarnessLayers[layer];
     const dict = localizationMap[currentGlobalLang];
@@ -1208,6 +1961,7 @@ function toggleGlobalLanguage() {
     updateHarnessButtonLabels();
     switchCodeTab(currentCodeTab);
     refreshMcpDisplay();
+    updateNavLabels();
     
     // Autoplay button:
     const btnAutoplay = document.getElementById('btn-autoplay');
@@ -1223,6 +1977,7 @@ function toggleGlobalLanguage() {
     updateLedgerList();
     window.dispatchEvent(new Event('scroll'));
 }
+
 
 // --- Capstone Modal Toggle ---
 function toggleCapstoneModal(show) {
@@ -1288,4 +2043,92 @@ window.addEventListener('DOMContentLoaded', () => {
     
     selectStep('perceive');
     window.dispatchEvent(new Event('scroll'));
+
+    // --- Nav link labels by language ---
+    updateNavLabels();
+
+    // --- Scroll Progress Bar + Scroll-to-top ---
+    window.addEventListener('scroll', () => {
+        // Progress bar
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        const bar = document.getElementById('scroll-progress-bar');
+        if (bar) bar.style.width = progress + '%';
+
+        // Scroll-to-top button
+        const topBtn = document.getElementById('scroll-to-top');
+        if (topBtn) {
+            if (scrollTop > 400) {
+                topBtn.classList.add('visible');
+            } else {
+                topBtn.classList.remove('visible');
+            }
+        }
+    });
+
+    // --- Active section nav highlight via IntersectionObserver ---
+    const navSections = ['section-harness','section-loop','section-stripe','section-mcp','section-a2ui','section-skills','section-security','section-ariadne','section-sdd'];
+    const observerOptions = { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0 };
+
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const navLink = document.getElementById('navlink-' + entry.target.id.replace('section-', ''));
+            if (navLink) {
+                if (entry.isIntersecting) {
+                    // Remove active from all
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    navLink.classList.add('active');
+                }
+            }
+        });
+    }, observerOptions);
+
+    navSections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) navObserver.observe(el);
+    });
 });
+
+// --- Nav label translations ---
+const navLabels = {
+    en: {
+        harness:  '3D Harness',
+        loop:     'Loop',
+        stripe:   'Stripe',
+        mcp:      'MCP',
+        a2ui:     'A2UI',
+        skills:   'Skills',
+        security: 'Security',
+        ariadne:  '🛡️ Ariadne',
+        sdd:      'SDD'
+    },
+    ar: {
+        harness:  'القفص 3D',
+        loop:     'الحلقة',
+        stripe:   'Stripe',
+        mcp:      'بروتوكول MCP',
+        a2ui:     'واجهة A2UI',
+        skills:   'المهارات',
+        security: 'الأمان',
+        ariadne:  '🛡️ أريادني',
+        sdd:      'SDD'
+    }
+};
+
+function updateNavLabels() {
+    const labels = navLabels[currentGlobalLang];
+    Object.entries(labels).forEach(([key, label]) => {
+        const el = document.getElementById('navlink-' + key);
+        if (el) el.textContent = label;
+    });
+}
+
+// --- Smooth scroll nav handler ---
+function handleNavClick(e, sectionId) {
+    e.preventDefault();
+    const el = document.getElementById(sectionId);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
