@@ -1373,6 +1373,103 @@ function renderSandboxPreview(name, businessType, lang) {
         </div>
     `).join('');
 
+    // --- Dynamic Console Blueprint Generation ---
+    const bpEn = businessBlueprints[businessType] ? businessBlueprints[businessType]['en'] : businessBlueprints['tech']['en'];
+    const bp = businessBlueprints[businessType] ? businessBlueprints[businessType][lang] : businessBlueprints['tech'][lang];
+    
+    let asciiTopology = '';
+    if (bpEn && bpEn.agents) {
+        if (bpEn.agents.length === 2) {
+            asciiTopology = `
+       [User Input] ──> [Harness Gate (Ariadne)]
+                              │
+                      [MCP Router Gateway]
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+             [${bpEn.agents[0].name}]    [${bpEn.agents[1].name}]
+            `;
+        } else if (bpEn.agents.length >= 4) {
+            asciiTopology = `
+       [User Input] ──> [Harness Gate (Ariadne)]
+                              │
+                      [MCP Router Gateway]
+                              │
+           ┌──────────┬───────┴───────┬──────────┐
+           ▼          ▼               ▼          ▼
+    [${bpEn.agents[0].name}] [${bpEn.agents[1].name}] [${bpEn.agents[2].name}] [${bpEn.agents[3].name}]
+            `;
+        } else {
+            asciiTopology = `
+       [User Input] ──> [Harness Gate (Ariadne)]
+                              │
+                      [MCP Router Gateway]
+            `;
+        }
+    }
+    
+    let arabicAscii = asciiTopology;
+    if (isAr) {
+        arabicAscii = arabicAscii
+            .replace('[User Input]', '[مدخلات المستخدم]')
+            .replace('[Harness Gate (Ariadne)]', '[بوابة القفص (أريادني)]')
+            .replace('[MCP Router Gateway]', '[راوتر بروتوكول MCP]');
+    }
+
+    const compileManifest = {
+        project: `${name.replace(/\s+/g, '')}OS-Container`,
+        status: "COMPILED_100%",
+        agent_ecosystem: {
+            agents: bp.agents.map(a => ({ id: a.name, capability: a.role })),
+            mcp_router: {
+                transport: "stdio",
+                protocol_format: "JSON-RPC-2.0",
+                registered_tools: bp.tools.map(t => ({ name: t.name, description: t.desc, execution_cap: t.cost }))
+            },
+            sdd_gherkin_rules: bp.gherkin.trim().split('\n').map(line => line.trim()).filter(line => line.length > 0),
+            ariadne_security: {
+                observer: "active_telemetry",
+                protection_status: "ARMED",
+                interceptors: bp.threats.map(t => ({ vector: t.title, security_gate: t.shield }))
+            }
+        }
+    };
+    
+    const manifestJsonString = JSON.stringify(compileManifest, null, 2);
+    
+    let initialLogsHTML = '';
+    if (isAr) {
+        initialLogsHTML = `
+            <div class="text-slate-500">&gt; تم تهيئة النظام. حاوية العزل الآمنة نشطة سحابياً.</div>
+            <div class="text-slate-500">&gt; نظام أريادني لمراقبة الحماية نشط ومستعد.</div>
+            <div class="text-emerald-400 font-bold">&gt; تم تجميع النظام وبناء الكود بنجاح. بيان البنية الهيكلية:</div>
+            
+            <div class="text-indigo-400 font-bold mt-3">// مخطط البنية الهيكلية التفاعلية (Topology):</div>
+            <pre class="text-indigo-300 font-mono text-[9px] leading-tight select-none border-l-2 border-indigo-500/30 pl-2 my-2">${arabicAscii.trim()}</pre>
+            
+            <div class="text-emerald-400 font-bold mt-4">// مواصفات الـ MCP والـ Gherkin المخصصة (JSON):</div>
+            <pre class="text-emerald-500/90 font-mono text-[9px] leading-tight select-all border-l-2 border-emerald-500/30 pl-2 my-2 overflow-x-auto whitespace-pre">${manifestJsonString}</pre>
+            
+            <div class="text-slate-400 mt-4">&gt; [حالة الأمان] جميع العقد والوكلاء معزولون بالكامل.</div>
+            <div class="text-indigo-400 font-bold">&gt; جاهز لبدء محاكاة العمليات الأمنية والتجارية.</div>
+        `;
+    } else {
+        initialLogsHTML = `
+            <div class="text-slate-500">&gt; System initialized. Secure isolation vault online.</div>
+            <div class="text-slate-500">&gt; Project Ariadne observer active: [Least-Privilege, Canaries, Circuit-Breakers].</div>
+            <div class="text-emerald-400 font-bold">&gt; Build Compiled successfully. Manifest generated:</div>
+            
+            <div class="text-indigo-400 font-bold mt-3">// DYNAMIC TOPOLOGY DIAGRAM:</div>
+            <pre class="text-indigo-300 font-mono text-[9px] leading-tight select-none border-l-2 border-indigo-500/30 pl-2 my-2">${asciiTopology.trim()}</pre>
+            
+            <div class="text-emerald-400 font-bold mt-4">// MCP & GHERKIN SPECIFICATION MANIFEST (JSON):</div>
+            <pre class="text-emerald-500/90 font-mono text-[9px] leading-tight select-all border-l-2 border-emerald-500/30 pl-2 my-2 overflow-x-auto whitespace-pre">${manifestJsonString}</pre>
+            
+            <div class="text-slate-400 mt-4">&gt; [Security Status] All nodes sandbox-contained.</div>
+            <div class="text-indigo-400 font-bold">&gt; Ready for transaction and security simulations.</div>
+        `;
+    }
+
     sandboxContainer.innerHTML = `
         <div class="absolute top-4 right-4 flex gap-2">
             <span class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[10px] font-mono flex items-center gap-1.5 shadow-lg">
@@ -1423,9 +1520,7 @@ function renderSandboxPreview(name, businessType, lang) {
                     </div>
                     <!-- Terminal Console Body -->
                     <div id="sandbox-cli-log" class="bg-black/90 p-4 font-mono text-[11px] text-slate-300 h-64 overflow-y-auto space-y-2 relative scanline leading-relaxed text-left" dir="ltr">
-                        <div class="text-slate-500">&gt; System initialized. Secure isolation vault online.</div>
-                        <div class="text-slate-500">&gt; Project Ariadne observer active: [Least-Privilege, Canaries, Circuit-Breakers].</div>
-                        <div class="text-emerald-400 font-bold">&gt; Ready for transaction and security simulations.</div>
+                        ${initialLogsHTML}
                     </div>
                 </div>
 
